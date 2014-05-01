@@ -1,0 +1,38 @@
+{
+    "name": "openclassrooms/clean-architecture",
+    "description": "Clean architecture library",
+    "type": "library",
+    "keywords": ["design"],
+    "minimum-stability": "stable",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "OpenClassrooms",
+            "email": "technique@openclassrooms.com"
+        },
+        {
+            "name": "Romain Kuzniak",
+            "email": "romain.kuzniak@openclassrooms.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "OpenClassrooms\\": "src/OpenClassrooms/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "OpenClassrooms\\Tests\\": "tests/OpenClassrooms/"
+        }
+    },
+    "require": {
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~3.7"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    }
+}
