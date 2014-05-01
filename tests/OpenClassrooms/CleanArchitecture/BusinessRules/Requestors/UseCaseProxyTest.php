@@ -16,7 +16,8 @@ class UseCaseProxyTest extends \PHPUnit_Framework_TestCase
      */
     public function UseCase_Execute_ReturnResponse()
     {
-        $proxy = new UseCaseProxyImpl(new UseCaseStub());
+        $proxy = new UseCaseProxyImpl();
+        $proxy->setUseCase(new UseCaseStub());
         $response = $proxy->execute(new UseCaseRequestStub());
 
         $this->assertEquals(new UseCaseResponseStub(), $response);
