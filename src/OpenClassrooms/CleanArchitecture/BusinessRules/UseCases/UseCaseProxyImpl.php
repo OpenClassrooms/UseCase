@@ -4,6 +4,7 @@ namespace OpenClassrooms\CleanArchitecture\BusinessRules\UseCases;
 
 use Doctrine\Common\Annotations\Reader;
 use OpenClassrooms\CleanArchitecture\BusinessRules\Proxies\Requestors\ProxyStrategyBagFactory;
+use OpenClassrooms\CleanArchitecture\BusinessRules\Proxies\Requestors\ProxyStrategyRequestFactory;
 use OpenClassrooms\CleanArchitecture\BusinessRules\Requestors\UseCaseProxy;
 
 /**
@@ -21,4 +22,8 @@ class UseCaseProxyImpl extends UseCaseProxy
         $this->proxyStrategyBagFactory = $proxyStrategyBagFactory;
     }
 
+    public function setProxyStrategyRequestFactory(ProxyStrategyRequestFactory $proxyStrategyRequestFactory)
+    {
+        $this->proxyStrategyRequestFactory = $proxyStrategyRequestFactory;
+    }
 }

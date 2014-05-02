@@ -15,6 +15,11 @@ class CacheSpy extends CacheImpl
      */
     public $saved = false;
 
+    /**
+     * @var bool
+     */
+    public $fetched = false;
+
     public function __construct()
     {
         parent::__construct(new ArrayCache());
@@ -25,5 +30,12 @@ class CacheSpy extends CacheImpl
         $this->saved = true;
 
         return parent::save($id, $data, $lifeTime);
+    }
+
+    public function fetch($id)
+    {
+        $this->fetched = true;
+
+        return parent::fetch($id);
     }
 }

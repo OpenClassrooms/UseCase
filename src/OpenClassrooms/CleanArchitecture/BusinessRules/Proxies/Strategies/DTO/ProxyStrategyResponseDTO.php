@@ -30,7 +30,7 @@ class ProxyStrategyResponseDTO implements ProxyStrategyResponse
      */
     public function getData()
     {
-        return null;
+        return $this->data;
     }
 
     /**
@@ -38,7 +38,7 @@ class ProxyStrategyResponseDTO implements ProxyStrategyResponse
      */
     public function stopExecution()
     {
-        return null;
+        return $this->stopExecution;
     }
 
 }

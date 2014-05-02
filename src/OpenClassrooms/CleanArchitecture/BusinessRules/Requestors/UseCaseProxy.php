@@ -5,7 +5,9 @@ namespace OpenClassrooms\CleanArchitecture\BusinessRules\Requestors;
 use Doctrine\Common\Annotations\Annotation;
 use Doctrine\Common\Annotations\Reader;
 use OpenClassrooms\CleanArchitecture\BusinessRules\Proxies\Requestors\ProxyStrategyBagFactory;
+use OpenClassrooms\CleanArchitecture\BusinessRules\Proxies\Requestors\ProxyStrategyRequestFactory;
 use OpenClassrooms\CleanArchitecture\BusinessRules\Proxies\Strategies\ProxyStrategyBagImpl;
+use OpenClassrooms\CleanArchitecture\BusinessRules\Responders\UseCaseResponse;
 
 /**
  * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
@@ -13,14 +15,9 @@ use OpenClassrooms\CleanArchitecture\BusinessRules\Proxies\Strategies\ProxyStrat
 abstract class UseCaseProxy implements UseCase
 {
     /**
-     * @var UseCase
+     * @var Reader
      */
-    protected $useCase;
-
-    /**
-     * @var UseCaseRequest
-     */
-    protected $request;
+    protected $reader;
 
     /**
      * @var Annotation[]
@@ -33,9 +30,19 @@ abstract class UseCaseProxy implements UseCase
     protected $proxyStrategyBagFactory;
 
     /**
-     * @var Reader
+     * @var ProxyStrategyRequestFactory
      */
-    protected $reader;
+    protected $proxyStrategyRequestFactory;
+
+    /**
+     * @var UseCase
+     */
+    protected $useCase;
+
+    /**
+     * @var UseCaseRequest
+     */
+    protected $request;
 
     /**
      * @var ProxyStrategyBagImpl[]
@@ -43,7 +50,12 @@ abstract class UseCaseProxy implements UseCase
     private $strategies = array();
 
     /**
-     * @return \OpenClassrooms\CleanArchitecture\BusinessRules\Responders\UseCaseResponse
+     * @var UseCaseResponse
+     */
+    private $response;
+
+    /**
+     * @return UseCaseResponse
      */
     public function execute(UseCaseRequest $useCaseRequest)
     {
@@ -51,29 +63,17 @@ abstract class UseCaseProxy implements UseCase
         $this->buildStrategies();
 
         try {
-            foreach ($this->strategies as $strategy) {
-                $strategyResponse = $strategy->preExecute();
-                if ($strategyResponse->stopExecution()) {
-                    return $strategyResponse->getData();
-                }
+            list($stopExecution, $response) = $this->preExecute();
+            if ($stopExecution) {
+                return $response;
             }
-            $response = $this->useCase->execute($useCaseRequest);
+            $this->response = $this->useCase->execute($useCaseRequest);
 
-            foreach ($this->strategies as $strategy) {
-                $strategyResponse = $strategy->postExecute();
-                if ($strategyResponse->stopExecution()) {
-                    return $strategyResponse->getData();
-                }
-            }
+            $this->postExecute();
 
-            return $response;
+            return $this->response;
         } catch (\Exception $e) {
-            foreach ($this->strategies as $strategy) {
-                $strategyResponse = $strategy->onException();
-                if ($strategyResponse->stopExecution()) {
-                    return $strategyResponse->getData();
-                }
-            }
+            $this->onException();
             throw $e;
         }
     }
@@ -82,7 +82,11 @@ abstract class UseCaseProxy implements UseCase
     {
         $annotations = $this->getAnnotations();
         foreach ($annotations as $annotation) {
-            $this->strategies[] = $this->proxyStrategyBagFactory->make($annotation, $this->request);
+            try {
+                $this->strategies[] = $this->proxyStrategyBagFactory->make($annotation);
+            } catch (\Exception $e) {
+
+            }
         }
     }
 
@@ -97,7 +101,57 @@ abstract class UseCaseProxy implements UseCase
     }
 
     /**
-     * @return \OpenClassrooms\CleanArchitecture\BusinessRules\Requestors\UseCase
+     * @return array
+     */
+    private function preExecute()
+    {
+        $stopExecution = false;
+        $data = null;
+
+        foreach ($this->strategies as $strategy) {
+
+            $request = $this->proxyStrategyRequestFactory->createPreExecuteRequest(
+                $strategy->getAnnotation(),
+                $this->request
+            );
+            $strategyResponse = $strategy->preExecute($request);
+
+            if ($strategyResponse->stopExecution()) {
+                $stopExecution = true;
+                $data = $strategyResponse->getData();
+                break;
+            }
+        }
+
+        return array($stopExecution, $data);
+    }
+
+    private function postExecute()
+    {
+        foreach ($this->strategies as $strategy) {
+            $request = $this->proxyStrategyRequestFactory->createPostExecuteRequest(
+                $strategy->getAnnotation(),
+                $this->request,
+                $this->response
+            );
+            $strategy->postExecute($request);
+        }
+    }
+
+    private function onException()
+    {
+        foreach ($this->strategies as $strategy) {
+
+            $request = $this->proxyStrategyRequestFactory->createOnExceptionRequest(
+                $strategy->getAnnotation(),
+                $this->request
+            );
+            $strategy->onException($request);
+        }
+    }
+
+    /**
+     * @return UseCase
      */
     public function getUseCase()
     {

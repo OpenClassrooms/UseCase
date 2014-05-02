@@ -9,7 +9,6 @@ use OpenClassrooms\CleanArchitecture\BusinessRules\Requestors\UseCaseProxyBuilde
  */
 class UseCaseProxyBuilderImpl extends UseCaseProxyBuilder
 {
-
     public function __construct()
     {
         $this->useCaseProxy = new UseCaseProxyImpl();

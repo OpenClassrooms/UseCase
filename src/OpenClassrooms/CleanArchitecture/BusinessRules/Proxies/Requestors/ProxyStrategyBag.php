@@ -12,15 +12,15 @@ interface ProxyStrategyBag
     /**
      * @return ProxyStrategyResponse
      */
-    public function preExecute();
+    public function preExecute(ProxyStrategyRequest $proxyStrategyRequest);
 
     /**
      * @return ProxyStrategyResponse
      */
-    public function postExecute();
+    public function postExecute(ProxyStrategyRequest $proxyStrategyRequest);
 
     /**
      * @return ProxyStrategyResponse
      */
-    public function onException();
+    public function onException(ProxyStrategyRequest $proxyStrategyRequest);
 }
