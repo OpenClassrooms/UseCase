@@ -9,5 +9,5 @@ use OpenClassrooms\CleanArchitecture\BusinessRules\Responders\UseCaseResponse;
  */
 class UseCaseResponseStub implements UseCaseResponse
 {
-    
+
 }

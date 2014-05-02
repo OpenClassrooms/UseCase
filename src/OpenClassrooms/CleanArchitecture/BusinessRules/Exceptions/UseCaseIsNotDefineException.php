@@ -7,5 +7,5 @@ namespace OpenClassrooms\CleanArchitecture\BusinessRules\Exceptions;
  */
 class UseCaseIsNotDefineException extends \Exception
 {
-    
+
 }
