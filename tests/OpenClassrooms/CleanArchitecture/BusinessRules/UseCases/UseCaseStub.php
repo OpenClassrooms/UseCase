@@ -14,7 +14,6 @@ class UseCaseStub implements UseCase
 {
     /**
      * @return UseCaseResponse
-     * @api
      */
     public function execute(UseCaseRequest $useCaseRequest)
     {

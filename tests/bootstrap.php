@@ -10,6 +10,6 @@ error_reporting(E_ALL | E_STRICT);
 /** @var ClassLoader $loader */
 require __DIR__ . '/../vendor/autoload.php';
 AnnotationRegistry::registerAutoloadNamespace(
-    'OpenClassrooms\CleanArchitecture\Annotations',
+    'OpenClassrooms\CleanArchitecture\Application\Annotations',
     dirname(__DIR__) . '/src'
 );
