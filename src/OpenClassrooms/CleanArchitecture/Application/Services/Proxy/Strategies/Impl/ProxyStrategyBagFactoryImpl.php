@@ -12,6 +12,10 @@ use
 use
     OpenClassrooms\CleanArchitecture\Application\Services\Proxy\Strategies\Impl\Cache\CacheProxyStrategy;
 use
+    OpenClassrooms\CleanArchitecture\Application\Services\Proxy\Strategies\Impl\Event\EventProxyStrategy;
+use
+    OpenClassrooms\CleanArchitecture\Application\Services\Proxy\Strategies\Impl\Security\SecurityProxyStrategy;
+use
     OpenClassrooms\CleanArchitecture\Application\Services\Proxy\Strategies\Impl\Transaction\TransactionProxyStrategy;
 use
     OpenClassrooms\CleanArchitecture\Application\Services\Proxy\Strategies\Requestors\ProxyStrategyBagFactory;
@@ -32,27 +36,47 @@ class ProxyStrategyBagFactoryImpl implements ProxyStrategyBagFactory
     private $transactionStrategy;
 
     /**
-     * @return ProxyStrategyBagImpl
+     * @var SecurityProxyStrategy
+     */
+    private $securityStrategy;
+
+    /**
+     * @var EventProxyStrategy
+     */
+    private $eventStrategy;
+
+    /**
+     * @return SecurityProxyStrategyBagImpl
      */
     public function make($annotation)
     {
-        $strategyBag = new ProxyStrategyBagImpl();
         switch ($annotation) {
             case $annotation instanceof Security:
+                $strategyBag = new SecurityProxyStrategyBagImpl($this->securityStrategy);
                 break;
             case $annotation instanceof Cache:
-                $strategyBag->setProxyStrategy($this->cacheStrategy);
-                $strategyBag->setAnnotation($annotation);
+                $strategyBag = new CacheProxyStrategyBagImpl($this->cacheStrategy);
                 break;
             case $annotation instanceof Transaction:
-                $strategyBag->setProxyStrategy($this->transactionStrategy);
-                $strategyBag->setAnnotation($annotation);
+                $strategyBag = new TransactionProxyStrategyBagImpl($this->transactionStrategy);
                 break;
             case $annotation instanceof Event:
+                $strategyBag = new EventProxyStrategyBagImpl($this->eventStrategy);
+                /** @var Event $annotation */
+                if (in_array(Event::PRE_METHOD, $annotation->getMethods())) {
+                    $strategyBag->setPreExecute(true);
+                }
+                if (in_array(Event::POST_METHOD, $annotation->getMethods())) {
+                    $strategyBag->setPostExecute(true);
+                }
+                if (in_array(Event::ON_EXCEPTION_METHOD, $annotation->getMethods())) {
+                    $strategyBag->setOnException(true);
+                }
                 break;
             default:
                 throw new UnSupportedAnnotationException();
         }
+        $strategyBag->setAnnotation($annotation);
 
         return $strategyBag;
     }
@@ -66,4 +90,15 @@ class ProxyStrategyBagFactoryImpl implements ProxyStrategyBagFactory
     {
         $this->transactionStrategy = $transactionStrategy;
     }
+
+    public function setSecurityStrategy(SecurityProxyStrategy $securityStrategy)
+    {
+        $this->securityStrategy = $securityStrategy;
+    }
+
+    public function setEventStrategy(EventProxyStrategy $eventStrategy)
+    {
+        $this->eventStrategy = $eventStrategy;
+    }
+
 }

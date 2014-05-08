@@ -17,9 +17,9 @@ use OpenClassrooms\Tests\CleanArchitecture\Application\Services\Cache\CacheSpy;
 use OpenClassrooms\Tests\CleanArchitecture\BusinessRules\Exceptions\UseCaseException;
 use OpenClassrooms\Tests\CleanArchitecture\BusinessRules\Requestors\UseCaseRequestStub;
 use OpenClassrooms\Tests\CleanArchitecture\BusinessRules\Responders\UseCaseResponseStub;
+use OpenClassrooms\Tests\CleanArchitecture\BusinessRules\UseCases\Cache\ExceptionCacheUseCaseStub;
 use OpenClassrooms\Tests\CleanArchitecture\BusinessRules\UseCases\Cache\LifeTimeCacheUseCaseStub;
 use OpenClassrooms\Tests\CleanArchitecture\BusinessRules\UseCases\Cache\NamespaceCacheUseCaseStub;
-use OpenClassrooms\Tests\CleanArchitecture\BusinessRules\UseCases\ExceptionUseCaseStub;
 use OpenClassrooms\Tests\CleanArchitecture\BusinessRules\UseCases\Cache\OnlyCacheUseCaseStub;
 
 /**
@@ -46,7 +46,6 @@ class CacheUseCaseProxyTest extends \PHPUnit_Framework_TestCase
         $response = $this->useCaseProxy->execute(new UseCaseRequestStub());
         $this->assertEquals(new UseCaseResponseStub(), $response);
         $this->assertTrue($this->cache->saved);
-
     }
 
     /**
@@ -112,7 +111,7 @@ class CacheUseCaseProxyTest extends \PHPUnit_Framework_TestCase
     public function CacheOnException_DonTSave()
     {
         try {
-            $this->useCaseProxy->setUseCase(new ExceptionUseCaseStub());
+            $this->useCaseProxy->setUseCase(new ExceptionCacheUseCaseStub());
             $this->useCaseProxy->execute(new UseCaseRequestStub());
             $this->fail('Exception should be thrown');
         } catch (UseCaseException $e) {

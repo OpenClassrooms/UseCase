@@ -7,7 +7,7 @@ use
 use
     OpenClassrooms\CleanArchitecture\Application\Services\Proxy\Strategies\Requestors\Cache\CacheProxyStrategyRequestBuilder;
 use
-    OpenClassrooms\CleanArchitecture\Application\Services\Proxy\Strategies\Requestors\Cache\Exceptions\CacheIdMustBeSetException;
+    OpenClassrooms\CleanArchitecture\Application\Services\Proxy\Strategies\Requestors\Cache\Exceptions\CacheIdMustBeDefinedException;
 
 /**
  * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
@@ -19,9 +19,14 @@ class CacheProxyStrategyRequestBuilderImpl implements CacheProxyStrategyRequestB
      */
     private $request;
 
-    public function __construct()
+    /**
+     * @return CacheProxyStrategyRequestBuilder
+     */
+    public function create()
     {
         $this->request = new CacheProxyStrategyRequestDTO();
+
+        return $this;
     }
 
     /**
@@ -66,12 +71,12 @@ class CacheProxyStrategyRequestBuilderImpl implements CacheProxyStrategyRequestB
 
     /**
      * @return CacheProxyStrategyRequest
-     * @throws CacheIdMustBeSetException
+     * @throws CacheIdMustBeDefinedException
      */
     public function build()
     {
         if (null === $this->request->id) {
-            throw new CacheIdMustBeSetException();
+            throw new CacheIdMustBeDefinedException();
         }
 
         return $this->request;

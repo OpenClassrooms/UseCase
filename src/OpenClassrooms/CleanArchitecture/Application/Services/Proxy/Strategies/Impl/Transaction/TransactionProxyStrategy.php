@@ -4,7 +4,12 @@ namespace OpenClassrooms\CleanArchitecture\Application\Services\Proxy\Strategies
 
 use
     OpenClassrooms\CleanArchitecture\Application\Services\Proxy\Strategies\Impl\DTO\ProxyStrategyResponseDTO;
-use OpenClassrooms\CleanArchitecture\Application\Services\Proxy\Strategies\Requestors\ProxyStrategy;
+use
+    OpenClassrooms\CleanArchitecture\Application\Services\Proxy\Strategies\Requestors\OnExceptionProxyStrategy;
+use
+    OpenClassrooms\CleanArchitecture\Application\Services\Proxy\Strategies\Requestors\PostExecuteProxyStrategy;
+use
+    OpenClassrooms\CleanArchitecture\Application\Services\Proxy\Strategies\Requestors\PreExecuteProxyStrategy;
 use
     OpenClassrooms\CleanArchitecture\Application\Services\Proxy\Strategies\Requestors\ProxyStrategyRequest;
 use
@@ -14,7 +19,7 @@ use OpenClassrooms\CleanArchitecture\Application\Services\Transaction\Transactio
 /**
  * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
  */
-class TransactionProxyStrategy implements ProxyStrategy
+class TransactionProxyStrategy implements PreExecuteProxyStrategy, PostExecuteProxyStrategy, OnExceptionProxyStrategy
 {
     /**
      * @var Transaction

@@ -24,7 +24,9 @@ class UseCaseProxyImpl extends UseCaseProxy
         $this->proxyStrategyBagFactory = $proxyStrategyBagFactory;
     }
 
-    public function setProxyStrategyRequestFactory(ProxyStrategyRequestFactory $proxyStrategyRequestFactory)
+    public function setProxyStrategyRequestFactory(
+        ProxyStrategyRequestFactory $proxyStrategyRequestFactory
+    )
     {
         $this->proxyStrategyRequestFactory = $proxyStrategyRequestFactory;
     }

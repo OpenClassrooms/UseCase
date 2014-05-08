@@ -5,7 +5,7 @@ namespace OpenClassrooms\CleanArchitecture\Application\Services\Proxy\UseCases;
 use Doctrine\Common\Annotations\Annotation;
 use Doctrine\Common\Annotations\Reader;
 use
-    OpenClassrooms\CleanArchitecture\Application\Services\Proxy\Strategies\Impl\ProxyStrategyBagImpl;
+    OpenClassrooms\CleanArchitecture\Application\Services\Proxy\Strategies\Impl\SecurityProxyStrategyBagImpl;
 use
     OpenClassrooms\CleanArchitecture\Application\Services\Proxy\Strategies\Requestors\ProxyStrategyBagFactory;
 use
@@ -45,7 +45,7 @@ abstract class UseCaseProxy implements UseCase
     protected $request;
 
     /**
-     * @var ProxyStrategyBagImpl[]
+     * @var SecurityProxyStrategyBagImpl[]
      */
     private $strategies = array();
 
@@ -64,16 +64,19 @@ abstract class UseCaseProxy implements UseCase
 
         try {
             list($stopExecution, $response) = $this->preExecute();
+
             if ($stopExecution) {
-                return $response;
+                $this->response = $response;
+            } else {
+                $this->response = $this->useCase->execute($useCaseRequest);
             }
-            $this->response = $this->useCase->execute($useCaseRequest);
 
             $this->postExecute();
 
             return $this->response;
+
         } catch (\Exception $e) {
-            $this->onException();
+            $this->onException($e);
             throw $e;
         }
     }
@@ -109,17 +112,20 @@ abstract class UseCaseProxy implements UseCase
         $data = null;
 
         foreach ($this->strategies as $strategy) {
+            if ($strategy->isPreExecute()) {
 
-            $request = $this->proxyStrategyRequestFactory->createPreExecuteRequest(
-                $strategy->getAnnotation(),
-                $this->request
-            );
-            $strategyResponse = $strategy->preExecute($request);
+                $request = $this->proxyStrategyRequestFactory->createPreExecuteRequest(
+                    $strategy->getAnnotation(),
+                    $this->request
+                );
 
-            if ($strategyResponse->stopExecution()) {
-                $stopExecution = true;
-                $data = $strategyResponse->getData();
-                break;
+                $strategyResponse = $strategy->preExecute($request);
+
+                if ($strategyResponse->stopExecution()) {
+                    $stopExecution = true;
+                    $data = $strategyResponse->getData();
+                    break;
+                }
             }
         }
 
@@ -129,24 +135,28 @@ abstract class UseCaseProxy implements UseCase
     private function postExecute()
     {
         foreach ($this->strategies as $strategy) {
-            $request = $this->proxyStrategyRequestFactory->createPostExecuteRequest(
-                $strategy->getAnnotation(),
-                $this->request,
-                $this->response
-            );
-            $strategy->postExecute($request);
+            if ($strategy->isPostExecute()) {
+                $request = $this->proxyStrategyRequestFactory->createPostExecuteRequest(
+                    $strategy->getAnnotation(),
+                    $this->request,
+                    $this->response
+                );
+                $strategy->postExecute($request);
+            }
         }
     }
 
-    private function onException()
+    private function onException(\Exception $exception)
     {
         foreach ($this->strategies as $strategy) {
-
-            $request = $this->proxyStrategyRequestFactory->createOnExceptionRequest(
-                $strategy->getAnnotation(),
-                $this->request
-            );
-            $strategy->onException($request);
+            if ($strategy->isOnException()) {
+                $request = $this->proxyStrategyRequestFactory->createOnExceptionRequest(
+                    $strategy->getAnnotation(),
+                    $this->request,
+                    $exception
+                );
+                $strategy->onException($request);
+            }
         }
     }
 

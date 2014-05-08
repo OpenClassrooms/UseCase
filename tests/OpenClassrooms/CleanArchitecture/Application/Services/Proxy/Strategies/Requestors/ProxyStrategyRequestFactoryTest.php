@@ -4,6 +4,7 @@ namespace OpenClassrooms\Tests\CleanArchitecture\Application\Services\Proxy\Stra
 
 use
     OpenClassrooms\CleanArchitecture\Application\Services\Proxy\Strategies\Impl\ProxyStrategyRequestFactoryImpl;
+use OpenClassrooms\Tests\CleanArchitecture\BusinessRules\Exceptions\UseCaseException;
 use OpenClassrooms\Tests\CleanArchitecture\BusinessRules\Requestors\UseCaseRequestStub;
 use OpenClassrooms\Tests\CleanArchitecture\BusinessRules\Responders\UseCaseResponseStub;
 
@@ -29,6 +30,24 @@ class ProxyStrategyRequestFactoryTest extends \PHPUnit_Framework_TestCase
     public function UnsupportedAnnotation_CreatePostExecuteRequest_ThrowException()
     {
         $factory = new ProxyStrategyRequestFactoryImpl();
-        $factory->createPostExecuteRequest('unsupported annotation', new UseCaseRequestStub(), new UseCaseResponseStub());
+        $factory->createPostExecuteRequest(
+            'unsupported annotation',
+            new UseCaseRequestStub(),
+            new UseCaseResponseStub()
+        );
+    }
+
+    /**
+     * @test
+     * @expectedException \OpenClassrooms\CleanArchitecture\Application\Services\Proxy\Strategies\Exceptions\UnSupportedAnnotationException
+     */
+    public function UnsupportedAnnotation_CreateOnExceptionRequest_ThrowException()
+    {
+        $factory = new ProxyStrategyRequestFactoryImpl();
+        $factory->createOnExceptionRequest(
+            'unsupported annotation',
+            new UseCaseRequestStub(),
+            new UseCaseException()
+        );
     }
 }

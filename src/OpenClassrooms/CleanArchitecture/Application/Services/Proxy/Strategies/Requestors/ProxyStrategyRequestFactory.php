@@ -27,5 +27,5 @@ interface ProxyStrategyRequestFactory
     /**
      * @return ProxyStrategyRequest
      */
-    public function createOnExceptionRequest($annotation, UseCaseRequest $useCaseRequest);
+    public function createOnExceptionRequest($annotation, UseCaseRequest $useCaseRequest, \Exception $exception);
 }

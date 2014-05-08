@@ -1,6 +1,7 @@
 <?php
 
 namespace OpenClassrooms\Tests\CleanArchitecture\BusinessRules\UseCases\Cache;
+
 use OpenClassrooms\CleanArchitecture\BusinessRules\Requestors\UseCaseRequest;
 use OpenClassrooms\Tests\CleanArchitecture\BusinessRules\Requestors\UseCaseRequestStub;
 use OpenClassrooms\Tests\CleanArchitecture\BusinessRules\UseCases\UseCaseStub;

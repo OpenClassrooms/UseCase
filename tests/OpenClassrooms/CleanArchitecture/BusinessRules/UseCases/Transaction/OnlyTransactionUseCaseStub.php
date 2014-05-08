@@ -7,6 +7,7 @@ use OpenClassrooms\CleanArchitecture\BusinessRules\Requestors\UseCaseRequest;
 use OpenClassrooms\CleanArchitecture\BusinessRules\Responders\UseCaseResponse;
 use OpenClassrooms\Tests\CleanArchitecture\BusinessRules\Responders\UseCaseResponseStub;
 use OpenClassrooms\CleanArchitecture\Application\Annotations\Transaction;
+
 /**
  * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
  */

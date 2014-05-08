@@ -5,7 +5,7 @@ namespace OpenClassrooms\CleanArchitecture\Application\Services\Proxy\Strategies
 /**
  * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
  */
-class CacheIdMustBeSetException extends \Exception
+class CacheIdMustBeDefinedException extends \Exception
 {
 
 }

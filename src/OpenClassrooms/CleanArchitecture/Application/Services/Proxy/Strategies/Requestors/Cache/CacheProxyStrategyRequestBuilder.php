@@ -3,13 +3,18 @@
 namespace OpenClassrooms\CleanArchitecture\Application\Services\Proxy\Strategies\Requestors\Cache;
 
 use
-    OpenClassrooms\CleanArchitecture\Application\Services\Proxy\Strategies\Requestors\Cache\Exceptions\CacheIdMustBeSetException;
+    OpenClassrooms\CleanArchitecture\Application\Services\Proxy\Strategies\Requestors\Cache\Exceptions\CacheIdMustBeDefinedException;
 
 /**
  * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
  */
 interface CacheProxyStrategyRequestBuilder
 {
+    /**
+     * @return CacheProxyStrategyRequestBuilder
+     */
+    public function create();
+
     /**
      * @return CacheProxyStrategyRequestBuilder
      */
@@ -32,7 +37,7 @@ interface CacheProxyStrategyRequestBuilder
 
     /**
      * @return CacheProxyStrategyRequest
-     * @throws CacheIdMustBeSetException
+     * @throws CacheIdMustBeDefinedException
      */
     public function build();
 

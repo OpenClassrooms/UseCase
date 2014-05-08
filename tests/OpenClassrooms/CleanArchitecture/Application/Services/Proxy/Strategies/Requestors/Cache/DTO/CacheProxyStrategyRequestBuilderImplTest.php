@@ -12,11 +12,13 @@ class CacheProxyStrategyRequestBuilderImplTest extends \PHPUnit_Framework_TestCa
 {
     /**
      * @test
-     * @expectedException \OpenClassrooms\CleanArchitecture\Application\Services\Proxy\Strategies\Requestors\Cache\Exceptions\CacheIdMustBeSetException
+     * @expectedException \OpenClassrooms\CleanArchitecture\Application\Services\Proxy\Strategies\Requestors\Cache\Exceptions\CacheIdMustBeDefinedException
      */
     public function Build_ThrowsException()
     {
         $builder = new CacheProxyStrategyRequestBuilderImpl();
-        $builder->build();
+        $builder
+            ->create()
+            ->build();
     }
 }

@@ -7,7 +7,10 @@ use
     OpenClassrooms\CleanArchitecture\Application\Services\Proxy\Strategies\Impl\DTO\ProxyStrategyResponseDTO;
 use
     OpenClassrooms\CleanArchitecture\Application\Services\Proxy\Strategies\Requestors\Cache\CacheProxyStrategyRequest;
-use OpenClassrooms\CleanArchitecture\Application\Services\Proxy\Strategies\Requestors\ProxyStrategy;
+use
+    OpenClassrooms\CleanArchitecture\Application\Services\Proxy\Strategies\Requestors\PostExecuteProxyStrategy;
+use
+    OpenClassrooms\CleanArchitecture\Application\Services\Proxy\Strategies\Requestors\PreExecuteProxyStrategy;
 use
     OpenClassrooms\CleanArchitecture\Application\Services\Proxy\Strategies\Requestors\ProxyStrategyRequest;
 use
@@ -16,12 +19,19 @@ use
 /**
  * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
  */
-class CacheProxyStrategy implements ProxyStrategy
+class CacheProxyStrategy implements PreExecuteProxyStrategy, PostExecuteProxyStrategy
 {
+    private $data;
+
     /**
      * @var Cache
      */
     private $cache;
+
+    /**
+     * @var bool
+     */
+    private $postExecute = true;
 
     /**
      * @return ProxyStrategyResponse
@@ -29,14 +39,28 @@ class CacheProxyStrategy implements ProxyStrategy
     public function preExecute(ProxyStrategyRequest $proxyStrategyRequest)
     {
         /** @var CacheProxyStrategyRequest $proxyStrategyRequest */
-        $data = $this->cache->fetchWithNamespace(
+        $this->data = $this->cache->fetchWithNamespace(
             $proxyStrategyRequest->getId(),
             $proxyStrategyRequest->getNamespaceId()
         );
 
-        $data ? $stopExecution = true : $stopExecution = false;
+        if ($this->responseIsInCache()) {
+            $stopExecution = true;
+            $this->postExecute = false;
+        } else {
+            $stopExecution = false;
+        }
+        $response = new ProxyStrategyResponseDTO($this->data, $stopExecution);
 
-        return new ProxyStrategyResponseDTO($data, $stopExecution);
+        return $response;
+    }
+
+    /**
+     * @return bool
+     */
+    private function responseIsInCache()
+    {
+        return $this->data;
     }
 
     /**
@@ -51,16 +75,17 @@ class CacheProxyStrategy implements ProxyStrategy
             $proxyStrategyRequest->getNamespaceId(),
             $proxyStrategyRequest->getLifeTime()
         );
+        $response = new ProxyStrategyResponseDTO($saved, false);
 
-        return new ProxyStrategyResponseDTO($saved, false);
+        return $response;
     }
 
     /**
-     * @return ProxyStrategyResponse
+     * @return boolean
      */
-    public function onException(ProxyStrategyRequest $proxyStrategyRequest)
+    public function isPostExecute()
     {
-        return new ProxyStrategyResponseDTO();
+        return $this->postExecute;
     }
 
     public function setCache(Cache $cache)

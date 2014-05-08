@@ -72,7 +72,6 @@ class TransactionPDOAdapterTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->pdo->inTransaction());
     }
 
-
     protected function setUp()
     {
         $this->pdo = new \PDO('sqlite::memory:');

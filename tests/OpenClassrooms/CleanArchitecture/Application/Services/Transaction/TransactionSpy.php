@@ -29,7 +29,7 @@ class TransactionSpy implements Transaction
      */
     public function beginTransaction()
     {
-        $this->transactionBegin= true;
+        $this->transactionBegin = true;
 
         return true;
     }
