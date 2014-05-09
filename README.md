@@ -36,10 +36,79 @@ use OpenClassrooms\CleanArchitecture\Application\Services\Proxy\UseCases\UseCase
 <a name="install-nocomposer"/>
 
 ## Usage
+A classic Use Case in Clean Architecture looks like this:
+
+```php
+
+use OpenClassrooms\CleanArchitecture\BusinessRules\Requestors\UseCase;
+use OpenClassrooms\CleanArchitecture\BusinessRules\Requestors\UseCaseRequest;
+use OpenClassrooms\CleanArchitecture\BusinessRules\Responders\UseCaseResponse;
+
+class OriginalUseCase implements UseCase
+{
+    /**
+     * @return UseCaseResponse
+     */
+    public function execute(UseCaseRequest $useCaseRequest)
+    {
+        // do things
+    }
+}
+```
+The library provides a Proxy of the UseCase.
+
 ### Instantiation
+The UseCaseProxy needs a lot of dependencies. 
+
+The Dependency Injection Pattern is clearly helpful.
+
+For an implementation with Symfony2, the CleanArchitectureBundle is more appropriate.
+
+UseCaseProxy can be instantiate as following:
+```php
+use 
+class app()
+{
+    /**
+     * @var OpenClassrooms\CleanArchitecture\Application\Services\Proxy\UseCases\UseCaseProxyBuilder
+     */
+    private $builder;   
+    
+    /*
+     * @var OpenClassrooms\CleanArchitecture\Application\Services\Security\Security; 
+     */
+    private $security;
+    
+    /*
+     * @var OpenClassrooms\Cache\Cache\Cache; 
+     */
+    private $cache;
+    
+    /*
+     * @var OpenClassrooms\CleanArchitecture\Application\Services\Transaction\Transaction; 
+     */
+    private $transaction;
+    
+    /*
+     * @var OpenClassrooms\CleanArchitecture\Application\Services\Event\Event; 
+     */
+    private $event;
+    
+    public function method()
+    {
+        $useCase = $this->builder
+                    ->forUseCase(new OriginalUseCase())
+                    ->withSecurity($this->security)
+                    ->withCache($this->cache)
+                    ->withTransaction($this->transaction)
+                    ->withEvent($this->event)
+                    ->build();
+    }                    
+}                
+```
+
 ### Security
 @security annotation allows to check access.
-"roles" is mandatory.
 
 ```php
 
@@ -60,6 +129,7 @@ class MyUseCase implements UseCase
     }
 }
 ```
+"roles" is mandatory.
 
 Other options :
 ```php
@@ -76,6 +146,42 @@ Other options :
 ```
 
 ### Cache
+@cache annotation allows to manage cache.
+
+```php
+
+use OpenClassrooms\CleanArchitecture\BusinessRules\Requestors\UseCase;
+use OpenClassrooms\CleanArchitecture\BusinessRules\Requestors\UseCaseRequest;
+use OpenClassrooms\CleanArchitecture\BusinessRules\Responders\UseCaseResponse;
+use OpenClassrooms\CleanArchitecture\Application\Annotations\Cache;
+
+class MyUseCase implements UseCase
+{
+    /**
+     * @cache
+     * @return UseCaseResponse
+     */
+    public function execute(UseCaseRequest $useCaseRequest)
+    {
+        // do things
+    }
+}
+```
+The key is equal to : ```md5(serialize($useCaseRequest))``` and the TTL is the default one.
+
+Other options:
+```php
+/**
+ * @cache (lifetime=1000)
+ * Add a TTL of 1000 seconds
+ *
+ * @cache (namespacePrefix="namespace_prefix")
+ * Add a namespace to the id with a namespace id equals to "namespace_prefix" 
+ *
+ * @cache (namespacePrefix="namespace prefix", namespaceAttribute="fieldName")
+ * Add a namespace to the id with a namespace id equals to "namespace_prefix" . "$useCaseRequest->fieldName"
+ */
+```
 ### Transaction
 
 Transaction give a transactional context around the Use Case.
@@ -106,6 +212,50 @@ class MyUseCase implements UseCase
 }
 ```
 ### Event
+
+@event annotation allows to send events.
+
+An implementation of OpenClassrooms\CleanArchitecture\Application\Services\Event\EventFactory must be written in the application context.
+
+```php
+
+use OpenClassrooms\CleanArchitecture\BusinessRules\Requestors\UseCase;
+use OpenClassrooms\CleanArchitecture\BusinessRules\Requestors\UseCaseRequest;
+use OpenClassrooms\CleanArchitecture\BusinessRules\Responders\UseCaseResponse;
+use OpenClassrooms\CleanArchitecture\Application\Annotations\Event;
+
+class MyUseCase implements UseCase
+{
+    /**
+     * @event (name="event_name")
+     * @return UseCaseResponse
+     */
+    public function execute(UseCaseRequest $useCaseRequest)
+    {
+        // do things
+    }
+}
+```
+"name" is mandatory.
+
+The sent of the message can be :
+- pre execute
+- post execute
+- on exception
+or both of them.
+
+Post is default.
+
+```php
+/**
+ * @event(name="event_name", methods="pre")
+ * Send a event 'event_name' before the call of UseCase->execute()
+ *
+ * @event(name="event_name", methods="pre, post, onException")
+ * Send a event 'event_name' before the call of UseCase->execute(), after the call of UseCase->execute() or on exception
+ */
+```
+
 ### Workflow
 The execution order is the following:
 Pre Excecute:
