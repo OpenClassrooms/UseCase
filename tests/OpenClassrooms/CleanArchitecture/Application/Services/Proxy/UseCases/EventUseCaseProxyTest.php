@@ -2,19 +2,6 @@
 
 namespace OpenClassrooms\Tests\CleanArchitecture\Application\Services\Proxy\UseCases;
 
-use Doctrine\Common\Annotations\AnnotationReader;
-use
-    OpenClassrooms\CleanArchitecture\Application\Services\Proxy\Strategies\Impl\Event\DTO\EventProxyStrategyRequestBuilderImpl;
-use
-    OpenClassrooms\CleanArchitecture\Application\Services\Proxy\Strategies\Impl\Event\EventProxyStrategy;
-use
-    OpenClassrooms\CleanArchitecture\Application\Services\Proxy\Strategies\Impl\ProxyStrategyBagFactoryImpl;
-use
-    OpenClassrooms\CleanArchitecture\Application\Services\Proxy\Strategies\Impl\ProxyStrategyRequestFactoryImpl;
-use OpenClassrooms\CleanArchitecture\Application\Services\Proxy\UseCases\Impl\UseCaseProxyImpl;
-use OpenClassrooms\CleanArchitecture\Application\Services\Proxy\UseCases\UseCaseProxy;
-use OpenClassrooms\Tests\CleanArchitecture\Application\Services\Event\EventFactorySpy;
-use OpenClassrooms\Tests\CleanArchitecture\Application\Services\Event\EventSpy;
 use OpenClassrooms\Tests\CleanArchitecture\BusinessRules\Exceptions\UseCaseException;
 use OpenClassrooms\Tests\CleanArchitecture\BusinessRules\Requestors\UseCaseRequestStub;
 use OpenClassrooms\Tests\CleanArchitecture\BusinessRules\Responders\UseCaseResponseStub;
@@ -27,23 +14,8 @@ use OpenClassrooms\Tests\CleanArchitecture\BusinessRules\UseCases\Event\PreEvent
 /**
  * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
  */
-class EventUseCaseProxyTest extends \PHPUnit_Framework_TestCase
+class EventUseCaseProxyTest extends UseCaseProxyTest
 {
-    /**
-     * @var UseCaseProxy
-     */
-    private $useCaseProxy;
-
-    /**
-     * @var EventSpy
-     */
-    private $event;
-
-    /**
-     * @var EventFactorySpy
-     */
-    private $eventFactory;
-
     /**
      * @test
      */
@@ -104,38 +76,7 @@ class EventUseCaseProxyTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals(OnExceptionEventUseCaseStub::EVENT_NAME, $this->event->event);
             $this->assertEquals(new UseCaseRequestStub(), $this->eventFactory->useCaseRequest);
             $this->assertNull($this->eventFactory->useCaseResponse);
-            $this->assertEquals(new UseCaseException(),$this->eventFactory->exception);
+            $this->assertEquals(new UseCaseException(), $this->eventFactory->exception);
         }
-    }
-
-    protected function setUp()
-    {
-        $proxyStrategyBagFactory = new ProxyStrategyBagFactoryImpl();
-
-        $proxyStrategyBagFactory->setEventStrategy($this->buildEventStrategy());
-
-        $proxyStrategyRequestFactory = new ProxyStrategyRequestFactoryImpl();
-        $proxyStrategyRequestFactory->setEventProxyStrategyRequestBuilder(
-            new EventProxyStrategyRequestBuilderImpl()
-        );
-
-        $this->useCaseProxy = new UseCaseProxyImpl();
-        $this->useCaseProxy->setReader(new AnnotationReader());
-        $this->useCaseProxy->setProxyStrategyBagFactory($proxyStrategyBagFactory);
-        $this->useCaseProxy->setProxyStrategyRequestFactory($proxyStrategyRequestFactory);
-    }
-
-    /**
-     * @return EventProxyStrategy
-     */
-    protected function buildEventStrategy()
-    {
-        $this->event = new EventSpy();
-        $eventStrategy = new EventProxyStrategy();
-        $eventStrategy->setEvent($this->event);
-        $this->eventFactory = new EventFactorySpy();
-        $eventStrategy->setEventFactory($this->eventFactory);
-
-        return $eventStrategy;
     }
 }

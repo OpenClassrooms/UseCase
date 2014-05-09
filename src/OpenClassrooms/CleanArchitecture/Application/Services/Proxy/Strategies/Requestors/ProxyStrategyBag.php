@@ -45,6 +45,14 @@ abstract class ProxyStrategyBag
     }
 
     /**
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->proxyStrategy->getType();
+    }
+
+    /**
      * @return ProxyStrategyResponse
      */
     public function preExecute(ProxyStrategyRequest $proxyStrategyRequest)

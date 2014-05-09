@@ -6,6 +6,9 @@ use Doctrine\Common\Annotations\Annotation;
 use Doctrine\Common\Annotations\Reader;
 use
     OpenClassrooms\CleanArchitecture\Application\Services\Proxy\Strategies\Impl\SecurityProxyStrategyBagImpl;
+use OpenClassrooms\CleanArchitecture\Application\Services\Proxy\Strategies\Requestors\ProxyStrategy;
+use
+    OpenClassrooms\CleanArchitecture\Application\Services\Proxy\Strategies\Requestors\ProxyStrategyBag;
 use
     OpenClassrooms\CleanArchitecture\Application\Services\Proxy\Strategies\Requestors\ProxyStrategyBagFactory;
 use
@@ -45,9 +48,24 @@ abstract class UseCaseProxy implements UseCase
     protected $request;
 
     /**
+     * @var array
+     */
+    private $strategyOrder = array(
+        1 => ProxyStrategy::SECURITY,
+        2 => ProxyStrategy::CACHE,
+        3 => ProxyStrategy::TRANSACTION,
+        4 => ProxyStrategy::EVENT
+    );
+
+    /**
      * @var SecurityProxyStrategyBagImpl[]
      */
     private $strategies = array();
+
+    /**
+     * @var bool
+     */
+    private $stopExecution = false;
 
     /**
      * @var UseCaseResponse
@@ -63,9 +81,9 @@ abstract class UseCaseProxy implements UseCase
         $this->buildStrategies();
 
         try {
-            list($stopExecution, $response) = $this->preExecute();
+            $response = $this->preExecute();
 
-            if ($stopExecution) {
+            if ($this->stopExecution) {
                 $this->response = $response;
             } else {
                 $this->response = $this->useCase->execute($useCaseRequest);
@@ -86,11 +104,13 @@ abstract class UseCaseProxy implements UseCase
         $annotations = $this->getAnnotations();
         foreach ($annotations as $annotation) {
             try {
-                $this->strategies[] = $this->proxyStrategyBagFactory->make($annotation);
+                $proxyStrategyBag = $this->proxyStrategyBagFactory->make($annotation);
+                $this->strategies[$proxyStrategyBag->getType()] = $proxyStrategyBag;
             } catch (\Exception $e) {
 
             }
         }
+        $this->sortStrategies();
     }
 
     /**
@@ -103,16 +123,30 @@ abstract class UseCaseProxy implements UseCase
         return $this->reader->getMethodAnnotations($reflectionMethod);
     }
 
+    private function sortStrategies()
+    {
+        uksort(
+            $this->strategies,
+            function ($s1, $s2) {
+                return array_search($s1, $this->strategyOrder) > array_search(
+                    $s2,
+                    $this->strategyOrder
+                );
+            }
+        );
+    }
+
     /**
      * @return array
      */
     private function preExecute()
     {
-        $stopExecution = false;
+        $this->stopExecution = false;
         $data = null;
 
         foreach ($this->strategies as $strategy) {
-            if ($strategy->isPreExecute()) {
+            if ($strategy->isPreExecute() && $this->transactionCanBegin($strategy)
+            ) {
 
                 $request = $this->proxyStrategyRequestFactory->createPreExecuteRequest(
                     $strategy->getAnnotation(),
@@ -122,14 +156,14 @@ abstract class UseCaseProxy implements UseCase
                 $strategyResponse = $strategy->preExecute($request);
 
                 if ($strategyResponse->stopExecution()) {
-                    $stopExecution = true;
+                    $this->stopExecution = true;
+                    unset($this->strategies[ProxyStrategy::TRANSACTION]);
                     $data = $strategyResponse->getData();
-                    break;
                 }
             }
         }
 
-        return array($stopExecution, $data);
+        return $data;
     }
 
     private function postExecute()
@@ -171,5 +205,13 @@ abstract class UseCaseProxy implements UseCase
     public function setUseCase(UseCase $useCase)
     {
         $this->useCase = $useCase;
+    }
+
+    /**
+     * @return bool
+     */
+    private function transactionCanBegin(ProxyStrategyBag $strategy)
+    {
+        return !($this->stopExecution && ProxyStrategy::TRANSACTION === $strategy->getType());
     }
 }

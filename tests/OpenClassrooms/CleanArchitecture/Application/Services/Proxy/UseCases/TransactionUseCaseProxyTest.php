@@ -2,16 +2,6 @@
 
 namespace OpenClassrooms\Tests\CleanArchitecture\Application\Services\Proxy\UseCases;
 
-use Doctrine\Common\Annotations\AnnotationReader;
-use
-    OpenClassrooms\CleanArchitecture\Application\Services\Proxy\Strategies\Impl\ProxyStrategyBagFactoryImpl;
-use
-    OpenClassrooms\CleanArchitecture\Application\Services\Proxy\Strategies\Impl\ProxyStrategyRequestFactoryImpl;
-use
-    OpenClassrooms\CleanArchitecture\Application\Services\Proxy\Strategies\Impl\Transaction\TransactionProxyStrategy;
-use OpenClassrooms\CleanArchitecture\Application\Services\Proxy\UseCases\Impl\UseCaseProxyImpl;
-use OpenClassrooms\CleanArchitecture\Application\Services\Proxy\UseCases\UseCaseProxy;
-use OpenClassrooms\Tests\CleanArchitecture\Application\Services\Transaction\TransactionSpy;
 use OpenClassrooms\Tests\CleanArchitecture\BusinessRules\Exceptions\UseCaseException;
 use OpenClassrooms\Tests\CleanArchitecture\BusinessRules\Requestors\UseCaseRequestStub;
 use
@@ -22,18 +12,8 @@ use
 /**
  * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
  */
-class TransactionUseCaseProxyTest extends \PHPUnit_Framework_TestCase
+class TransactionUseCaseProxyTest extends UseCaseProxyTest
 {
-    /**
-     * @var UseCaseProxy
-     */
-    private $useCaseProxy;
-
-    /**
-     * @var TransactionSpy
-     */
-    private $transaction;
-
     /**
      * @test
      */
@@ -58,31 +38,5 @@ class TransactionUseCaseProxyTest extends \PHPUnit_Framework_TestCase
             $this->assertFalse($this->transaction->committed);
             $this->assertTrue($this->transaction->rollBacked);
         }
-    }
-
-    protected function setUp()
-    {
-        $proxyStrategyBagFactory = new ProxyStrategyBagFactoryImpl();
-        $proxyStrategyBagFactory->setTransactionStrategy($this->buildTransactionStrategy());
-
-        $proxyStrategyRequestFactory = new ProxyStrategyRequestFactoryImpl();
-
-        $this->useCaseProxy = new UseCaseProxyImpl();
-        $this->useCaseProxy->setReader(new AnnotationReader());
-        $this->useCaseProxy->setProxyStrategyBagFactory($proxyStrategyBagFactory);
-        $this->useCaseProxy->setProxyStrategyRequestFactory($proxyStrategyRequestFactory);
-    }
-
-    /**
-     * @return TransactionProxyStrategy
-     */
-    protected function buildTransactionStrategy()
-    {
-        $this->transaction = new TransactionSpy();
-
-        $transactionStrategy = new TransactionProxyStrategy();
-        $transactionStrategy->setTransaction($this->transaction);
-
-        return $transactionStrategy;
     }
 }

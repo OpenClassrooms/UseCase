@@ -2,18 +2,6 @@
 
 namespace OpenClassrooms\Tests\CleanArchitecture\Application\Services\Proxy\UseCases;
 
-use Doctrine\Common\Annotations\AnnotationReader;
-use
-    OpenClassrooms\CleanArchitecture\Application\Services\Proxy\Strategies\Impl\ProxyStrategyBagFactoryImpl;
-use
-    OpenClassrooms\CleanArchitecture\Application\Services\Proxy\Strategies\Impl\ProxyStrategyRequestFactoryImpl;
-use
-    OpenClassrooms\CleanArchitecture\Application\Services\Proxy\Strategies\Impl\Security\DTO\SecurityProxyStrategyRequestBuilderImpl;
-use
-    OpenClassrooms\CleanArchitecture\Application\Services\Proxy\Strategies\Impl\Security\SecurityProxyStrategy;
-use OpenClassrooms\CleanArchitecture\Application\Services\Proxy\UseCases\Impl\UseCaseProxyImpl;
-use OpenClassrooms\CleanArchitecture\Application\Services\Proxy\UseCases\UseCaseProxy;
-use OpenClassrooms\Tests\CleanArchitecture\Application\Services\Security\SecurityUseCaseSpy;
 use OpenClassrooms\Tests\CleanArchitecture\BusinessRules\Requestors\UseCaseRequestStub;
 use
     OpenClassrooms\Tests\CleanArchitecture\BusinessRules\UseCases\Security\FieldRoleSecurityUseCaseStub;
@@ -29,18 +17,8 @@ use
 /**
  * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
  */
-class SecurityUseCaseProxyTest extends \PHPUnit_Framework_TestCase
+class SecurityUseCaseProxyTest extends UseCaseProxyTest
 {
-    /**
-     * @var UseCaseProxy
-     */
-    private $useCaseProxy;
-
-    /**
-     * @var SecurityUseCaseSpy
-     */
-    private $security;
-
     /**
      * @test
      * @expectedException \OpenClassrooms\Tests\CleanArchitecture\Application\Services\Security\Exceptions\AccessDeniedException
@@ -91,24 +69,4 @@ class SecurityUseCaseProxyTest extends \PHPUnit_Framework_TestCase
         $this->useCaseProxy->execute(new UseCaseRequestStub());
         $this->assertEquals(UseCaseRequestStub::FIELD_VALUE, $this->security->object);
     }
-
-    protected function setUp()
-    {
-        $this->useCaseProxy = new UseCaseProxyImpl();
-        $this->useCaseProxy->setReader(new AnnotationReader());
-
-        $proxyStrategyBagFactory = new ProxyStrategyBagFactoryImpl();
-        $securityProxyStrategy = new SecurityProxyStrategy();
-        $this->security = new SecurityUseCaseSpy();
-        $securityProxyStrategy->setSecurity($this->security);
-        $proxyStrategyBagFactory->setSecurityStrategy($securityProxyStrategy);
-        $this->useCaseProxy->setProxyStrategyBagFactory($proxyStrategyBagFactory);
-
-        $proxyStrategyRequestFactory = new ProxyStrategyRequestFactoryImpl();
-        $proxyStrategyRequestFactory->setSecurityProxyStrategyRequestBuilder(
-            new SecurityProxyStrategyRequestBuilderImpl()
-        );
-        $this->useCaseProxy->setProxyStrategyRequestFactory($proxyStrategyRequestFactory);
-    }
-
 }

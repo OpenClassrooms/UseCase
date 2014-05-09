@@ -49,7 +49,7 @@ class Event
 
         foreach ($this->methods as $method) {
             if (!in_array($method, self::$allowedMethods)) {
-                throw new \InvalidArgumentException ('Method "'.$method . '" is not allowed. Allowed: pre, post and onException');
+                throw new \InvalidArgumentException ('Method "' . $method . '" is not allowed. Allowed: pre, post and onException');
             }
         }
     }

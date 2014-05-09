@@ -7,4 +7,16 @@ namespace OpenClassrooms\CleanArchitecture\Application\Services\Proxy\Strategies
  */
 interface ProxyStrategy
 {
+    const SECURITY = 'security';
+
+    const CACHE = 'cache';
+
+    const TRANSACTION = 'transaction';
+
+    const EVENT = 'event';
+
+    /**
+     * @return string
+     */
+    public function getType();
 }

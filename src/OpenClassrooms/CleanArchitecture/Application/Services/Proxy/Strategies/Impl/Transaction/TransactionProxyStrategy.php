@@ -10,6 +10,7 @@ use
     OpenClassrooms\CleanArchitecture\Application\Services\Proxy\Strategies\Requestors\PostExecuteProxyStrategy;
 use
     OpenClassrooms\CleanArchitecture\Application\Services\Proxy\Strategies\Requestors\PreExecuteProxyStrategy;
+use OpenClassrooms\CleanArchitecture\Application\Services\Proxy\Strategies\Requestors\ProxyStrategy;
 use
     OpenClassrooms\CleanArchitecture\Application\Services\Proxy\Strategies\Requestors\ProxyStrategyRequest;
 use
@@ -25,6 +26,14 @@ class TransactionProxyStrategy implements PreExecuteProxyStrategy, PostExecutePr
      * @var Transaction
      */
     private $transaction;
+
+    /**
+     * @return string
+     */
+    public function getType()
+    {
+        return ProxyStrategy::TRANSACTION;
+    }
 
     /**
      * @return ProxyStrategyResponse

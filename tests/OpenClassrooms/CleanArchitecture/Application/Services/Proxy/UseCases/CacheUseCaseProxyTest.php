@@ -2,18 +2,6 @@
 
 namespace OpenClassrooms\Tests\CleanArchitecture\Application\Services\Proxy\UseCases;
 
-use Doctrine\Common\Annotations\AnnotationReader;
-use
-    OpenClassrooms\CleanArchitecture\Application\Services\Proxy\Strategies\Impl\Cache\CacheProxyStrategy;
-use
-    OpenClassrooms\CleanArchitecture\Application\Services\Proxy\Strategies\Impl\Cache\DTO\CacheProxyStrategyRequestBuilderImpl;
-use
-    OpenClassrooms\CleanArchitecture\Application\Services\Proxy\Strategies\Impl\ProxyStrategyBagFactoryImpl;
-use
-    OpenClassrooms\CleanArchitecture\Application\Services\Proxy\Strategies\Impl\ProxyStrategyRequestFactoryImpl;
-use OpenClassrooms\CleanArchitecture\Application\Services\Proxy\UseCases\Impl\UseCaseProxyImpl;
-use OpenClassrooms\CleanArchitecture\Application\Services\Proxy\UseCases\UseCaseProxy;
-use OpenClassrooms\Tests\CleanArchitecture\Application\Services\Cache\CacheSpy;
 use OpenClassrooms\Tests\CleanArchitecture\BusinessRules\Exceptions\UseCaseException;
 use OpenClassrooms\Tests\CleanArchitecture\BusinessRules\Requestors\UseCaseRequestStub;
 use OpenClassrooms\Tests\CleanArchitecture\BusinessRules\Responders\UseCaseResponseStub;
@@ -25,18 +13,8 @@ use OpenClassrooms\Tests\CleanArchitecture\BusinessRules\UseCases\Cache\OnlyCach
 /**
  * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
  */
-class CacheUseCaseProxyTest extends \PHPUnit_Framework_TestCase
+class CacheUseCaseProxyTest extends UseCaseProxyTest
 {
-    /**
-     * @var UseCaseProxy
-     */
-    private $useCaseProxy;
-
-    /**
-     * @var CacheSpy
-     */
-    private $cache;
-
     /**
      * @test
      */
@@ -117,34 +95,5 @@ class CacheUseCaseProxyTest extends \PHPUnit_Framework_TestCase
         } catch (UseCaseException $e) {
             $this->assertFalse($this->cache->saved);
         }
-    }
-
-    protected function setUp()
-    {
-        $proxyStrategyBagFactory = new ProxyStrategyBagFactoryImpl();
-        $proxyStrategyBagFactory->setCacheStrategy($this->buildCacheStrategy());
-
-        $proxyStrategyRequestFactory = new ProxyStrategyRequestFactoryImpl();
-        $proxyStrategyRequestFactory->setCacheProxyStrategyRequestBuilder(
-            new CacheProxyStrategyRequestBuilderImpl()
-        );
-
-        $this->useCaseProxy = new UseCaseProxyImpl();
-        $this->useCaseProxy->setReader(new AnnotationReader());
-        $this->useCaseProxy->setProxyStrategyBagFactory($proxyStrategyBagFactory);
-        $this->useCaseProxy->setProxyStrategyRequestFactory($proxyStrategyRequestFactory);
-    }
-
-    /**
-     * @return CacheProxyStrategy
-     */
-    protected function buildCacheStrategy()
-    {
-        $this->cache = new CacheSpy();
-
-        $cacheStrategy = new CacheProxyStrategy();
-        $cacheStrategy->setCache($this->cache);
-
-        return $cacheStrategy;
     }
 }

@@ -6,6 +6,7 @@ use
     OpenClassrooms\CleanArchitecture\Application\Services\Proxy\Strategies\Impl\DTO\ProxyStrategyResponseDTO;
 use
     OpenClassrooms\CleanArchitecture\Application\Services\Proxy\Strategies\Requestors\PreExecuteProxyStrategy;
+use OpenClassrooms\CleanArchitecture\Application\Services\Proxy\Strategies\Requestors\ProxyStrategy;
 use
     OpenClassrooms\CleanArchitecture\Application\Services\Proxy\Strategies\Requestors\ProxyStrategyRequest;
 use
@@ -23,6 +24,14 @@ class SecurityProxyStrategy implements PreExecuteProxyStrategy
      * @var Security
      */
     private $security;
+
+    /**
+     * @return string
+     */
+    public function getType()
+    {
+        return ProxyStrategy::SECURITY;
+    }
 
     /**
      * @return ProxyStrategyResponse

@@ -7,6 +7,8 @@ use
     OpenClassrooms\CleanArchitecture\Application\Services\Event\Exceptions\InvalidEventNameException;
 use OpenClassrooms\CleanArchitecture\BusinessRules\Requestors\UseCaseRequest;
 use OpenClassrooms\CleanArchitecture\BusinessRules\Responders\UseCaseResponse;
+use
+    OpenClassrooms\Tests\CleanArchitecture\Application\Services\Security\Exceptions\AccessDeniedException;
 
 /**
  * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
@@ -47,6 +49,10 @@ class EventFactorySpy implements EventFactory
 
         if (self::INVALID_EVENT_NAME === $eventName) {
             throw new InvalidEventNameException($eventName);
+        }
+
+        if ($exception instanceof AccessDeniedException) {
+            throw $exception;
         }
 
         return $eventName;

@@ -9,7 +9,7 @@ use
 /**
  * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
  */
-class SecurityUseCaseSpy implements Security
+class SecuritySpy implements Security
 {
     /**
      * @var array
