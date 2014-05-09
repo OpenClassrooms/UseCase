@@ -74,22 +74,22 @@ class app()
      */
     private $builder;   
     
-    /*
+    /**
      * @var OpenClassrooms\CleanArchitecture\Application\Services\Security\Security; 
      */
     private $security;
     
-    /*
+    /**
      * @var OpenClassrooms\Cache\Cache\Cache; 
      */
     private $cache;
     
-    /*
+    /**
      * @var OpenClassrooms\CleanArchitecture\Application\Services\Transaction\Transaction; 
      */
     private $transaction;
     
-    /*
+    /**
      * @var OpenClassrooms\CleanArchitecture\Application\Services\Event\Event; 
      */
     private $event;
