@@ -19,7 +19,15 @@ class TransactionPDOAdapter implements Transaction
      */
     public function beginTransaction()
     {
-        return $this->pdo->beginTransaction();
+        return $this->isTransactionActive() ? true : $this->pdo->beginTransaction();
+    }
+
+    /**
+     * @return bool
+     */
+    public function isTransactionActive()
+    {
+        return $this->pdo->inTransaction();
     }
 
     /**

@@ -37,6 +37,14 @@ class TransactionSpy implements Transaction
     /**
      * @return bool
      */
+    public function isTransactionActive()
+    {
+        return $this->transactionBegin;
+    }
+
+    /**
+     * @return bool
+     */
     public function commit()
     {
         $this->committed = true;

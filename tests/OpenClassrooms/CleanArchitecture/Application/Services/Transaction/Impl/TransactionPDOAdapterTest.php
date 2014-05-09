@@ -32,6 +32,17 @@ class TransactionPDOAdapterTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     */
+    public function AlreadyActiveTransaction_BeginTransaction_ReturnTransaction()
+    {
+        $this->transaction->beginTransaction();
+        $transactionBegin = $this->transaction->beginTransaction();
+        $this->assertTrue($transactionBegin);
+        $this->assertTrue($this->pdo->inTransaction());
+    }
+
+    /**
+     * @test
      * @expectedException \PDOException
      * @expectedExceptionMessage There is no active transaction
      */

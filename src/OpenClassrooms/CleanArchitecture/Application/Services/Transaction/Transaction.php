@@ -15,6 +15,11 @@ interface Transaction
     /**
      * @return bool
      */
+    public function isTransactionActive();
+
+    /**
+     * @return bool
+     */
     public function commit();
 
     /**
