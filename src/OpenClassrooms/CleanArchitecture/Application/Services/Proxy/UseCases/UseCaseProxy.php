@@ -50,7 +50,7 @@ abstract class UseCaseProxy implements UseCase
     /**
      * @var array
      */
-    private static  $strategyOrder = array(
+    public static  $strategyOrder = array(
         1 => ProxyStrategy::SECURITY,
         2 => ProxyStrategy::CACHE,
         3 => ProxyStrategy::TRANSACTION,
