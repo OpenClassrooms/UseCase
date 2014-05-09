@@ -50,7 +50,7 @@ abstract class UseCaseProxy implements UseCase
     /**
      * @var array
      */
-    private $strategyOrder = array(
+    private static  $strategyOrder = array(
         1 => ProxyStrategy::SECURITY,
         2 => ProxyStrategy::CACHE,
         3 => ProxyStrategy::TRANSACTION,
@@ -128,9 +128,9 @@ abstract class UseCaseProxy implements UseCase
         uksort(
             $this->strategies,
             function ($s1, $s2) {
-                return array_search($s1, $this->strategyOrder) > array_search(
+                return array_search($s1, UseCaseProxy::$strategyOrder) > array_search(
                     $s2,
-                    $this->strategyOrder
+                    UseCaseProxy::$strategyOrder
                 );
             }
         );
