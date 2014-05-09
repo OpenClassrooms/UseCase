@@ -21,7 +21,7 @@ class SecurityTest extends \PHPUnit_Framework_TestCase
      */
     public function WithoutRole_ThrowException()
     {
-        $class = new \ReflectionClass(new SecurityClassDummy());
+        $class = new \ReflectionClass(new SecurityClassDummy2());
         $this->reader->getMethodAnnotation($class->getMethod('method'), 'security');
     }
 
