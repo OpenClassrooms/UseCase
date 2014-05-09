@@ -2,7 +2,6 @@
 
 namespace OpenClassrooms\CleanArchitecture\Application\Services\Proxy\Strategies\Impl;
 
-use Doctrine\Common\Annotations\Annotation;
 use OpenClassrooms\CleanArchitecture\Application\Annotations\Cache;
 use OpenClassrooms\CleanArchitecture\Application\Annotations\Event;
 use OpenClassrooms\CleanArchitecture\Application\Annotations\Security;
