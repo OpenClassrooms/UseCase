@@ -196,7 +196,7 @@ Other options:
 ```
 ### Transaction
 
-Transaction give a transactional context around the Use Case.
+Transaction gives a transactional context around the Use Case.
 - begin transaction
 - execute()
 - commit
