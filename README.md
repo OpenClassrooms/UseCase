@@ -94,6 +94,16 @@ class app()
      */
     private $event;
     
+    /**
+     * @var OpenClassrooms\CleanArchitecture\Application\Services\Event\EventFactory
+     */
+    private $eventFactory;
+
+    /**
+     * @var Doctrine\Common\Annotations\Reader
+     */
+    private $reader;
+
     public function method()
     {
         $useCase = $this->builder
@@ -102,6 +112,8 @@ class app()
                     ->withCache($this->cache)
                     ->withTransaction($this->transaction)
                     ->withEvent($this->event)
+                    ->withEventFactory($this->eventFactory)
+                    ->withReader($this->reader)
                     ->build();
     }                    
 }                
