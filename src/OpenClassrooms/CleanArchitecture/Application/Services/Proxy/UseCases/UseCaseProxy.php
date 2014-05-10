@@ -4,6 +4,10 @@ namespace OpenClassrooms\CleanArchitecture\Application\Services\Proxy\UseCases;
 
 use Doctrine\Common\Annotations\Annotation;
 use Doctrine\Common\Annotations\Reader;
+use OpenClassrooms\CleanArchitecture\Application\Annotations\Cache;
+use OpenClassrooms\CleanArchitecture\Application\Annotations\Event;
+use OpenClassrooms\CleanArchitecture\Application\Annotations\Security;
+use OpenClassrooms\CleanArchitecture\Application\Annotations\Transaction;
 use
     OpenClassrooms\CleanArchitecture\Application\Services\Proxy\Strategies\Impl\SecurityProxyStrategyBagImpl;
 use OpenClassrooms\CleanArchitecture\Application\Services\Proxy\Strategies\Requestors\ProxyStrategy;
@@ -22,6 +26,16 @@ use OpenClassrooms\CleanArchitecture\BusinessRules\Responders\UseCaseResponse;
  */
 abstract class UseCaseProxy implements UseCase
 {
+    /**
+     * @var array
+     */
+    public static $strategyOrder = array(
+        1 => ProxyStrategy::SECURITY,
+        2 => ProxyStrategy::CACHE,
+        3 => ProxyStrategy::TRANSACTION,
+        4 => ProxyStrategy::EVENT
+    );
+
     /**
      * @var Reader
      */
@@ -46,16 +60,6 @@ abstract class UseCaseProxy implements UseCase
      * @var UseCaseRequest
      */
     protected $request;
-
-    /**
-     * @var array
-     */
-    public static  $strategyOrder = array(
-        1 => ProxyStrategy::SECURITY,
-        2 => ProxyStrategy::CACHE,
-        3 => ProxyStrategy::TRANSACTION,
-        4 => ProxyStrategy::EVENT
-    );
 
     /**
      * @var SecurityProxyStrategyBagImpl[]
@@ -103,11 +107,13 @@ abstract class UseCaseProxy implements UseCase
     {
         $annotations = $this->getAnnotations();
         foreach ($annotations as $annotation) {
-            try {
+            if ($annotation instanceof Security
+                || $annotation instanceof Cache
+                || $annotation instanceof Transaction
+                || $annotation instanceof Event
+            ) {
                 $proxyStrategyBag = $this->proxyStrategyBagFactory->make($annotation);
                 $this->strategies[$proxyStrategyBag->getType()] = $proxyStrategyBag;
-            } catch (\Exception $e) {
-
             }
         }
         $this->sortStrategies();
@@ -166,6 +172,14 @@ abstract class UseCaseProxy implements UseCase
         return $data;
     }
 
+    /**
+     * @return bool
+     */
+    private function transactionCanBegin(ProxyStrategyBag $strategy)
+    {
+        return !($this->stopExecution && ProxyStrategy::TRANSACTION === $strategy->getType());
+    }
+
     private function postExecute()
     {
         foreach ($this->strategies as $strategy) {
@@ -205,13 +219,5 @@ abstract class UseCaseProxy implements UseCase
     public function setUseCase(UseCase $useCase)
     {
         $this->useCase = $useCase;
-    }
-
-    /**
-     * @return bool
-     */
-    private function transactionCanBegin(ProxyStrategyBag $strategy)
-    {
-        return !($this->stopExecution && ProxyStrategy::TRANSACTION === $strategy->getType());
     }
 }
