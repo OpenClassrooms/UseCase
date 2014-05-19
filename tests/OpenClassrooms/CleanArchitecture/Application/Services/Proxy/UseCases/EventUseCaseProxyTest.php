@@ -14,7 +14,7 @@ use OpenClassrooms\Tests\CleanArchitecture\BusinessRules\UseCases\Event\PreEvent
 /**
  * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
  */
-class EventUseCaseProxyTest extends UseCaseProxyTest
+class EventUseCaseProxyTest extends AbstractUseCaseProxyTest
 {
     /**
      * @test

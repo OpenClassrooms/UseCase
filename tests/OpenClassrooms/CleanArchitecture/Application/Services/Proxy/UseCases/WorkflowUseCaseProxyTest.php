@@ -18,7 +18,7 @@ use
 /**
  * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
  */
-class WorkflowUseCaseProxyTest extends UseCaseProxyTest
+class WorkflowUseCaseProxyTest extends AbstractUseCaseProxyTest
 {
     /**
      * @test

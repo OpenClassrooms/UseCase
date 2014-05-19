@@ -12,7 +12,7 @@ use
 /**
  * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
  */
-class TransactionUseCaseProxyTest extends UseCaseProxyTest
+class TransactionUseCaseProxyTest extends AbstractUseCaseProxyTest
 {
     /**
      * @test

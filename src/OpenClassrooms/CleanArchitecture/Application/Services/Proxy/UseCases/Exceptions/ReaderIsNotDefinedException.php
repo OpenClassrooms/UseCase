@@ -7,5 +7,5 @@ namespace OpenClassrooms\CleanArchitecture\Application\Services\Proxy\UseCases\E
  */
 class ReaderIsNotDefinedException extends \Exception
 {
-    
+
 }

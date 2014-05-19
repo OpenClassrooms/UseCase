@@ -17,7 +17,7 @@ use
 /**
  * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
  */
-class SecurityUseCaseProxyTest extends UseCaseProxyTest
+class SecurityUseCaseProxyTest extends AbstractUseCaseProxyTest
 {
     /**
      * @test

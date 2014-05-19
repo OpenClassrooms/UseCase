@@ -13,7 +13,7 @@ use OpenClassrooms\Tests\CleanArchitecture\BusinessRules\UseCases\Cache\OnlyCach
 /**
  * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
  */
-class CacheUseCaseProxyTest extends UseCaseProxyTest
+class CacheUseCaseProxyTest extends AbstractUseCaseProxyTest
 {
     /**
      * @test

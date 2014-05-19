@@ -32,7 +32,7 @@ use OpenClassrooms\Tests\CleanArchitecture\Application\Services\Transaction\Tran
 /**
  * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
  */
-abstract class UseCaseProxyTest extends \PHPUnit_Framework_TestCase
+abstract class AbstractUseCaseProxyTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var UseCaseProxy
@@ -64,29 +64,51 @@ abstract class UseCaseProxyTest extends \PHPUnit_Framework_TestCase
      */
     protected $transaction;
 
+    /**
+     * @var ProxyStrategyBagFactoryImpl
+     */
+    private $proxyStrategyBagFactory;
+
+    /**
+     * @var ProxyStrategyRequestFactoryImpl
+     */
+    private $proxyStrategyRequestFactory;
+
     protected function setUp()
+    {
+        $this->initUseCaseProxy();
+
+        $this->buildSecurityStrategy();
+        $this->buildCacheStrategy();
+        $this->buildTransactionStrategy();
+        $this->buildEventStrategy();
+
+    }
+
+    protected function initUseCaseProxy()
     {
         $this->useCaseProxy = new UseCaseProxyImpl();
         $this->useCaseProxy->setReader(new AnnotationReader());
 
-        $this->useCaseProxy->setProxyStrategyBagFactory($this->buildProxyStrategyBagFactory());
-        $this->useCaseProxy->setProxyStrategyRequestFactory(
-            $this->buildProxyStrategyRequestFactory()
-        );
+        $this->proxyStrategyBagFactory = new ProxyStrategyBagFactoryImpl();
+        $this->proxyStrategyRequestFactory = new ProxyStrategyRequestFactoryImpl();
+        $this->useCaseProxy->setProxyStrategyBagFactory($this->proxyStrategyBagFactory);
+        $this->useCaseProxy->setProxyStrategyRequestFactory($this->proxyStrategyRequestFactory);
     }
 
     /**
-     * @return ProxyStrategyBagFactoryImpl
+     * @return SecurityProxyStrategy
      */
-    protected function buildProxyStrategyBagFactory()
+    protected function buildSecurityStrategy()
     {
-        $proxyStrategyBagFactory = new ProxyStrategyBagFactoryImpl();
-        $proxyStrategyBagFactory->setCacheStrategy($this->buildCacheStrategy());
-        $proxyStrategyBagFactory->setEventStrategy($this->buildEventStrategy());
-        $proxyStrategyBagFactory->setSecurityStrategy($this->buildSecurityStrategy());
-        $proxyStrategyBagFactory->setTransactionStrategy($this->buildTransactionStrategy());
+        $this->security = new SecuritySpy();
 
-        return $proxyStrategyBagFactory;
+        $securityStrategy = new SecurityProxyStrategy();
+        $securityStrategy->setSecurity($this->security);
+        $this->proxyStrategyBagFactory->setSecurityStrategy($securityStrategy);
+        $this->proxyStrategyRequestFactory->setSecurityProxyStrategyRequestBuilder(
+            new SecurityProxyStrategyRequestBuilderImpl()
+        );
     }
 
     /**
@@ -95,11 +117,26 @@ abstract class UseCaseProxyTest extends \PHPUnit_Framework_TestCase
     protected function buildCacheStrategy()
     {
         $this->cache = new CacheSpy();
-
         $cacheStrategy = new CacheProxyStrategy();
         $cacheStrategy->setCache($this->cache);
 
-        return $cacheStrategy;
+        $this->proxyStrategyBagFactory->setCacheStrategy($cacheStrategy);
+
+        $this->proxyStrategyRequestFactory->setCacheProxyStrategyRequestBuilder(
+            new CacheProxyStrategyRequestBuilderImpl()
+        );
+    }
+
+    /**
+     * @return TransactionProxyStrategy
+     */
+    protected function buildTransactionStrategy()
+    {
+        $this->transaction = new TransactionSpy();
+
+        $transactionStrategy = new TransactionProxyStrategy();
+        $transactionStrategy->setTransaction($this->transaction);
+        $this->proxyStrategyBagFactory->setTransactionStrategy($transactionStrategy);
     }
 
     /**
@@ -113,51 +150,9 @@ abstract class UseCaseProxyTest extends \PHPUnit_Framework_TestCase
         $this->eventFactory = new EventFactorySpy();
         $eventStrategy->setEventFactory($this->eventFactory);
 
-        return $eventStrategy;
-    }
-
-    /**
-     * @return SecurityProxyStrategy
-     */
-    protected function buildSecurityStrategy()
-    {
-        $this->security = new SecuritySpy();
-
-        $securityStrategy = new SecurityProxyStrategy();
-        $securityStrategy->setSecurity($this->security);
-
-        return $securityStrategy;
-    }
-
-    /**
-     * @return TransactionProxyStrategy
-     */
-    protected function buildTransactionStrategy()
-    {
-        $this->transaction = new TransactionSpy();
-
-        $transactionStrategy = new TransactionProxyStrategy();
-        $transactionStrategy->setTransaction($this->transaction);
-
-        return $transactionStrategy;
-    }
-
-    /**
-     * @return ProxyStrategyRequestFactoryImpl
-     */
-    protected function buildProxyStrategyRequestFactory()
-    {
-        $proxyStrategyRequestFactory = new ProxyStrategyRequestFactoryImpl();
-        $proxyStrategyRequestFactory->setCacheProxyStrategyRequestBuilder(
-            new CacheProxyStrategyRequestBuilderImpl()
-        );
-        $proxyStrategyRequestFactory->setEventProxyStrategyRequestBuilder(
+        $this->proxyStrategyBagFactory->setEventStrategy($eventStrategy);
+        $this->proxyStrategyRequestFactory->setEventProxyStrategyRequestBuilder(
             new EventProxyStrategyRequestBuilderImpl()
         );
-        $proxyStrategyRequestFactory->setSecurityProxyStrategyRequestBuilder(
-            new SecurityProxyStrategyRequestBuilderImpl()
-        );
-
-        return $proxyStrategyRequestFactory;
     }
 }
