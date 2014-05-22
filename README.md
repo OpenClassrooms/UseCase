@@ -107,7 +107,7 @@ class app()
     public function method()
     {
         $useCase = $this->builder
-                    ->forUseCase(new OriginalUseCase())
+                    ->create(new OriginalUseCase())
                     ->withSecurity($this->security)
                     ->withCache($this->cache)
                     ->withTransaction($this->transaction)

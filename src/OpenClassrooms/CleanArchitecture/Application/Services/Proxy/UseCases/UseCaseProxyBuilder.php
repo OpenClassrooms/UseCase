@@ -76,12 +76,7 @@ abstract class UseCaseProxyBuilder
     /**
      * @return UseCaseProxyBuilder
      */
-    public function forUseCase(UseCase $useCase)
-    {
-        $this->useCaseProxy->setUseCase($useCase);
-
-        return $this;
-    }
+    abstract public function create(UseCase $useCase);
 
     /**
      * @return UseCaseProxyBuilder
@@ -149,9 +144,6 @@ abstract class UseCaseProxyBuilder
      */
     public function build()
     {
-        if (null === $this->useCaseProxy->getUseCase()) {
-            throw new UseCaseIsNotDefineException();
-        }
         if (null === $this->reader) {
             throw new ReaderIsNotDefinedException();
         }

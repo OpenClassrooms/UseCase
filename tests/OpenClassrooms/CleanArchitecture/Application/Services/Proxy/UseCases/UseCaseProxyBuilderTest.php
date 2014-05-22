@@ -30,20 +30,11 @@ class UseCaseProxyBuilderTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException \OpenClassrooms\CleanArchitecture\Application\Services\Proxy\UseCases\Exceptions\UseCaseIsNotDefineException
-     */
-    public function WithoutUseCase_Build_ThrowException()
-    {
-        $this->builder->build();
-    }
-
-    /**
-     * @test
      * @expectedException \OpenClassrooms\CleanArchitecture\Application\Services\Proxy\UseCases\Exceptions\ReaderIsNotDefinedException
      */
     public function WithoutReader_Build_ThrowException()
     {
-        $this->builder->forUseCase(new AllAnnotationsUseCaseStub())->build();
+        $this->builder->create(new AllAnnotationsUseCaseStub())->build();
     }
 
     /**
@@ -52,7 +43,7 @@ class UseCaseProxyBuilderTest extends \PHPUnit_Framework_TestCase
     public function Build_ReturnUseCaseProxy()
     {
         $proxy = $this->builder
-            ->forUseCase(new AllAnnotationsUseCaseStub())
+            ->create(new AllAnnotationsUseCaseStub())
             ->withReader(new AnnotationReader())
             ->withCache(new CacheSpy())
             ->withEvent(new EventSpy())
