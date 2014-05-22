@@ -75,6 +75,7 @@ abstract class UseCaseProxyBuilder
 
     /**
      * @return UseCaseProxyBuilder
+     * @codeCoverageIgnore
      */
     abstract public function create(UseCase $useCase);
 
