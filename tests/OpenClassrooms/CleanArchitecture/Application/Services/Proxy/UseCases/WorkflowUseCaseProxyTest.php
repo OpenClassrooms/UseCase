@@ -8,6 +8,7 @@ use OpenClassrooms\Tests\CleanArchitecture\BusinessRules\Exceptions\UseCaseExcep
 use OpenClassrooms\Tests\CleanArchitecture\BusinessRules\Requestors\UseCaseRequestStub;
 use OpenClassrooms\Tests\CleanArchitecture\BusinessRules\Responders\UseCaseResponseStub;
 use OpenClassrooms\Tests\CleanArchitecture\BusinessRules\UseCases\UseCaseStub;
+use OpenClassrooms\Tests\CleanArchitecture\BusinessRules\UseCases\WithoutResponseUseCaseStub;
 use
     OpenClassrooms\Tests\CleanArchitecture\BusinessRules\UseCases\Workflow\AllAnnotationsNotAuthorizedUseCaseStub;
 use
@@ -31,6 +32,15 @@ class WorkflowUseCaseProxyTest extends AbstractUseCaseProxyTest
         $this->assertEquals(new UseCaseResponseStub(), $response);
     }
 
+    /**
+     * @test
+     */
+    public function UseCaseWithoutResponse_Execute_DonTThrowException()
+    {
+        $this->useCaseProxy->setUseCase(new WithoutResponseUseCaseStub());
+        $this->useCaseProxy->execute(new UseCaseRequestStub());
+        $this->assertTrue(true);
+    }
     /**
      * @test
      */

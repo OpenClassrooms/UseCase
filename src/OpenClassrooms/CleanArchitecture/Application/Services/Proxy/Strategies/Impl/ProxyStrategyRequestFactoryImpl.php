@@ -123,7 +123,7 @@ class ProxyStrategyRequestFactoryImpl implements ProxyStrategyRequestFactory
     public function createPostExecuteRequest(
         $annotation,
         UseCaseRequest $useCaseRequest,
-        UseCaseResponse $useCaseResponse
+        UseCaseResponse $useCaseResponse = null
     )
     {
         $request = new ProxyStrategyRequestDTO();
