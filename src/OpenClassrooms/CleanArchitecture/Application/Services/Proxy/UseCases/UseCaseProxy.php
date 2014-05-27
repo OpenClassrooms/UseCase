@@ -8,8 +8,6 @@ use OpenClassrooms\CleanArchitecture\Application\Annotations\Cache;
 use OpenClassrooms\CleanArchitecture\Application\Annotations\Event;
 use OpenClassrooms\CleanArchitecture\Application\Annotations\Security;
 use OpenClassrooms\CleanArchitecture\Application\Annotations\Transaction;
-use
-    OpenClassrooms\CleanArchitecture\Application\Services\Proxy\Strategies\Impl\SecurityProxyStrategyBagImpl;
 use OpenClassrooms\CleanArchitecture\Application\Services\Proxy\Strategies\Requestors\ProxyStrategy;
 use
     OpenClassrooms\CleanArchitecture\Application\Services\Proxy\Strategies\Requestors\ProxyStrategyBag;
@@ -62,7 +60,7 @@ abstract class UseCaseProxy implements UseCase
     protected $request;
 
     /**
-     * @var SecurityProxyStrategyBagImpl[]
+     * @var ProxyStrategyBag[]
      */
     private $strategies = array();
 
