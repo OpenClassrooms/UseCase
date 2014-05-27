@@ -1,9 +1,9 @@
-CleanArchitecture
+UseCase
 =================
-[![Build Status](https://travis-ci.org/OpenClassrooms/CleanArchitecture.svg?branch=master)](https://travis-ci.org/OpenClassrooms/CleanArchitecture)
+[![Build Status](https://travis-ci.org/OpenClassrooms/UseCase.svg?branch=master)](https://travis-ci.org/OpenClassrooms/UseCase)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/5b05eef1-7457-434e-8a8c-44013a6675a1/mini.png)](https://insight.sensiolabs.com/projects/5b05eef1-7457-434e-8a8c-44013a6675a1)
 
-Clean Architecture is a library that manage technical code over a Use Case.
+Use Case is a library that manage technical code over a Use Case.
 - Security access
 - Cache management
 - Transactional context
@@ -11,7 +11,7 @@ Clean Architecture is a library that manage technical code over a Use Case.
 
 The goal is to have only functional code on the Use Case.
 
-More details on [Clean Architecture](http://blog.8thlight.com/uncle-bob/2012/08/13/the-clean-architecture.html).
+More details on [Use Case](http://blog.8thlight.com/uncle-bob/2012/08/13/the-clean-architecture.html).
 
 ## Installation
 The easiest way to install Cache is via [composer](http://getcomposer.org/).
@@ -21,7 +21,7 @@ Create the following `composer.json` file and run the `php composer.phar install
 ```json
 {
     "require": {
-        "openclassrooms/clean-architecture": "*"
+        "openclassrooms/use-case": "*"
     }
 }
 ```
@@ -29,20 +29,20 @@ Create the following `composer.json` file and run the `php composer.phar install
 <?php
 require 'vendor/autoload.php';
 
-use OpenClassrooms\CleanArchitecture\Application\Services\Proxy\UseCases\UseCaseProxy;
+use OpenClassrooms\UseCase\Application\Services\Proxy\UseCases\UseCaseProxy;
 
 //do things
 ```
 <a name="install-nocomposer"/>
 
 ## Usage
-A classic Use Case in Clean Architecture looks like this:
+A classic Use Case in Use Case looks like this:
 
 ```php
 
-use OpenClassrooms\CleanArchitecture\BusinessRules\Requestors\UseCase;
-use OpenClassrooms\CleanArchitecture\BusinessRules\Requestors\UseCaseRequest;
-use OpenClassrooms\CleanArchitecture\BusinessRules\Responders\UseCaseResponse;
+use OpenClassrooms\UseCase\BusinessRules\Requestors\UseCase;
+use OpenClassrooms\UseCase\BusinessRules\Requestors\UseCaseRequest;
+use OpenClassrooms\UseCase\BusinessRules\Responders\UseCaseResponse;
 
 class OriginalUseCase implements UseCase
 {
@@ -62,7 +62,7 @@ The UseCaseProxy needs a lot of dependencies.
 
 The Dependency Injection Pattern is clearly helpful.
 
-For an implementation with Symfony2, the CleanArchitectureBundle is more appropriate.
+For an implementation with Symfony2, the UseCaseBundle is more appropriate.
 
 UseCaseProxy can be instantiate as following:
 ```php
@@ -70,12 +70,12 @@ use
 class app()
 {
     /**
-     * @var OpenClassrooms\CleanArchitecture\Application\Services\Proxy\UseCases\UseCaseProxyBuilder
+     * @var OpenClassrooms\UseCase\Application\Services\Proxy\UseCases\UseCaseProxyBuilder
      */
     private $builder;   
     
     /**
-     * @var OpenClassrooms\CleanArchitecture\Application\Services\Security\Security; 
+     * @var OpenClassrooms\UseCase\Application\Services\Security\Security;
      */
     private $security;
     
@@ -85,17 +85,17 @@ class app()
     private $cache;
     
     /**
-     * @var OpenClassrooms\CleanArchitecture\Application\Services\Transaction\Transaction; 
+     * @var OpenClassrooms\UseCase\Application\Services\Transaction\Transaction;
      */
     private $transaction;
     
     /**
-     * @var OpenClassrooms\CleanArchitecture\Application\Services\Event\Event; 
+     * @var OpenClassrooms\UseCase\Application\Services\Event\Event;
      */
     private $event;
     
     /**
-     * @var OpenClassrooms\CleanArchitecture\Application\Services\Event\EventFactory
+     * @var OpenClassrooms\UseCase\Application\Services\Event\EventFactory
      */
     private $eventFactory;
 
@@ -124,10 +124,10 @@ class app()
 
 ```php
 
-use OpenClassrooms\CleanArchitecture\BusinessRules\Requestors\UseCase;
-use OpenClassrooms\CleanArchitecture\BusinessRules\Requestors\UseCaseRequest;
-use OpenClassrooms\CleanArchitecture\BusinessRules\Responders\UseCaseResponse;
-use OpenClassrooms\CleanArchitecture\Application\Annotations\Security;
+use OpenClassrooms\UseCase\BusinessRules\Requestors\UseCase;
+use OpenClassrooms\UseCase\BusinessRules\Requestors\UseCaseRequest;
+use OpenClassrooms\UseCase\BusinessRules\Responders\UseCaseResponse;
+use OpenClassrooms\UseCase\Application\Annotations\Security;
 
 class MyUseCase implements UseCase
 {
@@ -162,10 +162,10 @@ Other options :
 
 ```php
 
-use OpenClassrooms\CleanArchitecture\BusinessRules\Requestors\UseCase;
-use OpenClassrooms\CleanArchitecture\BusinessRules\Requestors\UseCaseRequest;
-use OpenClassrooms\CleanArchitecture\BusinessRules\Responders\UseCaseResponse;
-use OpenClassrooms\CleanArchitecture\Application\Annotations\Cache;
+use OpenClassrooms\UseCase\BusinessRules\Requestors\UseCase;
+use OpenClassrooms\UseCase\BusinessRules\Requestors\UseCaseRequest;
+use OpenClassrooms\UseCase\BusinessRules\Responders\UseCaseResponse;
+use OpenClassrooms\UseCase\Application\Annotations\Cache;
 
 class MyUseCase implements UseCase
 {
@@ -206,10 +206,10 @@ Will use the previous active transaction if there is one.
 
 ```php
 
-use OpenClassrooms\CleanArchitecture\BusinessRules\Requestors\UseCase;
-use OpenClassrooms\CleanArchitecture\BusinessRules\Requestors\UseCaseRequest;
-use OpenClassrooms\CleanArchitecture\BusinessRules\Responders\UseCaseResponse;
-use OpenClassrooms\CleanArchitecture\Application\Annotations\Transaction;
+use OpenClassrooms\UseCase\BusinessRules\Requestors\UseCase;
+use OpenClassrooms\UseCase\BusinessRules\Requestors\UseCaseRequest;
+use OpenClassrooms\UseCase\BusinessRules\Responders\UseCaseResponse;
+use OpenClassrooms\UseCase\Application\Annotations\Transaction;
 
 class MyUseCase implements UseCase
 {
@@ -227,14 +227,14 @@ class MyUseCase implements UseCase
 
 @event annotation allows to send events.
 
-An implementation of OpenClassrooms\CleanArchitecture\Application\Services\Event\EventFactory must be written in the application context.
+An implementation of OpenClassrooms\UseCase\Application\Services\Event\EventFactory must be written in the application context.
 
 ```php
 
-use OpenClassrooms\CleanArchitecture\BusinessRules\Requestors\UseCase;
-use OpenClassrooms\CleanArchitecture\BusinessRules\Requestors\UseCaseRequest;
-use OpenClassrooms\CleanArchitecture\BusinessRules\Responders\UseCaseResponse;
-use OpenClassrooms\CleanArchitecture\Application\Annotations\Event;
+use OpenClassrooms\UseCase\BusinessRules\Requestors\UseCase;
+use OpenClassrooms\UseCase\BusinessRules\Requestors\UseCaseRequest;
+use OpenClassrooms\UseCase\BusinessRules\Responders\UseCaseResponse;
+use OpenClassrooms\UseCase\Application\Annotations\Event;
 
 class MyUseCase implements UseCase
 {
