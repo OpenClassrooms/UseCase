@@ -11,7 +11,7 @@ Use Case is a library that manage technical code over a Use Case.
 
 The goal is to have only functional code on the Use Case.
 
-More details on [Use Case](http://blog.8thlight.com/uncle-bob/2012/08/13/the-clean-architecture.html).
+More details on [Clean Architecture](http://blog.8thlight.com/uncle-bob/2012/08/13/the-clean-architecture.html).
 
 ## Installation
 The easiest way to install Cache is via [composer](http://getcomposer.org/).
