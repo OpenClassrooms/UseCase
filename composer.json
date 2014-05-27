@@ -1,6 +1,6 @@
 {
-    "name": "openclassrooms/clean-architecture",
-    "description": "Clean architecture library",
+    "name": "openclassrooms/use-case",
+    "description": "Use case library",
     "type": "library",
     "keywords": ["design"],
     "minimum-stability": "stable",
