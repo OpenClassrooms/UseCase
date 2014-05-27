@@ -50,9 +50,4 @@ class TransactionPDOAdapter implements Transaction
     {
         return $this->pdo->rollBack();
     }
-
-    public function setPdo(\PDO $pdo)
-    {
-        $this->pdo = $pdo;
-    }
 }
