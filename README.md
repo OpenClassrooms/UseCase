@@ -2,6 +2,7 @@ UseCase
 =================
 [![Build Status](https://travis-ci.org/OpenClassrooms/UseCase.svg?branch=master)](https://travis-ci.org/OpenClassrooms/UseCase)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/5b05eef1-7457-434e-8a8c-44013a6675a1/mini.png)](https://insight.sensiolabs.com/projects/5b05eef1-7457-434e-8a8c-44013a6675a1)
+[![Coverage Status](https://coveralls.io/repos/OpenClassrooms/UseCase/badge.png?branch=master)](https://coveralls.io/r/OpenClassrooms/UseCase?branch=master)
 
 Use Case is a library that manage technical code over a Use Case.
 - Security access
