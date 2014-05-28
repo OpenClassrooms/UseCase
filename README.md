@@ -40,7 +40,7 @@ use OpenClassrooms\UseCase\Application\Services\Proxy\UseCases\UseCaseProxy;
 <a name="install-nocomposer"/>
 
 ## Usage
-A classic Use Case in Use Case looks like this:
+A classic Use Case in Clean architecture style looks like this:
 
 ```php
 
@@ -56,6 +56,9 @@ class OriginalUseCase implements UseCase
     public function execute(UseCaseRequest $useCaseRequest)
     {
         // do things
+        
+        /** @var UseCaseResponse $useCaseResponse */
+        return $useCaseResponse();
     }
 }
 ```
