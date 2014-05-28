@@ -7,7 +7,7 @@ use OpenClassrooms\UseCase\Application\Services\Transaction\Transaction;
 /**
  * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
  */
-class TransactionPDOAdapter implements Transaction
+class PDOTransactionAdapter implements Transaction
 {
     /**
      * @var \PDO

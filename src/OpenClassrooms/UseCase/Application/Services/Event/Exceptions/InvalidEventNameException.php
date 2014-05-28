@@ -9,8 +9,4 @@ use Exception;
  */
 class InvalidEventNameException extends \Exception
 {
-    public function __construct($eventName)
-    {
-        return parent::__construct($eventName);
-    }
 }

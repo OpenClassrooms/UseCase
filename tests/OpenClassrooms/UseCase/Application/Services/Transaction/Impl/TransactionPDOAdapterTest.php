@@ -2,7 +2,7 @@
 
 namespace OpenClassrooms\Tests\UseCase\Application\Services\Transaction\Impl;
 
-use OpenClassrooms\UseCase\Application\Services\Transaction\Impl\TransactionPDOAdapter;
+use OpenClassrooms\UseCase\Application\Services\Transaction\Impl\PDOTransactionAdapter;
 use OpenClassrooms\UseCase\Application\Services\Transaction\Transaction;
 
 /**
@@ -86,6 +86,6 @@ class TransactionPDOAdapterTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->pdo = new \PDO('sqlite::memory:');
-        $this->transaction = new TransactionPDOAdapter($this->pdo);
+        $this->transaction = new PDOTransactionAdapter($this->pdo);
     }
 }
