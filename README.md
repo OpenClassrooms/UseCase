@@ -58,7 +58,7 @@ class OriginalUseCase implements UseCase
         // do things
         
         /** @var UseCaseResponse $useCaseResponse */
-        return $useCaseResponse();
+        return $useCaseResponse;
     }
 }
 ```
