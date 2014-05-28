@@ -11,10 +11,13 @@ Use Case is a library that manage technical code over a Use Case.
 
 The goal is to have only functional code on the Use Case.
 
-More details on [Clean Architecture](http://blog.8thlight.com/uncle-bob/2012/08/13/the-clean-architecture.html).
+More details on :
+- [Clean Architecture](http://blog.8thlight.com/uncle-bob/2012/08/13/the-clean-architecture.html).
+- [Hexagonal Architecture](http://alistair.cockburn.us/Hexagonal+architecture).
+- [Use Case Driven Development](http://www.ivarjacobson.com/Use_Case_Driven_Development/).
 
 ## Installation
-The easiest way to install Cache is via [composer](http://getcomposer.org/).
+The easiest way to install UseCase is via [composer](http://getcomposer.org/).
 
 Create the following `composer.json` file and run the `php composer.phar install` command to install it.
 
@@ -66,7 +69,7 @@ For an implementation with Symfony2, the UseCaseBundle is more appropriate.
 
 UseCaseProxy can be instantiate as following:
 ```php
-use 
+
 class app()
 {
     /**
@@ -108,16 +111,17 @@ class app()
     {
         $useCase = $this->builder
                     ->create(new OriginalUseCase())
+                    ->withReader($this->reader)
                     ->withSecurity($this->security)
                     ->withCache($this->cache)
                     ->withTransaction($this->transaction)
                     ->withEvent($this->event)
                     ->withEventFactory($this->eventFactory)
-                    ->withReader($this->reader)
                     ->build();
     }                    
 }                
 ```
+Only ```UseCaseProxyBuilder::create(UseCase $useCase)``` and ```UseCaseProxyBuilder::withReader(AnnotationReader $reader)``` are mandatory.
 
 ### Security
 @security annotation allows to check access.
