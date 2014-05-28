@@ -82,7 +82,7 @@ abstract class UseCaseProxyBuilder
     /**
      * @return UseCaseProxyBuilder
      */
-    public function withSecurity(Security $security)
+    public function withSecurity(Security $security = null)
     {
         $this->security = $security;
 
@@ -92,7 +92,7 @@ abstract class UseCaseProxyBuilder
     /**
      * @return UseCaseProxyBuilder
      */
-    public function withCache(Cache $cache)
+    public function withCache(Cache $cache = null)
     {
         $this->cache = $cache;
 
@@ -102,7 +102,7 @@ abstract class UseCaseProxyBuilder
     /**
      * @return UseCaseProxyBuilder
      */
-    public function withTransaction(Transaction $transaction)
+    public function withTransaction(Transaction $transaction = null)
     {
         $this->transaction = $transaction;
 
@@ -112,7 +112,7 @@ abstract class UseCaseProxyBuilder
     /**
      * @return UseCaseProxyBuilder
      */
-    public function withEvent(Event $event)
+    public function withEvent(Event $event = null)
     {
         $this->event = $event;
 
@@ -122,7 +122,7 @@ abstract class UseCaseProxyBuilder
     /**
      * @return UseCaseProxyBuilder
      */
-    public function withEventFactory(EventFactory $eventFactory)
+    public function withEventFactory(EventFactory $eventFactory = null)
     {
         $this->eventFactory = $eventFactory;
 

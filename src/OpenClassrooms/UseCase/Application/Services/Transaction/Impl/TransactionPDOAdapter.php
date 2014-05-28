@@ -12,7 +12,12 @@ class TransactionPDOAdapter implements Transaction
     /**
      * @var \PDO
      */
-    private $pdo;
+    protected $pdo;
+
+    public function __construct(\PDO $pdo)
+    {
+        $this->pdo = $pdo;
+    }
 
     /**
      * @return bool
@@ -44,10 +49,5 @@ class TransactionPDOAdapter implements Transaction
     public function rollBack()
     {
         return $this->pdo->rollBack();
-    }
-
-    public function setPdo(\PDO $pdo)
-    {
-        $this->pdo = $pdo;
     }
 }
