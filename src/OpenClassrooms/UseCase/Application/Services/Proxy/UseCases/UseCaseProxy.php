@@ -122,9 +122,7 @@ abstract class UseCaseProxy implements UseCase
      */
     private function getAnnotations()
     {
-        $reflectionMethod = new \ReflectionMethod($this->useCase, 'execute');
-
-        return $this->reader->getMethodAnnotations($reflectionMethod);
+        return $this->reader->getMethodAnnotations(new \ReflectionMethod($this->useCase, 'execute'));
     }
 
     private function sortStrategies()

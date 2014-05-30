@@ -25,9 +25,17 @@ use
 use
     OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Impl\Transaction\TransactionProxyStrategy;
 use
+    OpenClassrooms\UseCase\Application\Services\Proxy\UseCases\Exceptions\CacheIsNotDefinedException;
+use
+    OpenClassrooms\UseCase\Application\Services\Proxy\UseCases\Exceptions\EventFactoryIsNotDefinedException;
+use
+    OpenClassrooms\UseCase\Application\Services\Proxy\UseCases\Exceptions\EventIsNotDefinedException;
+use
     OpenClassrooms\UseCase\Application\Services\Proxy\UseCases\Exceptions\ReaderIsNotDefinedException;
 use
-    OpenClassrooms\UseCase\Application\Services\Proxy\UseCases\Exceptions\UseCaseIsNotDefineException;
+    OpenClassrooms\UseCase\Application\Services\Proxy\UseCases\Exceptions\SecurityIsNotDefinedException;
+use
+    OpenClassrooms\UseCase\Application\Services\Proxy\UseCases\Exceptions\TransactionIsNotDefinedException;
 use OpenClassrooms\UseCase\Application\Services\Proxy\UseCases\Impl\UseCaseProxyImpl;
 use OpenClassrooms\UseCase\Application\Services\Security\Security;
 use OpenClassrooms\UseCase\Application\Services\Transaction\Transaction;
@@ -141,13 +149,13 @@ abstract class UseCaseProxyBuilder
 
     /**
      * @return UseCaseProxy
-     * @throws UseCaseIsNotDefineException
      */
     public function build()
     {
         if (null === $this->reader) {
             throw new ReaderIsNotDefinedException();
         }
+        $this->checkStrategiesAvailability();
         $this->useCaseProxy->setReader($this->reader);
         $this->useCaseProxy->setProxyStrategyBagFactory($this->buildProxyStrategyBagFactory());
         $this->useCaseProxy->setProxyStrategyRequestFactory(
@@ -155,6 +163,35 @@ abstract class UseCaseProxyBuilder
         );
 
         return $this->useCaseProxy;
+    }
+
+    protected function checkStrategiesAvailability()
+    {
+        $annotations = $this->reader->getMethodAnnotations(
+            new \ReflectionMethod($this->useCaseProxy->getUseCase(), 'execute')
+        );
+        foreach ($annotations as $annotation) {
+            if ($annotation instanceof \OpenClassrooms\UseCase\Application\Annotations\Security
+                && null === $this->security) {
+                throw new SecurityIsNotDefinedException();
+            }
+            if ($annotation instanceof \OpenClassrooms\UseCase\Application\Annotations\Cache
+                && null === $this->cache) {
+                throw new CacheIsNotDefinedException();
+            }
+            if ($annotation instanceof \OpenClassrooms\UseCase\Application\Annotations\Transaction
+                && null === $this->transaction) {
+                throw new TransactionIsNotDefinedException();
+            }
+            if ($annotation instanceof \OpenClassrooms\UseCase\Application\Annotations\Event
+                && null === $this->event) {
+                throw new EventIsNotDefinedException();
+            }
+            if ($annotation instanceof \OpenClassrooms\UseCase\Application\Annotations\Event
+                && null === $this->eventFactory) {
+                throw new EventFactoryIsNotDefinedException();
+            }
+        }
     }
 
     /**
