@@ -7,5 +7,5 @@ namespace OpenClassrooms\UseCase\Application\Services\Event;
  */
 interface Event
 {
-    public function send($event);
+    public function send($eventName, $event);
 }

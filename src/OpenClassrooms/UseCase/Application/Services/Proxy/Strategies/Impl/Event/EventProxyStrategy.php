@@ -71,7 +71,7 @@ class EventProxyStrategy implements PreExecuteProxyStrategy, PostExecuteProxyStr
             $proxyStrategyRequest->getUseCaseResponse()
         );
 
-        $this->event->send($event);
+        $this->event->send($proxyStrategyRequest->getEventName(), $event);
 
         return new ProxyStrategyResponseDTO();
     }
