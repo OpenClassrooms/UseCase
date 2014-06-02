@@ -39,31 +39,6 @@ use OpenClassrooms\UseCase\Application\Services\Proxy\UseCases\UseCaseProxy;
 ```
 <a name="install-nocomposer"/>
 
-## Usage
-A classic Use Case in Clean Architecture style looks like this:
-
-```php
-
-use OpenClassrooms\UseCase\BusinessRules\Requestors\UseCase;
-use OpenClassrooms\UseCase\BusinessRules\Requestors\UseCaseRequest;
-use OpenClassrooms\UseCase\BusinessRules\Responders\UseCaseResponse;
-
-class OriginalUseCase implements UseCase
-{
-    /**
-     * @return UseCaseResponse
-     */
-    public function execute(UseCaseRequest $useCaseRequest)
-    {
-        // do things
-        
-        /** @var UseCaseResponse $useCaseResponse */
-        return $useCaseResponse;
-    }
-}
-```
-The library provides a Proxy of the UseCase.
-
 ### Instantiation
 The UseCaseProxy needs a lot of dependencies. 
 
@@ -126,6 +101,31 @@ class app()
 }                
 ```
 Only ```UseCaseProxyBuilder::create(UseCase $useCase)``` and ```UseCaseProxyBuilder::withReader(AnnotationReader $reader)``` are mandatory.
+
+## Usage
+A classic Use Case in Clean / Hexagonal / Use Case Architecture style looks like this:
+
+```php
+
+use OpenClassrooms\UseCase\BusinessRules\Requestors\UseCase;
+use OpenClassrooms\UseCase\BusinessRules\Requestors\UseCaseRequest;
+use OpenClassrooms\UseCase\BusinessRules\Responders\UseCaseResponse;
+
+class OriginalUseCase implements UseCase
+{
+    /**
+     * @return UseCaseResponse
+     */
+    public function execute(UseCaseRequest $useCaseRequest)
+    {
+        // do things
+        
+        /** @var UseCaseResponse $useCaseResponse */
+        return $useCaseResponse;
+    }
+}
+```
+The library provides a Proxy of the UseCase.
 
 ### Security
 @security annotation allows to check access.
@@ -238,7 +238,6 @@ class MyUseCase implements UseCase
 An implementation of OpenClassrooms\UseCase\Application\Services\EventSender\EventFactory must be written in the application context.
 
 ```php
-
 use OpenClassrooms\UseCase\BusinessRules\Requestors\UseCase;
 use OpenClassrooms\UseCase\BusinessRules\Requestors\UseCaseRequest;
 use OpenClassrooms\UseCase\BusinessRules\Responders\UseCaseResponse;
