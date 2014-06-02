@@ -231,7 +231,7 @@ class MyUseCase implements UseCase
     }
 }
 ```
-### EventSender
+### Event
 
 @event annotation allows to send events.
 
@@ -247,7 +247,7 @@ use OpenClassrooms\UseCase\Application\Annotations\EventSender;
 class MyUseCase implements UseCase
 {
     /**
-     * @event (name="event_name")
+     * @event
      * @return UseCaseResponse
      */
     public function execute(UseCaseRequest $useCaseRequest)
@@ -256,7 +256,6 @@ class MyUseCase implements UseCase
     }
 }
 ```
-"name" is mandatory.
 
 The sent of the message can be :
 - pre execute
@@ -266,13 +265,25 @@ or both of them.
 
 Post is default.
 
+The name of the event is the name of the use case with underscore, prefixed by the method.
+For previous example, the name would be : use_case.post.my_use_case
+
+Prefixes can be :
+- use_case.pre.
+- use_case.post.
+- use_case.exception.
+
 ```php
 /**
- * @event(name="event_name", methods="pre")
- * Send a event 'event_name' before the call of UseCase->execute()
+ * @event(name="event_name")
+ * Send a event with event name equals to *prefix*.event_name
+ * (note: the name is always converted to underscore)
  *
- * @event(name="event_name", methods="pre, post, onException")
- * Send a event 'event_name' before the call of UseCase->execute(), after the call of UseCase->execute() or on exception
+ * @event(methods="pre")
+ * Send a event before the call of UseCase->execute()
+ *
+ * @event(methods="pre, post, onException")
+ * Send a event before the call of UseCase->execute(), after the call of UseCase->execute() or on exception
  */
 ```
 
