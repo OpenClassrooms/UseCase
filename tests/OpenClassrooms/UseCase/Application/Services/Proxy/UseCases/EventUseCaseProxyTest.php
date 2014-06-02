@@ -27,6 +27,7 @@ class EventUseCaseProxyTest extends AbstractUseCaseProxyTest
         $this->assertTrue($this->event->sent);
         $this->assertEquals(1, $this->event->sentCount);
         $this->assertEquals(OnlyEventNameEventUseCaseStub::EVENT_NAME, $this->event->event);
+        $this->assertEquals(OnlyEventNameEventUseCaseStub::EVENT_NAME, $this->event->eventName);
         $this->assertEquals(new UseCaseRequestStub(), $this->eventFactory->useCaseRequest);
         $this->assertEquals(new UseCaseResponseStub(), $this->eventFactory->useCaseResponse);
 
@@ -42,6 +43,7 @@ class EventUseCaseProxyTest extends AbstractUseCaseProxyTest
         $this->assertEquals(new UseCaseResponseStub(), $response);
         $this->assertTrue($this->event->sent);
         $this->assertEquals(1, $this->event->sentCount);
+        $this->assertEquals(PreEventUseCaseStub::EVENT_NAME, $this->event->eventName);
         $this->assertEquals(PreEventUseCaseStub::EVENT_NAME, $this->event->event);
         $this->assertEquals(new UseCaseRequestStub(), $this->eventFactory->useCaseRequest);
         $this->assertNull($this->eventFactory->useCaseResponse);
@@ -57,6 +59,7 @@ class EventUseCaseProxyTest extends AbstractUseCaseProxyTest
         $this->assertEquals(new UseCaseResponseStub(), $response);
         $this->assertTrue($this->event->sent);
         $this->assertEquals(1, $this->event->sentCount);
+        $this->assertEquals(PreEventUseCaseStub::EVENT_NAME, $this->event->eventName);
         $this->assertEquals(PostEventUseCaseStub::EVENT_NAME, $this->event->event);
         $this->assertEquals(new UseCaseRequestStub(), $this->eventFactory->useCaseRequest);
         $this->assertEquals(new UseCaseResponseStub(), $this->eventFactory->useCaseResponse);
@@ -73,6 +76,7 @@ class EventUseCaseProxyTest extends AbstractUseCaseProxyTest
         } catch (UseCaseException $e) {
             $this->assertTrue($this->event->sent);
             $this->assertEquals(1, $this->event->sentCount);
+            $this->assertEquals(OnExceptionEventUseCaseStub::EVENT_NAME, $this->event->eventName);
             $this->assertEquals(OnExceptionEventUseCaseStub::EVENT_NAME, $this->event->event);
             $this->assertEquals(new UseCaseRequestStub(), $this->eventFactory->useCaseRequest);
             $this->assertNull($this->eventFactory->useCaseResponse);

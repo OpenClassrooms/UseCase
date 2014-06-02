@@ -10,6 +10,11 @@ use OpenClassrooms\UseCase\Application\Services\Event\Event;
 class EventSpy implements Event
 {
     /**
+     * @var string
+     */
+    public $eventName;
+
+    /**
      * @var bool
      */
     public $sent = false;
@@ -24,8 +29,9 @@ class EventSpy implements Event
      */
     public $event;
 
-    public function send($event)
+    public function send($eventName, $event)
     {
+        $this->eventName = $eventName;
         $this->sent = true;
         $this->sentCount++;
         $this->event = $event;
