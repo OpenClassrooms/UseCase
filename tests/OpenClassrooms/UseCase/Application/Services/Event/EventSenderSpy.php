@@ -2,12 +2,12 @@
 
 namespace OpenClassrooms\Tests\UseCase\Application\Services\Event;
 
-use OpenClassrooms\UseCase\Application\Services\Event\Event;
+use OpenClassrooms\UseCase\Application\Services\Event\EventSender;
 
 /**
  * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
  */
-class EventSpy implements Event
+class EventSenderSpy implements EventSender
 {
     /**
      * @var string

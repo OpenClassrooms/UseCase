@@ -4,7 +4,7 @@ namespace OpenClassrooms\UseCase\Application\Services\Proxy\UseCases;
 
 use Doctrine\Common\Annotations\Reader;
 use OpenClassrooms\Cache\Cache\Cache;
-use OpenClassrooms\UseCase\Application\Services\Event\Event;
+use OpenClassrooms\UseCase\Application\Services\Event\EventSender;
 use OpenClassrooms\UseCase\Application\Services\Event\EventFactory;
 use
     OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Impl\Cache\CacheProxyStrategy;
@@ -67,7 +67,7 @@ abstract class UseCaseProxyBuilder
     private $transaction;
 
     /**
-     * @var Event
+     * @var EventSender
      */
     private $event;
 
@@ -120,7 +120,7 @@ abstract class UseCaseProxyBuilder
     /**
      * @return UseCaseProxyBuilder
      */
-    public function withEvent(Event $event = null)
+    public function withEvent(EventSender $event = null)
     {
         $this->event = $event;
 

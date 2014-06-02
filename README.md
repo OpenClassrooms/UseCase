@@ -97,12 +97,12 @@ class app()
     private $transaction;
     
     /**
-     * @var OpenClassrooms\UseCase\Application\Services\Event\Event;
+     * @var OpenClassrooms\UseCase\Application\Services\EventSender\EventSender;
      */
     private $event;
     
     /**
-     * @var OpenClassrooms\UseCase\Application\Services\Event\EventFactory
+     * @var OpenClassrooms\UseCase\Application\Services\EventSender\EventFactory
      */
     private $eventFactory;
 
@@ -231,18 +231,18 @@ class MyUseCase implements UseCase
     }
 }
 ```
-### Event
+### EventSender
 
 @event annotation allows to send events.
 
-An implementation of OpenClassrooms\UseCase\Application\Services\Event\EventFactory must be written in the application context.
+An implementation of OpenClassrooms\UseCase\Application\Services\EventSender\EventFactory must be written in the application context.
 
 ```php
 
 use OpenClassrooms\UseCase\BusinessRules\Requestors\UseCase;
 use OpenClassrooms\UseCase\BusinessRules\Requestors\UseCaseRequest;
 use OpenClassrooms\UseCase\BusinessRules\Responders\UseCaseResponse;
-use OpenClassrooms\UseCase\Application\Annotations\Event;
+use OpenClassrooms\UseCase\Application\Annotations\EventSender;
 
 class MyUseCase implements UseCase
 {

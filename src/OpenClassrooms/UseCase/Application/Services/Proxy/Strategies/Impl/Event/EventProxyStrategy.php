@@ -2,7 +2,7 @@
 
 namespace OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Impl\Event;
 
-use OpenClassrooms\UseCase\Application\Services\Event\Event;
+use OpenClassrooms\UseCase\Application\Services\Event\EventSender;
 use OpenClassrooms\UseCase\Application\Services\Event\EventFactory;
 use
     OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Impl\DTO\ProxyStrategyResponseDTO;
@@ -26,7 +26,7 @@ use
 class EventProxyStrategy implements PreExecuteProxyStrategy, PostExecuteProxyStrategy, OnExceptionProxyStrategy
 {
     /**
-     * @var Event
+     * @var EventSender
      */
     private $event;
 
@@ -94,7 +94,7 @@ class EventProxyStrategy implements PreExecuteProxyStrategy, PostExecuteProxyStr
         return new ProxyStrategyResponseDTO();
     }
 
-    public function setEvent(Event $event)
+    public function setEvent(EventSender $event)
     {
         $this->event = $event;
     }

@@ -37,10 +37,9 @@ class Event
 
     public function __construct(array $values)
     {
-        if (!isset($values['name'])) {
-            throw new \InvalidArgumentException ('Name MUST be defined');
+        if (isset($values['name'])) {
+            $this->name = $values['name'];
         }
-        $this->name = $values['name'];
 
         if (isset($values['methods'])) {
             $this->methods = is_array($values['methods']) ? $values['methods'] :

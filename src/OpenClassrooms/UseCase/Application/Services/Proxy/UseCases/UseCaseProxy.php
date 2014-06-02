@@ -147,11 +147,11 @@ abstract class UseCaseProxy implements UseCase
         $data = null;
 
         foreach ($this->strategies as $strategy) {
-            if ($strategy->isPreExecute() && $this->transactionCanBegin($strategy)
-            ) {
+            if ($strategy->isPreExecute() && $this->transactionCanBegin($strategy)) {
 
                 $request = $this->proxyStrategyRequestFactory->createPreExecuteRequest(
                     $strategy->getAnnotation(),
+                    $this->useCase,
                     $this->request
                 );
 
@@ -182,6 +182,7 @@ abstract class UseCaseProxy implements UseCase
             if ($strategy->isPostExecute()) {
                 $request = $this->proxyStrategyRequestFactory->createPostExecuteRequest(
                     $strategy->getAnnotation(),
+                    $this->useCase,
                     $this->request,
                     $this->response
                 );
@@ -196,6 +197,7 @@ abstract class UseCaseProxy implements UseCase
             if ($strategy->isOnException()) {
                 $request = $this->proxyStrategyRequestFactory->createOnExceptionRequest(
                     $strategy->getAnnotation(),
+                    $this->useCase,
                     $this->request,
                     $exception
                 );

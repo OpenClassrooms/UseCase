@@ -9,12 +9,12 @@ use OpenClassrooms\UseCase\Application\Annotations\Event;
 /**
  * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
  */
-class PreEventUseCaseStub extends UseCaseStub
+class EventUseCaseStub extends UseCaseStub
 {
-    const EVENT_NAME = 'pre_event_use_case_stub';
+    const EVENT_NAME = 'event_use_case_stub';
 
     /**
-     * @event (methods="pre")
+     * @event
      */
     public function execute(UseCaseRequest $useCaseRequest)
     {

@@ -11,10 +11,10 @@ use OpenClassrooms\UseCase\Application\Annotations\Event;
  */
 class OnExceptionEventUseCaseStub extends ExceptionUseCaseStub
 {
-    const EVENT_NAME = 'event_name';
+    const EVENT_NAME = 'on_exception_event_use_case_stub';
 
     /**
-     * @event (name="event_name", methods="onException")
+     * @event (methods="onException")
      */
     public function execute(UseCaseRequest $useCaseRequest)
     {

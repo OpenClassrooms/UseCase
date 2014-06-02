@@ -17,17 +17,6 @@ class EventTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Name MUST be defined
-     */
-    public function WithoutName_ThrowException()
-    {
-        $class = new \ReflectionClass(new EventClassDummy());
-        $this->reader->getMethodAnnotation($class->getMethod('withoutName'), 'event');
-    }
-
-    /**
-     * @test
-     * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage Method "invalid method" is not allowed. Allowed: pre, post and onException
      */
     public function InvalidMethod_ThrowException()

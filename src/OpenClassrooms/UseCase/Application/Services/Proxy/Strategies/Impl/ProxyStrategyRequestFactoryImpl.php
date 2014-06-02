@@ -20,6 +20,7 @@ use
     OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Requestors\ProxyStrategyRequestFactory;
 use
     OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Requestors\Security\SecurityProxyStrategyRequestBuilder;
+use OpenClassrooms\UseCase\BusinessRules\Requestors\UseCase;
 use OpenClassrooms\UseCase\BusinessRules\Requestors\UseCaseRequest;
 use OpenClassrooms\UseCase\BusinessRules\Responders\UseCaseResponse;
 
@@ -46,11 +47,10 @@ class ProxyStrategyRequestFactoryImpl implements ProxyStrategyRequestFactory
     /**
      * @return ProxyStrategyRequest
      */
-    public function createPreExecuteRequest($annotation, UseCaseRequest $useCaseRequest)
+    public function createPreExecuteRequest($annotation, UseCase $useCase, UseCaseRequest $useCaseRequest)
     {
         switch ($annotation) {
             case $annotation instanceof Security:
-
                 /** @var Security $annotation */
                 if ($annotation->checkRequest()) {
                     $object = $useCaseRequest;
@@ -85,7 +85,7 @@ class ProxyStrategyRequestFactoryImpl implements ProxyStrategyRequestFactory
                 /** @var Event $annotation */
                 $request = $this->eventProxyStrategyRequestBuilder
                     ->create()
-                    ->withEventName($annotation->getName())
+                    ->withEventName($this->getPreEventName($annotation, $useCase))
                     ->withUseCaseRequest($useCaseRequest)
                     ->build();
                 break;
@@ -118,10 +118,59 @@ class ProxyStrategyRequestFactoryImpl implements ProxyStrategyRequestFactory
     }
 
     /**
+     * @return string
+     */
+    private function getPreEventName(Event $annotation, UseCase $useCase)
+    {
+        return 'use_case.pre.' . $this->getEventName($annotation, $useCase);
+    }
+
+    /**
+     * @return string
+     */
+    private function getPostEventName(Event $annotation, UseCase $useCase)
+    {
+        return 'use_case.post.' . $this->getEventName($annotation, $useCase);
+    }
+
+    /**
+     * @return string
+     */
+    private function getOnExceptionEventName(Event $annotation, UseCase $useCase)
+    {
+        return 'use_case.exception.' . $this->getEventName($annotation, $useCase);
+    }
+
+    /**
+     * @return string
+     */
+    private function getEventName(Event $annotation, UseCase $useCase)
+    {
+        if (null === $name = $annotation->getName()) {
+            $reflectionClass = new \ReflectionClass($useCase);
+            $name = $reflectionClass->getShortName();
+        }
+
+        return $this->formatEventName($name);
+    }
+
+    /**
+     * @return string
+     */
+    private function formatEventName($name)
+    {
+        $name = preg_replace('/(?<=\\w)(?=[A-Z])/', "_$1", $name);
+        $name = strtolower($name);
+
+        return $name;
+    }
+
+    /**
      * @return ProxyStrategyRequest
      */
     public function createPostExecuteRequest(
         $annotation,
+        UseCase $useCase,
         UseCaseRequest $useCaseRequest,
         UseCaseResponse $useCaseResponse = null
     )
@@ -145,7 +194,7 @@ class ProxyStrategyRequestFactoryImpl implements ProxyStrategyRequestFactory
                 if (in_array('post', $annotation->getMethods())) {
                     $request = $this->eventProxyStrategyRequestBuilder
                         ->create()
-                        ->withEventName($annotation->getName())
+                        ->withEventName($this->getPostEventName($annotation, $useCase))
                         ->withUseCaseRequest($useCaseRequest)
                         ->withUseCaseResponse($useCaseResponse)
                         ->build();
@@ -163,6 +212,7 @@ class ProxyStrategyRequestFactoryImpl implements ProxyStrategyRequestFactory
      */
     public function createOnExceptionRequest(
         $annotation,
+        UseCase $useCase,
         UseCaseRequest $useCaseRequest,
         \Exception $exception
     )
@@ -175,7 +225,7 @@ class ProxyStrategyRequestFactoryImpl implements ProxyStrategyRequestFactory
                 /** @var Event $annotation */
                 $request = $this->eventProxyStrategyRequestBuilder
                     ->create()
-                    ->withEventName($annotation->getName())
+                    ->withEventName($this->getOnExceptionEventName($annotation, $useCase))
                     ->withUseCaseRequest($useCaseRequest)
                     ->withException($exception)
                     ->build();

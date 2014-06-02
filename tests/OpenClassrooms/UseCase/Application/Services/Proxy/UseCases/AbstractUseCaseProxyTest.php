@@ -25,7 +25,7 @@ use OpenClassrooms\UseCase\Application\Services\Proxy\UseCases\Impl\UseCaseProxy
 use OpenClassrooms\UseCase\Application\Services\Proxy\UseCases\UseCaseProxy;
 use OpenClassrooms\Tests\UseCase\Application\Services\Cache\CacheSpy;
 use OpenClassrooms\Tests\UseCase\Application\Services\Event\EventFactorySpy;
-use OpenClassrooms\Tests\UseCase\Application\Services\Event\EventSpy;
+use OpenClassrooms\Tests\UseCase\Application\Services\Event\EventSenderSpy;
 use OpenClassrooms\Tests\UseCase\Application\Services\Security\SecuritySpy;
 use OpenClassrooms\Tests\UseCase\Application\Services\Transaction\TransactionSpy;
 
@@ -45,7 +45,7 @@ abstract class AbstractUseCaseProxyTest extends \PHPUnit_Framework_TestCase
     protected $cache;
 
     /**
-     * @var EventSpy
+     * @var EventSenderSpy
      */
     protected $event;
 
@@ -144,7 +144,7 @@ abstract class AbstractUseCaseProxyTest extends \PHPUnit_Framework_TestCase
      */
     protected function buildEventStrategy()
     {
-        $this->event = new EventSpy();
+        $this->event = new EventSenderSpy();
         $eventStrategy = new EventProxyStrategy();
         $eventStrategy->setEvent($this->event);
         $this->eventFactory = new EventFactorySpy();
