@@ -1,16 +1,16 @@
 UseCase
-=================
+=======
 [![Build Status](https://travis-ci.org/OpenClassrooms/UseCase.svg?branch=master)](https://travis-ci.org/OpenClassrooms/UseCase)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/5b05eef1-7457-434e-8a8c-44013a6675a1/mini.png)](https://insight.sensiolabs.com/projects/5b05eef1-7457-434e-8a8c-44013a6675a1)
 [![Coverage Status](https://coveralls.io/repos/OpenClassrooms/UseCase/badge.png?branch=master)](https://coveralls.io/r/OpenClassrooms/UseCase?branch=master)
 
-Use Case is a library that manage technical code over a Use Case.
+UseCase is a library that provides facilities to manage technical code over a Use Case in a Clean / Hexagonal / Use Case Architecture.
 - Security access
 - Cache management
 - Transactional context
 - Events
 
-The goal is to have only functional code on the Use Case.
+The goal is to have only functional code on the Use Case and manage technical code in an elegant way using annotations.
 
 More details on :
 - [Clean Architecture](http://blog.8thlight.com/uncle-bob/2012/08/13/the-clean-architecture.html).
@@ -18,9 +18,8 @@ More details on :
 - [Use Case Driven Development](http://www.ivarjacobson.com/Use_Case_Driven_Development/).
 
 ## Installation
-The easiest way to install UseCase is via [composer](http://getcomposer.org/).
-
-Create the following `composer.json` file and run the `php composer.phar install` command to install it.
+```composer require openclassrooms/use-case```
+or by adding the package to the composer.json file directly.
 
 ```json
 {
@@ -30,6 +29,7 @@ Create the following `composer.json` file and run the `php composer.phar install
 }
 ```
 ```php
+
 <?php
 require 'vendor/autoload.php';
 
