@@ -111,7 +111,7 @@ use OpenClassrooms\UseCase\BusinessRules\Requestors\UseCase;
 use OpenClassrooms\UseCase\BusinessRules\Requestors\UseCaseRequest;
 use OpenClassrooms\UseCase\BusinessRules\Responders\UseCaseResponse;
 
-class OriginalUseCase implements UseCase
+class AUseCase implements UseCase
 {
     /**
      * @return UseCaseResponse
@@ -120,7 +120,6 @@ class OriginalUseCase implements UseCase
     {
         // do things
         
-        /** @var UseCaseResponse $useCaseResponse */
         return $useCaseResponse;
     }
 }
@@ -137,7 +136,7 @@ use OpenClassrooms\UseCase\BusinessRules\Requestors\UseCaseRequest;
 use OpenClassrooms\UseCase\BusinessRules\Responders\UseCaseResponse;
 use OpenClassrooms\UseCase\Application\Annotations\Security;
 
-class MyUseCase implements UseCase
+class AUseCase implements UseCase
 {
     /**
      * @security (roles = "ROLE_1")
@@ -146,6 +145,8 @@ class MyUseCase implements UseCase
     public function execute(UseCaseRequest $useCaseRequest)
     {
         // do things
+        
+        return $useCaseResponse;
     }
 }
 ```
@@ -175,7 +176,7 @@ use OpenClassrooms\UseCase\BusinessRules\Requestors\UseCaseRequest;
 use OpenClassrooms\UseCase\BusinessRules\Responders\UseCaseResponse;
 use OpenClassrooms\UseCase\Application\Annotations\Cache;
 
-class MyUseCase implements UseCase
+class AUseCase implements UseCase
 {
     /**
      * @cache
@@ -184,6 +185,8 @@ class MyUseCase implements UseCase
     public function execute(UseCaseRequest $useCaseRequest)
     {
         // do things
+        
+        return $useCaseResponse;
     }
 }
 ```
@@ -219,7 +222,7 @@ use OpenClassrooms\UseCase\BusinessRules\Requestors\UseCaseRequest;
 use OpenClassrooms\UseCase\BusinessRules\Responders\UseCaseResponse;
 use OpenClassrooms\UseCase\Application\Annotations\Transaction;
 
-class MyUseCase implements UseCase
+class AUseCase implements UseCase
 {
     /**
      * @transaction
@@ -228,6 +231,8 @@ class MyUseCase implements UseCase
     public function execute(UseCaseRequest $useCaseRequest)
     {
         // do things
+        
+        return $useCaseResponse;
     }
 }
 ```
@@ -243,7 +248,7 @@ use OpenClassrooms\UseCase\BusinessRules\Requestors\UseCaseRequest;
 use OpenClassrooms\UseCase\BusinessRules\Responders\UseCaseResponse;
 use OpenClassrooms\UseCase\Application\Annotations\EventSender;
 
-class MyUseCase implements UseCase
+class AUseCase implements UseCase
 {
     /**
      * @event
@@ -252,6 +257,8 @@ class MyUseCase implements UseCase
     public function execute(UseCaseRequest $useCaseRequest)
     {
         // do things
+        
+        return $useCaseResponse;
     }
 }
 ```
@@ -265,7 +272,7 @@ or both of them.
 Post is default.
 
 The name of the event is the name of the use case with underscore, prefixed by the method.
-For previous example, the name would be : use_case.post.my_use_case
+For previous example, the name would be : use_case.post.a_use_case
 
 Prefixes can be :
 - use_case.pre.
