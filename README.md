@@ -263,11 +263,11 @@ class AUseCase implements UseCase
 }
 ```
 
-The sent of the message can be :
+The message can be send:
 - pre execute
 - post execute
 - on exception
-or both of them.
+or all of them.
 
 Post is default.
 
@@ -282,14 +282,14 @@ Prefixes can be :
 ```php
 /**
  * @event(name="event_name")
- * Send a event with event name equals to *prefix*.event_name
+ * Send an event with event name equals to *prefix*.event_name
  * (note: the name is always converted to underscore)
  *
  * @event(methods="pre")
- * Send a event before the call of UseCase->execute()
+ * Send an event before the call of UseCase->execute()
  *
  * @event(methods="pre, post, onException")
- * Send a event before the call of UseCase->execute(), after the call of UseCase->execute() or on exception
+ * Send an event before the call of UseCase->execute(), after the call of UseCase->execute() or on exception
  */
 ```
 
