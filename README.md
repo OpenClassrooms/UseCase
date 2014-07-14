@@ -1,16 +1,16 @@
 UseCase
-=================
+=======
 [![Build Status](https://travis-ci.org/OpenClassrooms/UseCase.svg?branch=master)](https://travis-ci.org/OpenClassrooms/UseCase)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/5b05eef1-7457-434e-8a8c-44013a6675a1/mini.png)](https://insight.sensiolabs.com/projects/5b05eef1-7457-434e-8a8c-44013a6675a1)
 [![Coverage Status](https://coveralls.io/repos/OpenClassrooms/UseCase/badge.png?branch=master)](https://coveralls.io/r/OpenClassrooms/UseCase?branch=master)
 
-Use Case is a library that manage technical code over a Use Case.
+UseCase is a library that provides facilities to manage technical code over a Use Case in a Clean / Hexagonal / Use Case Architecture.
 - Security access
 - Cache management
 - Transactional context
 - Events
 
-The goal is to have only functional code on the Use Case.
+The goal is to have only functional code on the Use Case and manage technical code in an elegant way using annotations.
 
 More details on :
 - [Clean Architecture](http://blog.8thlight.com/uncle-bob/2012/08/13/the-clean-architecture.html).
@@ -18,9 +18,8 @@ More details on :
 - [Use Case Driven Development](http://www.ivarjacobson.com/Use_Case_Driven_Development/).
 
 ## Installation
-The easiest way to install UseCase is via [composer](http://getcomposer.org/).
-
-Create the following `composer.json` file and run the `php composer.phar install` command to install it.
+```composer require openclassrooms/use-case```
+or by adding the package to the composer.json file directly.
 
 ```json
 {
@@ -30,6 +29,7 @@ Create the following `composer.json` file and run the `php composer.phar install
 }
 ```
 ```php
+
 <?php
 require 'vendor/autoload.php';
 
@@ -38,31 +38,6 @@ use OpenClassrooms\UseCase\Application\Services\Proxy\UseCases\UseCaseProxy;
 //do things
 ```
 <a name="install-nocomposer"/>
-
-## Usage
-A classic Use Case in Clean Architecture style looks like this:
-
-```php
-
-use OpenClassrooms\UseCase\BusinessRules\Requestors\UseCase;
-use OpenClassrooms\UseCase\BusinessRules\Requestors\UseCaseRequest;
-use OpenClassrooms\UseCase\BusinessRules\Responders\UseCaseResponse;
-
-class OriginalUseCase implements UseCase
-{
-    /**
-     * @return UseCaseResponse
-     */
-    public function execute(UseCaseRequest $useCaseRequest)
-    {
-        // do things
-        
-        /** @var UseCaseResponse $useCaseResponse */
-        return $useCaseResponse;
-    }
-}
-```
-The library provides a Proxy of the UseCase.
 
 ### Instantiation
 The UseCaseProxy needs a lot of dependencies. 
@@ -127,6 +102,30 @@ class app()
 ```
 Only ```UseCaseProxyBuilder::create(UseCase $useCase)``` and ```UseCaseProxyBuilder::withReader(AnnotationReader $reader)``` are mandatory.
 
+## Usage
+A classic Use Case in Clean / Hexagonal / Use Case Architecture style looks like this:
+
+```php
+
+use OpenClassrooms\UseCase\BusinessRules\Requestors\UseCase;
+use OpenClassrooms\UseCase\BusinessRules\Requestors\UseCaseRequest;
+use OpenClassrooms\UseCase\BusinessRules\Responders\UseCaseResponse;
+
+class AUseCase implements UseCase
+{
+    /**
+     * @return UseCaseResponse
+     */
+    public function execute(UseCaseRequest $useCaseRequest)
+    {
+        // do things
+        
+        return $useCaseResponse;
+    }
+}
+```
+The library provides a Proxy of the UseCase.
+
 ### Security
 @security annotation allows to check access.
 
@@ -137,7 +136,7 @@ use OpenClassrooms\UseCase\BusinessRules\Requestors\UseCaseRequest;
 use OpenClassrooms\UseCase\BusinessRules\Responders\UseCaseResponse;
 use OpenClassrooms\UseCase\Application\Annotations\Security;
 
-class MyUseCase implements UseCase
+class AUseCase implements UseCase
 {
     /**
      * @security (roles = "ROLE_1")
@@ -146,6 +145,8 @@ class MyUseCase implements UseCase
     public function execute(UseCaseRequest $useCaseRequest)
     {
         // do things
+        
+        return $useCaseResponse;
     }
 }
 ```
@@ -175,7 +176,7 @@ use OpenClassrooms\UseCase\BusinessRules\Requestors\UseCaseRequest;
 use OpenClassrooms\UseCase\BusinessRules\Responders\UseCaseResponse;
 use OpenClassrooms\UseCase\Application\Annotations\Cache;
 
-class MyUseCase implements UseCase
+class AUseCase implements UseCase
 {
     /**
      * @cache
@@ -184,6 +185,8 @@ class MyUseCase implements UseCase
     public function execute(UseCaseRequest $useCaseRequest)
     {
         // do things
+        
+        return $useCaseResponse;
     }
 }
 ```
@@ -219,7 +222,7 @@ use OpenClassrooms\UseCase\BusinessRules\Requestors\UseCaseRequest;
 use OpenClassrooms\UseCase\BusinessRules\Responders\UseCaseResponse;
 use OpenClassrooms\UseCase\Application\Annotations\Transaction;
 
-class MyUseCase implements UseCase
+class AUseCase implements UseCase
 {
     /**
      * @transaction
@@ -228,51 +231,65 @@ class MyUseCase implements UseCase
     public function execute(UseCaseRequest $useCaseRequest)
     {
         // do things
+        
+        return $useCaseResponse;
     }
 }
 ```
-### EventSender
+### Event
 
 @event annotation allows to send events.
 
 An implementation of OpenClassrooms\UseCase\Application\Services\EventSender\EventFactory must be written in the application context.
 
 ```php
-
 use OpenClassrooms\UseCase\BusinessRules\Requestors\UseCase;
 use OpenClassrooms\UseCase\BusinessRules\Requestors\UseCaseRequest;
 use OpenClassrooms\UseCase\BusinessRules\Responders\UseCaseResponse;
 use OpenClassrooms\UseCase\Application\Annotations\EventSender;
 
-class MyUseCase implements UseCase
+class AUseCase implements UseCase
 {
     /**
-     * @event (name="event_name")
+     * @event
      * @return UseCaseResponse
      */
     public function execute(UseCaseRequest $useCaseRequest)
     {
         // do things
+        
+        return $useCaseResponse;
     }
 }
 ```
-"name" is mandatory.
 
-The sent of the message can be :
+The message can be send:
 - pre execute
 - post execute
 - on exception
-or both of them.
+or all of them.
 
 Post is default.
 
+The name of the event is the name of the use case with underscore, prefixed by the method.
+For previous example, the name would be : use_case.post.a_use_case
+
+Prefixes can be :
+- use_case.pre.
+- use_case.post.
+- use_case.exception.
+
 ```php
 /**
- * @event(name="event_name", methods="pre")
- * Send a event 'event_name' before the call of UseCase->execute()
+ * @event(name="event_name")
+ * Send an event with event name equals to *prefix*.event_name
+ * (note: the name is always converted to underscore)
  *
- * @event(name="event_name", methods="pre, post, onException")
- * Send a event 'event_name' before the call of UseCase->execute(), after the call of UseCase->execute() or on exception
+ * @event(methods="pre")
+ * Send an event before the call of UseCase->execute()
+ *
+ * @event(methods="pre, post, onException")
+ * Send an event before the call of UseCase->execute(), after the call of UseCase->execute() or on exception
  */
 ```
 
