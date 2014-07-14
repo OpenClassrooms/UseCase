@@ -15,7 +15,7 @@ use
     OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\Security\RequestRoleSecurityUseCaseStub;
 
 /**
- * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
+ * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>
  */
 class SecurityUseCaseProxyTest extends AbstractUseCaseProxyTest
 {

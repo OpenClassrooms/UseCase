@@ -5,7 +5,7 @@ namespace OpenClassrooms\Tests\UseCase\Application\Annotations\Event;
 use Doctrine\Common\Annotations\AnnotationReader;
 
 /**
- * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
+ * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>
  */
 class EventTest extends \PHPUnit_Framework_TestCase
 {

@@ -7,7 +7,7 @@ use OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\ExceptionUseCaseStub;
 use OpenClassrooms\UseCase\Application\Annotations\Cache;
 
 /**
- * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
+ * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>
  */
 class ExceptionCacheUseCaseStub extends ExceptionUseCaseStub
 {

@@ -9,7 +9,7 @@ use OpenClassrooms\Tests\UseCase\BusinessRules\Responders\UseCaseResponseStub;
 use OpenClassrooms\UseCase\Application\Annotations\Transaction;
 
 /**
- * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
+ * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>
  */
 class OnlyTransactionUseCaseStub implements UseCase
 {

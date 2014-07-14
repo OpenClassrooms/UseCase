@@ -13,7 +13,7 @@ use OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\Event\PostEventUseCaseSt
 use OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\Event\PreEventUseCaseStub;
 
 /**
- * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
+ * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>
  */
 class EventUseCaseProxyTest extends AbstractUseCaseProxyTest
 {

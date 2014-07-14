@@ -11,7 +11,7 @@ use
     OpenClassrooms\Tests\UseCase\Application\Services\Security\Exceptions\AccessDeniedException;
 
 /**
- * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
+ * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>
  */
 class EventFactorySpy implements EventFactory
 {

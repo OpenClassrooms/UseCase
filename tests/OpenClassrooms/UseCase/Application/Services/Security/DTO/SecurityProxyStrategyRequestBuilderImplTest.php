@@ -6,7 +6,7 @@ use
     OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Impl\Security\DTO\SecurityProxyStrategyRequestBuilderImpl;
 
 /**
- * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
+ * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>
  */
 class SecurityProxyStrategyRequestBuilderImplTest extends \PHPUnit_Framework_TestCase
 {

@@ -42,7 +42,7 @@ use OpenClassrooms\UseCase\Application\Services\Transaction\Transaction;
 use OpenClassrooms\UseCase\BusinessRules\Requestors\UseCase;
 
 /**
- * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
+ * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>
  */
 abstract class UseCaseProxyBuilder
 {

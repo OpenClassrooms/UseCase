@@ -3,7 +3,7 @@
 namespace OpenClassrooms\UseCase\Application\Services\Event;
 
 /**
- * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
+ * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>
  */
 interface EventSender
 {

@@ -5,7 +5,7 @@ namespace OpenClassrooms\UseCase\Application\Services\Transaction\Impl;
 use OpenClassrooms\UseCase\Application\Services\Transaction\Transaction;
 
 /**
- * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
+ * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>
  */
 class PDOTransactionAdapter implements Transaction
 {

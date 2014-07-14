@@ -5,7 +5,7 @@ namespace OpenClassrooms\Tests\UseCase\Application\Services\Transaction;
 use OpenClassrooms\UseCase\Application\Services\Transaction\Transaction;
 
 /**
- * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
+ * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>
  */
 class TransactionSpy implements Transaction
 {

@@ -8,7 +8,7 @@ use OpenClassrooms\UseCase\BusinessRules\Responders\UseCaseResponse;
 use OpenClassrooms\Tests\UseCase\BusinessRules\Responders\UseCaseResponseStub;
 
 /**
- * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
+ * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>
  */
 class UseCaseStub implements UseCase
 {

@@ -8,7 +8,7 @@ use OpenClassrooms\UseCase\BusinessRules\Responders\UseCaseResponse;
 use OpenClassrooms\Tests\UseCase\BusinessRules\Exceptions\UseCaseException;
 
 /**
- * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
+ * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>
  */
 class ExceptionUseCaseStub implements UseCase
 {

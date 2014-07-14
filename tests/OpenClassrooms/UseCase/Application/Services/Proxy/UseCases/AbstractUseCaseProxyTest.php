@@ -30,7 +30,7 @@ use OpenClassrooms\Tests\UseCase\Application\Services\Security\SecuritySpy;
 use OpenClassrooms\Tests\UseCase\Application\Services\Transaction\TransactionSpy;
 
 /**
- * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
+ * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>
  */
 abstract class AbstractUseCaseProxyTest extends \PHPUnit_Framework_TestCase
 {

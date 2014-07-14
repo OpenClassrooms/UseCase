@@ -10,7 +10,7 @@ use OpenClassrooms\Tests\UseCase\BusinessRules\Requestors\UseCaseRequestStub;
 use OpenClassrooms\Tests\UseCase\BusinessRules\Responders\UseCaseResponseStub;
 
 /**
- * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
+ * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>
  */
 class ProxyStrategyRequestFactoryTest extends \PHPUnit_Framework_TestCase
 {

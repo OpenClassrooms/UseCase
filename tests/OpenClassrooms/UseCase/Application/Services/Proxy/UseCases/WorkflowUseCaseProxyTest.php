@@ -17,7 +17,7 @@ use
     OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\Workflow\ExceptionAllAnnotationsUseCaseStub;
 
 /**
- * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
+ * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>
  */
 class WorkflowUseCaseProxyTest extends AbstractUseCaseProxyTest
 {

@@ -5,7 +5,7 @@ namespace OpenClassrooms\Tests\UseCase\BusinessRules\Requestors;
 use OpenClassrooms\UseCase\BusinessRules\Requestors\UseCaseRequest;
 
 /**
- * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
+ * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>
  */
 class UseCaseRequestStub implements UseCaseRequest
 {

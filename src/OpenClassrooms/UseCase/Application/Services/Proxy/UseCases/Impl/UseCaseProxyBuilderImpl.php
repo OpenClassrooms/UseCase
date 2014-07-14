@@ -6,7 +6,7 @@ use OpenClassrooms\UseCase\Application\Services\Proxy\UseCases\UseCaseProxyBuild
 use OpenClassrooms\UseCase\BusinessRules\Requestors\UseCase;
 
 /**
- * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
+ * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>
  */
 class UseCaseProxyBuilderImpl extends UseCaseProxyBuilder
 {

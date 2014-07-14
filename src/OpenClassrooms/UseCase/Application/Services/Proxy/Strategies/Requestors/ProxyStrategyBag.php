@@ -10,7 +10,7 @@ use
 use OpenClassrooms\UseCase\Application\Services\Security\Security;
 
 /**
- * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
+ * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>
  */
 abstract class ProxyStrategyBag
 {
