@@ -3,7 +3,6 @@
     "description": "Use case library",
     "type": "library",
     "keywords": ["design"],
-    "minimum-stability": "stable",
     "license": "MIT",
     "authors": [
         {
@@ -27,7 +26,7 @@
     },
     "require": {
         "doctrine/annotations": "1.*",
-        "openclassrooms/cache": "1.0.x-dev"
+        "openclassrooms/cache": "1.0.*@dev"
     },
     "require-dev": {
         "phpunit/phpunit": "~3.7",
