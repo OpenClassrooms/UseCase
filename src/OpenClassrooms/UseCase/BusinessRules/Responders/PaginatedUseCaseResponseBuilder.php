@@ -10,7 +10,7 @@ use OpenClassrooms\UseCase\BusinessRules\Responders\Exceptions\InvalidPaginatedU
 abstract class PaginatedUseCaseResponseBuilder
 {
     /**
-     * @var PaginatedUseCaseResponse
+     * @var AbstractPaginatedUseCaseResponse
      */
     protected $paginatedUseCaseResponse;
 
@@ -71,7 +71,7 @@ abstract class PaginatedUseCaseResponseBuilder
     }
 
     /**
-     * @return PaginatedUseCaseResponse
+     * @return AbstractPaginatedUseCaseResponse
      */
     public function build()
     {
