@@ -25,17 +25,7 @@ abstract class PaginatedUseCaseResponse implements UseCaseResponse
     /**
      * @var integer
      */
-    protected $currentPage = 1;
-
-    /**
-     * @var integer
-     */
-    protected $totalPages = 1;
-
-    /**
-     * @var integer
-     */
-    protected $firstItemIndex;
+    protected $firstItemIndex = 1;
 
     /**
      * @var integer
@@ -47,12 +37,13 @@ abstract class PaginatedUseCaseResponse implements UseCaseResponse
      */
     public function getCurrentPage()
     {
-        return $this->currentPage;
-    }
+        if (null !== $this->itemsPerPage) {
+            $currentPage = floor($this->firstItemIndex / $this->itemsPerPage) + 1;
+        } else {
+            $currentPage = 1;
+        }
 
-    public function setFirstItemIndex($firstItemIndex)
-    {
-        $this->firstItemIndex = $firstItemIndex;
+        return $currentPage;
     }
 
     /**
@@ -63,9 +54,9 @@ abstract class PaginatedUseCaseResponse implements UseCaseResponse
         return $this->firstItemIndex;
     }
 
-    public function setItems(array $items)
+    public function setFirstItemIndex($firstItemIndex)
     {
-        $this->items = $items;
+        $this->firstItemIndex = $firstItemIndex;
     }
 
     /**
@@ -76,9 +67,9 @@ abstract class PaginatedUseCaseResponse implements UseCaseResponse
         return $this->items;
     }
 
-    public function setItemsPerPage($itemsPerPage)
+    public function setItems(array $items)
     {
-        $this->itemsPerPage = $itemsPerPage;
+        $this->items = $items;
     }
 
     /**
@@ -89,9 +80,9 @@ abstract class PaginatedUseCaseResponse implements UseCaseResponse
         return $this->itemsPerPage;
     }
 
-    public function setLastItemIndex($lastItemIndex)
+    public function setItemsPerPage($itemsPerPage)
     {
-        $this->lastItemIndex = $lastItemIndex;
+        $this->itemsPerPage = $itemsPerPage;
     }
 
     /**
@@ -102,9 +93,23 @@ abstract class PaginatedUseCaseResponse implements UseCaseResponse
         return $this->lastItemIndex;
     }
 
-    public function setTotalItems($totalItems)
+    public function setLastItemIndex($lastItemIndex)
     {
-        $this->totalItems = $totalItems;
+        $this->lastItemIndex = $lastItemIndex;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTotalPages()
+    {
+        if (null !== $this->totalItems && null !== $this->itemsPerPage) {
+            $totalPages = ceil($this->totalItems / $this->itemsPerPage);
+        } else {
+            $totalPages = 1;
+        }
+
+        return $totalPages;
     }
 
     /**
@@ -115,11 +120,8 @@ abstract class PaginatedUseCaseResponse implements UseCaseResponse
         return $this->totalItems;
     }
 
-    /**
-     * @return int
-     */
-    public function getTotalPages()
+    public function setTotalItems($totalItems)
     {
-        return $this->totalPages;
+        $this->totalItems = $totalItems;
     }
 }
