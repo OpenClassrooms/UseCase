@@ -11,7 +11,6 @@ class PaginatedCollectionBuilderImpl extends PaginatedCollectionBuilder
 {
     /**
      * @return PaginatedCollectionBuilder
-     * @codeCoverageIgnore
      */
     public function create()
     {
