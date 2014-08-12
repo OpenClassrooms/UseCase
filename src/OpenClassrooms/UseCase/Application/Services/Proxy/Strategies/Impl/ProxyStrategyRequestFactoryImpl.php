@@ -74,7 +74,7 @@ class ProxyStrategyRequestFactoryImpl implements ProxyStrategyRequestFactory
                 $request = $this->cacheProxyStrategyRequestBuilder
                     ->create()
                     ->withNamespaceId($this->getNamespaceId($annotation, $useCaseRequest))
-                    ->withId(md5(get_class($useCase) . serialize($useCaseRequest)))
+                    ->withId($this->createCacheId($useCase, $useCaseRequest))
                     ->withLifeTime($annotation->getLifetime())
                     ->build();
                 break;
@@ -115,6 +115,14 @@ class ProxyStrategyRequestFactoryImpl implements ProxyStrategyRequestFactory
         }
 
         return $namespaceId;
+    }
+
+    /**
+     * @return string
+     */
+    private function createCacheId(UseCase $useCase, UseCaseRequest $useCaseRequest)
+    {
+        return md5(get_class($useCase) . serialize($useCaseRequest));
     }
 
     /**
@@ -166,7 +174,7 @@ class ProxyStrategyRequestFactoryImpl implements ProxyStrategyRequestFactory
                 $request = $this->cacheProxyStrategyRequestBuilder
                     ->create()
                     ->withNamespaceId($this->getNamespaceId($annotation, $useCaseRequest))
-                    ->withId(md5(get_class($useCase) . serialize($useCaseRequest)))
+                    ->withId($this->createCacheId($useCase, $useCaseRequest))
                     ->withLifeTime($annotation->getLifetime())
                     ->withData($useCaseResponse)
                     ->build();
