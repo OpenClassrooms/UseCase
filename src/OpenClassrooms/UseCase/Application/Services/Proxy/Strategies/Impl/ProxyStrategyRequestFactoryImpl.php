@@ -128,22 +128,6 @@ class ProxyStrategyRequestFactoryImpl implements ProxyStrategyRequestFactory
     /**
      * @return string
      */
-    private function getPostEventName(Event $annotation, UseCase $useCase)
-    {
-        return 'use_case.post.' . $this->getEventName($annotation, $useCase);
-    }
-
-    /**
-     * @return string
-     */
-    private function getOnExceptionEventName(Event $annotation, UseCase $useCase)
-    {
-        return 'use_case.exception.' . $this->getEventName($annotation, $useCase);
-    }
-
-    /**
-     * @return string
-     */
     private function getEventName(Event $annotation, UseCase $useCase)
     {
         if (null === $name = $annotation->getName()) {
@@ -182,7 +166,7 @@ class ProxyStrategyRequestFactoryImpl implements ProxyStrategyRequestFactory
                 $request = $this->cacheProxyStrategyRequestBuilder
                     ->create()
                     ->withNamespaceId($this->getNamespaceId($annotation, $useCaseRequest))
-                    ->withId(md5(serialize($useCaseRequest)))
+                    ->withId(md5(get_class($useCase) . serialize($useCaseRequest)))
                     ->withLifeTime($annotation->getLifetime())
                     ->withData($useCaseResponse)
                     ->build();
@@ -205,6 +189,14 @@ class ProxyStrategyRequestFactoryImpl implements ProxyStrategyRequestFactory
         }
 
         return $request;
+    }
+
+    /**
+     * @return string
+     */
+    private function getPostEventName(Event $annotation, UseCase $useCase)
+    {
+        return 'use_case.post.' . $this->getEventName($annotation, $useCase);
     }
 
     /**
@@ -235,6 +227,14 @@ class ProxyStrategyRequestFactoryImpl implements ProxyStrategyRequestFactory
         }
 
         return $request;
+    }
+
+    /**
+     * @return string
+     */
+    private function getOnExceptionEventName(Event $annotation, UseCase $useCase)
+    {
+        return 'use_case.exception.' . $this->getEventName($annotation, $useCase);
     }
 
     public function setCacheProxyStrategyRequestBuilder(
