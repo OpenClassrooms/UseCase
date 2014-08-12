@@ -74,7 +74,7 @@ class ProxyStrategyRequestFactoryImpl implements ProxyStrategyRequestFactory
                 $request = $this->cacheProxyStrategyRequestBuilder
                     ->create()
                     ->withNamespaceId($this->getNamespaceId($annotation, $useCaseRequest))
-                    ->withId(md5(serialize($useCaseRequest)))
+                    ->withId(md5(get_class($useCase) . serialize($useCaseRequest)))
                     ->withLifeTime($annotation->getLifetime())
                     ->build();
                 break;
