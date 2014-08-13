@@ -74,7 +74,7 @@ class ProxyStrategyRequestFactoryImpl implements ProxyStrategyRequestFactory
                 $request = $this->cacheProxyStrategyRequestBuilder
                     ->create()
                     ->withNamespaceId($this->getNamespaceId($annotation, $useCaseRequest))
-                    ->withId(md5(serialize($useCaseRequest)))
+                    ->withId($this->createCacheId($useCase, $useCaseRequest))
                     ->withLifeTime($annotation->getLifetime())
                     ->build();
                 break;
@@ -120,25 +120,17 @@ class ProxyStrategyRequestFactoryImpl implements ProxyStrategyRequestFactory
     /**
      * @return string
      */
+    private function createCacheId(UseCase $useCase, UseCaseRequest $useCaseRequest)
+    {
+        return md5(get_class($useCase) . serialize($useCaseRequest));
+    }
+
+    /**
+     * @return string
+     */
     private function getPreEventName(Event $annotation, UseCase $useCase)
     {
         return 'use_case.pre.' . $this->getEventName($annotation, $useCase);
-    }
-
-    /**
-     * @return string
-     */
-    private function getPostEventName(Event $annotation, UseCase $useCase)
-    {
-        return 'use_case.post.' . $this->getEventName($annotation, $useCase);
-    }
-
-    /**
-     * @return string
-     */
-    private function getOnExceptionEventName(Event $annotation, UseCase $useCase)
-    {
-        return 'use_case.exception.' . $this->getEventName($annotation, $useCase);
     }
 
     /**
@@ -182,7 +174,7 @@ class ProxyStrategyRequestFactoryImpl implements ProxyStrategyRequestFactory
                 $request = $this->cacheProxyStrategyRequestBuilder
                     ->create()
                     ->withNamespaceId($this->getNamespaceId($annotation, $useCaseRequest))
-                    ->withId(md5(serialize($useCaseRequest)))
+                    ->withId($this->createCacheId($useCase, $useCaseRequest))
                     ->withLifeTime($annotation->getLifetime())
                     ->withData($useCaseResponse)
                     ->build();
@@ -205,6 +197,14 @@ class ProxyStrategyRequestFactoryImpl implements ProxyStrategyRequestFactory
         }
 
         return $request;
+    }
+
+    /**
+     * @return string
+     */
+    private function getPostEventName(Event $annotation, UseCase $useCase)
+    {
+        return 'use_case.post.' . $this->getEventName($annotation, $useCase);
     }
 
     /**
@@ -235,6 +235,14 @@ class ProxyStrategyRequestFactoryImpl implements ProxyStrategyRequestFactory
         }
 
         return $request;
+    }
+
+    /**
+     * @return string
+     */
+    private function getOnExceptionEventName(Event $annotation, UseCase $useCase)
+    {
+        return 'use_case.exception.' . $this->getEventName($annotation, $useCase);
     }
 
     public function setCacheProxyStrategyRequestBuilder(
