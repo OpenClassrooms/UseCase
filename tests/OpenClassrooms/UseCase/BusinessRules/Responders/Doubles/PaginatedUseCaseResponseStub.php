@@ -9,5 +9,5 @@ use OpenClassrooms\UseCase\BusinessRules\Responders\AbstractPaginatedUseCaseResp
  */
 class PaginatedUseCaseResponseStub extends AbstractPaginatedUseCaseResponse
 {
-    
+
 }

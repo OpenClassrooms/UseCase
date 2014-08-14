@@ -7,7 +7,7 @@ use
     OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Impl\ProxyStrategyRequestFactoryImpl;
 use OpenClassrooms\Tests\UseCase\BusinessRules\Exceptions\UseCaseException;
 use OpenClassrooms\Tests\UseCase\BusinessRules\Requestors\UseCaseRequestStub;
-use OpenClassrooms\Tests\UseCase\BusinessRules\Responders\UseCaseResponseStub;
+use OpenClassrooms\Tests\UseCase\BusinessRules\Responders\Doubles\UseCaseResponseStub;
 
 /**
  * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>

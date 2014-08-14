@@ -25,20 +25,7 @@ abstract class AbstractPaginatedUseCaseResponse implements PaginatedUseCaseRespo
     /**
      * @var integer
      */
-    protected $page;
-
-    /**
-     * @return int
-     */
-    public function getPage()
-    {
-        return $this->page;
-    }
-
-    public function setPage($page)
-    {
-        $this->page = $page;
-    }
+    protected $page = 1;
 
     /**
      * @return array
@@ -69,15 +56,26 @@ abstract class AbstractPaginatedUseCaseResponse implements PaginatedUseCaseRespo
     /**
      * @return int
      */
+    public function getPage()
+    {
+        return $this->page;
+    }
+
+    public function setPage($page)
+    {
+        $this->page = $page;
+    }
+
+    /**
+     * @return int
+     */
     public function getTotalPages()
     {
-        if (null !== $this->totalItems && null !== $this->itemsPerPage) {
-            $totalPages = ceil($this->totalItems / $this->itemsPerPage);
+        if (null != $this->itemsPerPage) {
+            return (int) ceil($this->totalItems / $this->itemsPerPage);
         } else {
-            $totalPages = 1;
+            return 1;
         }
-
-        return $totalPages;
     }
 
     /**

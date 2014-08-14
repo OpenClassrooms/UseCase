@@ -16,7 +16,7 @@ use OpenClassrooms\Tests\UseCase\Application\Services\Event\EventSenderSpy;
 use OpenClassrooms\Tests\UseCase\Application\Services\Security\SecuritySpy;
 use OpenClassrooms\Tests\UseCase\Application\Services\Transaction\TransactionSpy;
 use OpenClassrooms\Tests\UseCase\BusinessRules\Requestors\UseCaseRequestStub;
-use OpenClassrooms\Tests\UseCase\BusinessRules\Responders\UseCaseResponseStub;
+use OpenClassrooms\Tests\UseCase\BusinessRules\Responders\Doubles\UseCaseResponseStub;
 use
     OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\Workflow\AllAnnotationsUseCaseStub;
 

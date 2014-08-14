@@ -10,17 +10,17 @@ abstract class PaginatedCollection
     /**
      * @var array
      */
-    protected $items;
+    protected $items = array();
 
     /**
      * @var int
      */
-    protected $itemsPerPage;
+    protected $itemsPerPage = 0;
 
     /**
      * @var int
      */
-    protected $page;
+    protected $page = 1;
 
     /**
      * @var integer
@@ -84,7 +84,11 @@ abstract class PaginatedCollection
      */
     public function getTotalPages()
     {
-        return (int) ceil($this->totalItems / $this->itemsPerPage);
+        if (null != $this->itemsPerPage) {
+            return (int) ceil($this->totalItems / $this->itemsPerPage);
+        } else {
+            return 1;
+        }
     }
 
 }

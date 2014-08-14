@@ -17,26 +17,6 @@ class PaginatedUseCaseResponseBuilderTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException \OpenClassrooms\UseCase\BusinessRules\Responders\Exceptions\InvalidPaginatedUseCaseResponseException
-     * @expectedExceptionMessage Items MUST be defined
-     */
-    public function WithoutItems_ThrowException()
-    {
-        $this->builder->create()->build();
-    }
-
-    /**
-     * @test
-     * @expectedException \OpenClassrooms\UseCase\BusinessRules\Responders\Exceptions\InvalidPaginatedUseCaseResponseException
-     * @expectedExceptionMessage  TotalItems MUST be defined
-     */
-    public function WithoutTotalItems_ThrowException()
-    {
-        $this->builder->create()->withItems(array())->build();
-    }
-
-    /**
-     * @test
      */
     public function WithoutItemsPerPage_Build_ReturnResponse()
     {
@@ -78,7 +58,6 @@ class PaginatedUseCaseResponseBuilderTest extends \PHPUnit_Framework_TestCase
             ->build();
 
         $this->assertEquals(1, $paginatedUseCaseResponse->getPage());
-        $this->assertEquals(1, $paginatedUseCaseResponse->getTotalPages());
     }
 
     /**
@@ -90,12 +69,12 @@ class PaginatedUseCaseResponseBuilderTest extends \PHPUnit_Framework_TestCase
             ->create()
             ->withItems(array())
             ->withItemsPerPage(10)
-            ->withFirstItemIndex(10)
-            ->withLastItemIndex(19)
+            ->withPage(2)
             ->withTotalItems(98)
             ->build();
 
-        $this->assertEquals(2, $paginatedUseCaseResponse->getCurrentPage());
+        $this->assertEquals(2, $paginatedUseCaseResponse->getPage());
+        $this->assertEquals(10, $paginatedUseCaseResponse->getTotalPages());
     }
 
     /**
@@ -107,12 +86,11 @@ class PaginatedUseCaseResponseBuilderTest extends \PHPUnit_Framework_TestCase
             ->create()
             ->withItems(array())
             ->withItemsPerPage(10)
-            ->withFirstItemIndex(90)
-            ->withLastItemIndex(98)
+            ->withPage(10)
             ->withTotalItems(98)
             ->build();
 
-        $this->assertEquals(10, $paginatedUseCaseResponse->getCurrentPage());
+        $this->assertEquals(10, $paginatedUseCaseResponse->getPage());
     }
 
     /**
@@ -124,16 +102,16 @@ class PaginatedUseCaseResponseBuilderTest extends \PHPUnit_Framework_TestCase
             ->create()
             ->withItems(array())
             ->withItemsPerPage(10)
-            ->withFirstItemIndex(90)
-            ->withLastItemIndex(98)
+            ->withPage(10)
             ->withTotalItems(98)
             ->build();
 
+        $this->assertEquals(array(), $paginatedUseCaseResponse->getItems());
         $this->assertEquals(10, $paginatedUseCaseResponse->getItemsPerPage());
-        $this->assertEquals(90, $paginatedUseCaseResponse->getFirstItemIndex());
-        $this->assertEquals(98, $paginatedUseCaseResponse->getLastItemIndex());
+        $this->assertEquals(10, $paginatedUseCaseResponse->getPage());
+        $this->assertEquals(98, $paginatedUseCaseResponse->getTotalItems());
+        $this->assertEquals(10, $paginatedUseCaseResponse->getTotalPages());
     }
-
 
     protected function setUp()
     {

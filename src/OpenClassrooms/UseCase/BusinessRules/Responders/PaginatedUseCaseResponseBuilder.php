@@ -2,8 +2,6 @@
 
 namespace OpenClassrooms\UseCase\BusinessRules\Responders;
 
-use OpenClassrooms\UseCase\BusinessRules\Responders\Exceptions\InvalidPaginatedUseCaseResponseException;
-
 /**
  * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
  */
@@ -65,14 +63,6 @@ abstract class PaginatedUseCaseResponseBuilder
      */
     public function build()
     {
-        if (null === $this->paginatedUseCaseResponse->getItems()) {
-            throw new InvalidPaginatedUseCaseResponseException('Items MUST be defined');
-        }
-
-        if (null === $this->paginatedUseCaseResponse->getTotalItems()) {
-            throw new InvalidPaginatedUseCaseResponseException('TotalItems MUST be defined');
-        }
-
         return $this->paginatedUseCaseResponse;
     }
-} 
+}

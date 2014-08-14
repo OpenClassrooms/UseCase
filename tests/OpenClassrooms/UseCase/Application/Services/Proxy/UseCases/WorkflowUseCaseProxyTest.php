@@ -6,7 +6,7 @@ use
     OpenClassrooms\Tests\UseCase\Application\Services\Security\Exceptions\AccessDeniedException;
 use OpenClassrooms\Tests\UseCase\BusinessRules\Exceptions\UseCaseException;
 use OpenClassrooms\Tests\UseCase\BusinessRules\Requestors\UseCaseRequestStub;
-use OpenClassrooms\Tests\UseCase\BusinessRules\Responders\UseCaseResponseStub;
+use OpenClassrooms\Tests\UseCase\BusinessRules\Responders\Doubles\UseCaseResponseStub;
 use OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\UseCaseStub;
 use OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\WithoutResponseUseCaseStub;
 use

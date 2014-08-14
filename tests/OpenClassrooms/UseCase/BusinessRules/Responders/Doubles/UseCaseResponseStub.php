@@ -1,6 +1,6 @@
 <?php
 
-namespace OpenClassrooms\Tests\UseCase\BusinessRules\Responders;
+namespace OpenClassrooms\Tests\UseCase\BusinessRules\Responders\Doubles;
 
 use OpenClassrooms\UseCase\BusinessRules\Responders\UseCaseResponse;
 
