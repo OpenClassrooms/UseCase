@@ -4,7 +4,7 @@ namespace OpenClassrooms\Tests\UseCase\Application\Services\Proxy\UseCases;
 
 use OpenClassrooms\Tests\UseCase\BusinessRules\Exceptions\UseCaseException;
 use OpenClassrooms\Tests\UseCase\BusinessRules\Requestors\UseCaseRequestStub;
-use OpenClassrooms\Tests\UseCase\BusinessRules\Responders\UseCaseResponseStub;
+use OpenClassrooms\Tests\UseCase\BusinessRules\Responders\Doubles\UseCaseResponseStub;
 use OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\Cache\ExceptionCacheUseCaseStub;
 use OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\Cache\LifeTimeCacheUseCaseStub;
 use OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\Cache\NamespaceCacheUseCaseStub;

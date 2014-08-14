@@ -15,16 +15,21 @@ interface PaginatedUseCaseResponse extends UseCaseResponse
     /**
      * @return int
      */
+    public function getItemsPerPage();
+
+    /**
+     * @return int
+     */
+    public function getPage();
+
+    /**
+     * @return int
+     */
     public function getTotalItems();
 
     /**
      * @return int
      */
-    public function getFirstItemIndex();
+    public function getTotalPages();
 
-    /**
-     * @return int
-     */
-    public function getLastItemIndex();
 }
- 

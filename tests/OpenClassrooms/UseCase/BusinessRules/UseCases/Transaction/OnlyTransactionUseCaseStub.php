@@ -5,7 +5,7 @@ namespace OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\Transaction;
 use OpenClassrooms\UseCase\BusinessRules\Requestors\UseCase;
 use OpenClassrooms\UseCase\BusinessRules\Requestors\UseCaseRequest;
 use OpenClassrooms\UseCase\BusinessRules\Responders\UseCaseResponse;
-use OpenClassrooms\Tests\UseCase\BusinessRules\Responders\UseCaseResponseStub;
+use OpenClassrooms\Tests\UseCase\BusinessRules\Responders\Doubles\UseCaseResponseStub;
 use OpenClassrooms\UseCase\Application\Annotations\Transaction;
 
 /**
@@ -14,7 +14,7 @@ use OpenClassrooms\UseCase\Application\Annotations\Transaction;
 class OnlyTransactionUseCaseStub implements UseCase
 {
     /**
-     * @transaction
+     * @Transaction
      * @return UseCaseResponse
      */
     public function execute(UseCaseRequest $useCaseRequest)
