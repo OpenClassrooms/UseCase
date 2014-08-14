@@ -5,7 +5,7 @@ namespace OpenClassrooms\UseCase\Application\Entity;
 use OpenClassrooms\UseCase\BusinessRules\Entities\PaginatedCollectionBuilder;
 
 /**
- * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
+ * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>
  */
 class PaginatedCollectionBuilderImpl extends PaginatedCollectionBuilder
 {

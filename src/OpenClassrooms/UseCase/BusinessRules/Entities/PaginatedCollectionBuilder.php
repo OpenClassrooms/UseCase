@@ -3,7 +3,7 @@
 namespace OpenClassrooms\UseCase\BusinessRules\Entities;
 
 /**
- * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
+ * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>
  */
 abstract class PaginatedCollectionBuilder
 {

@@ -5,7 +5,7 @@ namespace OpenClassrooms\Tests\UseCase\BusinessRules\Entities;
 use OpenClassrooms\UseCase\Application\Entity\PaginatedCollectionImpl;
 
 /**
- * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
+ * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>
  */
 class PaginatedCollectionTest extends \PHPUnit_Framework_TestCase
 {

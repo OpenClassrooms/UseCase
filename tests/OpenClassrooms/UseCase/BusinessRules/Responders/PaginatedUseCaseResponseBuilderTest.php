@@ -6,7 +6,7 @@ use OpenClassrooms\Tests\UseCase\BusinessRules\Responders\Doubles\PaginatedUseCa
 use OpenClassrooms\UseCase\BusinessRules\Responders\PaginatedUseCaseResponseBuilder;
 
 /**
- * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
+ * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>
  */
 class PaginatedUseCaseResponseBuilderTest extends \PHPUnit_Framework_TestCase
 {

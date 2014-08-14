@@ -5,7 +5,7 @@ namespace OpenClassrooms\Tests\UseCase\BusinessRules\Responders\Doubles;
 use OpenClassrooms\UseCase\BusinessRules\Responders\PaginatedUseCaseResponseBuilder;
 
 /**
- * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
+ * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>
  */
 class PaginatedUseCaseResponseBuilderStub extends PaginatedUseCaseResponseBuilder
 {

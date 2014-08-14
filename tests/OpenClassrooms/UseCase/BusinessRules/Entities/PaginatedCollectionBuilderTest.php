@@ -7,7 +7,7 @@ use OpenClassrooms\UseCase\Application\Entity\PaginatedCollectionImpl;
 use OpenClassrooms\UseCase\BusinessRules\Entities\PaginatedCollectionBuilder;
 
 /**
- * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
+ * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>
  */
 class PaginatedCollectionBuilderTest extends \PHPUnit_Framework_TestCase
 {

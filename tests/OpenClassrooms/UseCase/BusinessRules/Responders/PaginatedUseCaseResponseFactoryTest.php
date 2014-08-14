@@ -8,7 +8,7 @@ use OpenClassrooms\UseCase\Application\Responder\PaginatedUseCaseResponseFactory
 use OpenClassrooms\UseCase\BusinessRules\Responders\PaginatedUseCaseResponseFactory;
 
 /**
- * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
+ * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>
  */
 class PaginatedUseCaseResponseFactoryTest extends \PHPUnit_Framework_TestCase
 {
