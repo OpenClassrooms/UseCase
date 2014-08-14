@@ -23,16 +23,6 @@ abstract class PaginatedUseCaseResponseBuilder
     /**
      * @return PaginatedUseCaseResponseBuilder
      */
-    public function withFirstItemIndex($firstItemIndex)
-    {
-        $this->paginatedUseCaseResponse->setFirstItemIndex($firstItemIndex);
-
-        return $this;
-    }
-
-    /**
-     * @return PaginatedUseCaseResponseBuilder
-     */
     public function withItems(array $items)
     {
         $this->paginatedUseCaseResponse->setItems($items);
@@ -53,9 +43,9 @@ abstract class PaginatedUseCaseResponseBuilder
     /**
      * @return PaginatedUseCaseResponseBuilder
      */
-    public function withLastItemIndex($lastItemIndex)
+    public function withPage($page)
     {
-        $this->paginatedUseCaseResponse->setLastItemIndex($lastItemIndex);
+        $this->paginatedUseCaseResponse->setPage($page);
 
         return $this;
     }
@@ -82,6 +72,7 @@ abstract class PaginatedUseCaseResponseBuilder
         if (null === $this->paginatedUseCaseResponse->getTotalItems()) {
             throw new InvalidPaginatedUseCaseResponseException('TotalItems MUST be defined');
         }
+
         return $this->paginatedUseCaseResponse;
     }
 } 

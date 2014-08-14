@@ -5,18 +5,8 @@ namespace OpenClassrooms\UseCase\BusinessRules\Responders;
 /**
  * @author Kévin Letord <kevin.letord@simple-it.fr>
  */
-interface PaginatedUseCaseResponse
+interface PaginatedUseCaseResponse extends UseCaseResponse
 {
-    /**
-     * @return int
-     */
-    public function getCurrentPage();
-
-    /**
-     * @return int
-     */
-    public function getFirstItemIndex();
-
     /**
      * @return array
      */
@@ -30,16 +20,16 @@ interface PaginatedUseCaseResponse
     /**
      * @return int
      */
-    public function getLastItemIndex();
-
-    /**
-     * @return int
-     */
-    public function getTotalPages();
+    public function getPage();
 
     /**
      * @return int
      */
     public function getTotalItems();
+
+    /**
+     * @return int
+     */
+    public function getTotalPages();
 
 }

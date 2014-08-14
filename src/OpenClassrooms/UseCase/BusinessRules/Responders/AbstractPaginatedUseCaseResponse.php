@@ -25,38 +25,19 @@ abstract class AbstractPaginatedUseCaseResponse implements PaginatedUseCaseRespo
     /**
      * @var integer
      */
-    protected $firstItemIndex = 1;
-
-    /**
-     * @var integer
-     */
-    protected $lastItemIndex;
+    protected $page;
 
     /**
      * @return int
      */
-    public function getCurrentPage()
+    public function getPage()
     {
-        if (null !== $this->itemsPerPage) {
-            $currentPage = floor($this->firstItemIndex / $this->itemsPerPage) + 1;
-        } else {
-            $currentPage = 1;
-        }
-
-        return $currentPage;
+        return $this->page;
     }
 
-    /**
-     * @return int
-     */
-    public function getFirstItemIndex()
+    public function setPage($page)
     {
-        return $this->firstItemIndex;
-    }
-
-    public function setFirstItemIndex($firstItemIndex)
-    {
-        $this->firstItemIndex = $firstItemIndex;
+        $this->page = $page;
     }
 
     /**
@@ -83,19 +64,6 @@ abstract class AbstractPaginatedUseCaseResponse implements PaginatedUseCaseRespo
     public function setItemsPerPage($itemsPerPage)
     {
         $this->itemsPerPage = $itemsPerPage;
-    }
-
-    /**
-     * @return int
-     */
-    public function getLastItemIndex()
-    {
-        return $this->lastItemIndex;
-    }
-
-    public function setLastItemIndex($lastItemIndex)
-    {
-        $this->lastItemIndex = $lastItemIndex;
     }
 
     /**

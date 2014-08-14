@@ -21,16 +21,6 @@ abstract class PaginatedCollectionBuilder
     /**
      * @return PaginatedCollectionBuilder
      */
-    public function withFirstItemIndex($firstItemIndex)
-    {
-        $this->paginatedCollection->setFirstItemIndex($firstItemIndex);
-
-        return $this;
-    }
-
-    /**
-     * @return PaginatedCollectionBuilder
-     */
     public function withItems(array $items)
     {
         $this->paginatedCollection->setItems($items);
@@ -41,9 +31,19 @@ abstract class PaginatedCollectionBuilder
     /**
      * @return PaginatedCollectionBuilder
      */
-    public function withLastItemIndex($lastItemIndex)
+    public function withItemsPerPage($itemsPerPage)
     {
-        $this->paginatedCollection->setLastItemIndex($lastItemIndex);
+        $this->paginatedCollection->setItemsPerPage($itemsPerPage);
+
+        return $this;
+    }
+
+    /**
+     * @return PaginatedCollectionBuilder
+     */
+    public function withPage($page)
+    {
+        $this->paginatedCollection->setPage($page);
 
         return $this;
     }

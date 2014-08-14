@@ -13,32 +13,19 @@ abstract class PaginatedCollection
     protected $items;
 
     /**
+     * @var int
+     */
+    protected $itemsPerPage;
+
+    /**
+     * @var int
+     */
+    protected $page;
+
+    /**
      * @var integer
      */
     protected $totalItems;
-
-    /**
-     * @var integer
-     */
-    protected $firstItemIndex = 1;
-
-    /**
-     * @var integer
-     */
-    protected $lastItemIndex;
-
-    /**
-     * @return int
-     */
-    public function getFirstItemIndex()
-    {
-        return $this->firstItemIndex;
-    }
-
-    public function setFirstItemIndex($firstItemIndex)
-    {
-        $this->firstItemIndex = $firstItemIndex;
-    }
 
     /**
      * @return array
@@ -56,14 +43,27 @@ abstract class PaginatedCollection
     /**
      * @return int
      */
-    public function getLastItemIndex()
+    public function getItemsPerPage()
     {
-        return $this->lastItemIndex;
+        return $this->itemsPerPage;
     }
 
-    public function setLastItemIndex($lastItemIndex)
+    public function setItemsPerPage($itemsPerPage)
     {
-        $this->lastItemIndex = $lastItemIndex;
+        $this->itemsPerPage = $itemsPerPage;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPage()
+    {
+        return $this->page;
+    }
+
+    public function setPage($page)
+    {
+        $this->page = $page;
     }
 
     /**
@@ -77,6 +77,14 @@ abstract class PaginatedCollection
     public function setTotalItems($totalItems)
     {
         $this->totalItems = $totalItems;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTotalPages()
+    {
+        return (int) ceil($this->totalItems / $this->itemsPerPage);
     }
 
 }

@@ -45,7 +45,7 @@ class PaginatedUseCaseResponseBuilderTest extends \PHPUnit_Framework_TestCase
             ->withItems(array())
             ->withTotalItems(100)
             ->build();
-        $this->assertEquals(1, $paginatedUseCaseResponse->getCurrentPage());
+        $this->assertEquals(1, $paginatedUseCaseResponse->getPage());
         $this->assertEquals(1, $paginatedUseCaseResponse->getTotalPages());
     }
 
@@ -61,7 +61,7 @@ class PaginatedUseCaseResponseBuilderTest extends \PHPUnit_Framework_TestCase
             ->withTotalItems(98)
             ->build();
 
-        $this->assertEquals(1, $paginatedUseCaseResponse->getCurrentPage());
+        $this->assertEquals(1, $paginatedUseCaseResponse->getPage());
         $this->assertEquals(10, $paginatedUseCaseResponse->getTotalPages());
     }
 
@@ -77,7 +77,7 @@ class PaginatedUseCaseResponseBuilderTest extends \PHPUnit_Framework_TestCase
             ->withTotalItems(9)
             ->build();
 
-        $this->assertEquals(1, $paginatedUseCaseResponse->getCurrentPage());
+        $this->assertEquals(1, $paginatedUseCaseResponse->getPage());
         $this->assertEquals(1, $paginatedUseCaseResponse->getTotalPages());
     }
 
