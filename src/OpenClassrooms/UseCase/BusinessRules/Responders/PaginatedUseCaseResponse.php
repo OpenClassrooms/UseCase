@@ -3,7 +3,8 @@
 namespace OpenClassrooms\UseCase\BusinessRules\Responders;
 
 /**
- * @author Kévin Letord <kevin.letord@simple-it.fr>
+ * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>
+ * @author Kévin Letord <kevin.letord@openclassrooms.com>
  */
 interface PaginatedUseCaseResponse extends UseCaseResponse
 {

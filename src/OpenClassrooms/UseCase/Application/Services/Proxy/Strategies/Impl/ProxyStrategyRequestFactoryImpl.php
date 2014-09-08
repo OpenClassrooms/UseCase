@@ -4,20 +4,16 @@ namespace OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Impl;
 
 use OpenClassrooms\UseCase\Application\Annotations\Cache;
 use OpenClassrooms\UseCase\Application\Annotations\Event;
+use OpenClassrooms\UseCase\Application\Annotations\Log;
 use OpenClassrooms\UseCase\Application\Annotations\Security;
 use OpenClassrooms\UseCase\Application\Annotations\Transaction;
-use
-    OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Exceptions\UnSupportedAnnotationException;
-use
-    OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Impl\DTO\ProxyStrategyRequestDTO;
-use
-    OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Requestors\Cache\CacheProxyStrategyRequestBuilder;
-use
-    OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Requestors\Event\EventProxyStrategyRequestBuilder;
-use
-    OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Requestors\ProxyStrategyRequest;
-use
-    OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Requestors\ProxyStrategyRequestFactory;
+use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Exceptions\UnSupportedAnnotationException;
+use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Impl\DTO\ProxyStrategyRequestDTO;
+use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Requestors\Cache\CacheProxyStrategyRequestBuilder;
+use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Requestors\Event\EventProxyStrategyRequestBuilder;
+use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Requestors\Log\LogProxyStrategyRequestBuilder;
+use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Requestors\ProxyStrategyRequest;
+use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Requestors\ProxyStrategyRequestFactory;
 use
     OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Requestors\Security\SecurityProxyStrategyRequestBuilder;
 use OpenClassrooms\UseCase\BusinessRules\Requestors\UseCase;
@@ -43,6 +39,11 @@ class ProxyStrategyRequestFactoryImpl implements ProxyStrategyRequestFactory
      * @var EventProxyStrategyRequestBuilder
      */
     private $eventProxyStrategyRequestBuilder;
+
+    /**
+     * @var LogProxyStrategyRequestBuilder
+     */
+    private $logProxyStrategyRequestBuilder;
 
     /**
      * @return ProxyStrategyRequest
@@ -86,6 +87,16 @@ class ProxyStrategyRequestFactoryImpl implements ProxyStrategyRequestFactory
                 $request = $this->eventProxyStrategyRequestBuilder
                     ->create()
                     ->withEventName($this->getPreEventName($annotation, $useCase))
+                    ->withUseCaseRequest($useCaseRequest)
+                    ->build();
+                break;
+            case $annotation instanceof Log:
+                /** @var Log $annotation */
+                $request = $this->logProxyStrategyRequestBuilder
+                    ->create()
+                    ->withLevel($annotation->getLevel())
+                    ->withMessage($annotation->getMessage())
+                    ->withContext($annotation->getContext())
                     ->withUseCaseRequest($useCaseRequest)
                     ->build();
                 break;
@@ -192,6 +203,17 @@ class ProxyStrategyRequestFactoryImpl implements ProxyStrategyRequestFactory
                         ->build();
                 }
                 break;
+            case $annotation instanceof Log:
+                /** @var Log $annotation */
+                $request = $this->logProxyStrategyRequestBuilder
+                    ->create()
+                    ->withLevel($annotation->getLevel())
+                    ->withMessage($annotation->getMessage())
+                    ->withContext($annotation->getContext())
+                    ->withUseCaseRequest($useCaseRequest)
+                    ->withUseCaseResponse($useCaseResponse)
+                    ->build();
+                break;
             default:
                 throw new UnSupportedAnnotationException();
         }
@@ -230,6 +252,17 @@ class ProxyStrategyRequestFactoryImpl implements ProxyStrategyRequestFactory
                     ->withException($exception)
                     ->build();
                 break;
+            case $annotation instanceof Log:
+                /** @var Log $annotation */
+                $request = $this->logProxyStrategyRequestBuilder
+                    ->create()
+                    ->withLevel($annotation->getLevel())
+                    ->withMessage($annotation->getMessage())
+                    ->withContext($annotation->getContext())
+                    ->withUseCaseRequest($useCaseRequest)
+                    ->withException($exception)
+                    ->build();
+                break;
             default:
                 throw new UnSupportedAnnotationException();
         }
@@ -264,6 +297,11 @@ class ProxyStrategyRequestFactoryImpl implements ProxyStrategyRequestFactory
     )
     {
         $this->eventProxyStrategyRequestBuilder = $eventProxyStrategyRequestBuilder;
+    }
+
+    public function setLogProxyStrategyRequestBuilder(LogProxyStrategyRequestBuilder $logProxyStrategyRequestBuilder)
+    {
+        $this->logProxyStrategyRequestBuilder = $logProxyStrategyRequestBuilder;
     }
 
 }

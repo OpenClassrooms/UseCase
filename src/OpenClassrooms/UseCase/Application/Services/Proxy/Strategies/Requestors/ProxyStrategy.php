@@ -15,6 +15,8 @@ interface ProxyStrategy
 
     const EVENT = 'event';
 
+    const LOG = 'log';
+
     /**
      * @return string
      */

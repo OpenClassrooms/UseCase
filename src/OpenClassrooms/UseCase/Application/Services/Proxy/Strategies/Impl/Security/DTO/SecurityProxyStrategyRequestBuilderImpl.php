@@ -4,8 +4,7 @@ namespace OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Impl\Secu
 
 use
     OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Requestors\Security\Exceptions\AttributesMustBeDefinedException;
-use
-    OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Requestors\Security\SecurityProxyStrategyRequest;
+use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Requestors\Security\SecurityProxyStrategyRequest;
 use
     OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Requestors\Security\SecurityProxyStrategyRequestBuilder;
 

@@ -4,20 +4,16 @@ namespace OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Impl;
 
 use OpenClassrooms\UseCase\Application\Annotations\Cache;
 use OpenClassrooms\UseCase\Application\Annotations\Event;
+use OpenClassrooms\UseCase\Application\Annotations\Log;
 use OpenClassrooms\UseCase\Application\Annotations\Security;
 use OpenClassrooms\UseCase\Application\Annotations\Transaction;
-use
-    OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Exceptions\UnSupportedAnnotationException;
-use
-    OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Impl\Cache\CacheProxyStrategy;
-use
-    OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Impl\Event\EventProxyStrategy;
-use
-    OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Impl\Security\SecurityProxyStrategy;
-use
-    OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Impl\Transaction\TransactionProxyStrategy;
-use
-    OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Requestors\ProxyStrategyBagFactory;
+use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Exceptions\UnSupportedAnnotationException;
+use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Impl\Cache\CacheProxyStrategy;
+use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Impl\Event\EventProxyStrategy;
+use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Impl\Log\LogProxyStrategy;
+use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Impl\Security\SecurityProxyStrategy;
+use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Impl\Transaction\TransactionProxyStrategy;
+use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Requestors\ProxyStrategyBagFactory;
 
 /**
  * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>
@@ -45,6 +41,11 @@ class ProxyStrategyBagFactoryImpl implements ProxyStrategyBagFactory
     private $eventStrategy;
 
     /**
+     * @var LogProxyStrategy
+     */
+    private $logStrategy;
+
+    /**
      * @return SecurityProxyStrategyBagImpl
      */
     public function make($annotation)
@@ -69,6 +70,19 @@ class ProxyStrategyBagFactoryImpl implements ProxyStrategyBagFactory
                     $strategyBag->setPostExecute(true);
                 }
                 if (in_array(Event::ON_EXCEPTION_METHOD, $annotation->getMethods())) {
+                    $strategyBag->setOnException(true);
+                }
+                break;
+            case $annotation instanceof Log:
+                $strategyBag = new LogProxyStrategyBagImpl($this->logStrategy);
+                /** @var Log $annotation */
+                if (in_array(Log::PRE_METHOD, $annotation->getMethods())) {
+                    $strategyBag->setPreExecute(true);
+                }
+                if (in_array(Log::POST_METHOD, $annotation->getMethods())) {
+                    $strategyBag->setPostExecute(true);
+                }
+                if (in_array(Log::ON_EXCEPTION_METHOD, $annotation->getMethods())) {
                     $strategyBag->setOnException(true);
                 }
                 break;
@@ -100,4 +114,8 @@ class ProxyStrategyBagFactoryImpl implements ProxyStrategyBagFactory
         $this->eventStrategy = $eventStrategy;
     }
 
+    public function setLogStrategy(LogProxyStrategy $logStrategy)
+    {
+        $this->logStrategy = $logStrategy;
+    }
 }

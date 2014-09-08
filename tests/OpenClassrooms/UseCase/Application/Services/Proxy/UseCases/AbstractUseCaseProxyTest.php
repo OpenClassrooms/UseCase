@@ -3,31 +3,26 @@
 namespace OpenClassrooms\Tests\UseCase\Application\Services\Proxy\UseCases;
 
 use Doctrine\Common\Annotations\AnnotationReader;
-use
-    OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Impl\Cache\CacheProxyStrategy;
-use
-    OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Impl\Cache\DTO\CacheProxyStrategyRequestBuilderImpl;
-use
-    OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Impl\Event\DTO\EventProxyStrategyRequestBuilderImpl;
-use
-    OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Impl\Event\EventProxyStrategy;
-use
-    OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Impl\ProxyStrategyBagFactoryImpl;
-use
-    OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Impl\ProxyStrategyRequestFactoryImpl;
-use
-    OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Impl\Security\DTO\SecurityProxyStrategyRequestBuilderImpl;
-use
-    OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Impl\Security\SecurityProxyStrategy;
-use
-    OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Impl\Transaction\TransactionProxyStrategy;
-use OpenClassrooms\UseCase\Application\Services\Proxy\UseCases\Impl\UseCaseProxyImpl;
-use OpenClassrooms\UseCase\Application\Services\Proxy\UseCases\UseCaseProxy;
 use OpenClassrooms\Tests\UseCase\Application\Services\Cache\CacheSpy;
 use OpenClassrooms\Tests\UseCase\Application\Services\Event\EventFactorySpy;
 use OpenClassrooms\Tests\UseCase\Application\Services\Event\EventSenderSpy;
+use OpenClassrooms\Tests\UseCase\Application\Services\Log\LoggerSpy;
 use OpenClassrooms\Tests\UseCase\Application\Services\Security\SecuritySpy;
 use OpenClassrooms\Tests\UseCase\Application\Services\Transaction\TransactionSpy;
+use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Impl\Cache\CacheProxyStrategy;
+use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Impl\Cache\DTO\CacheProxyStrategyRequestBuilderImpl;
+use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Impl\Event\DTO\EventProxyStrategyRequestBuilderImpl;
+use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Impl\Event\EventProxyStrategy;
+use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Impl\Log\DTO\LogProxyStrategyRequestBuilderImpl;
+use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Impl\Log\LogProxyStrategy;
+use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Impl\ProxyStrategyBagFactoryImpl;
+use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Impl\ProxyStrategyRequestFactoryImpl;
+use
+    OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Impl\Security\DTO\SecurityProxyStrategyRequestBuilderImpl;
+use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Impl\Security\SecurityProxyStrategy;
+use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Impl\Transaction\TransactionProxyStrategy;
+use OpenClassrooms\UseCase\Application\Services\Proxy\UseCases\Impl\UseCaseProxyImpl;
+use OpenClassrooms\UseCase\Application\Services\Proxy\UseCases\UseCaseProxy;
 
 /**
  * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>
@@ -53,6 +48,11 @@ abstract class AbstractUseCaseProxyTest extends \PHPUnit_Framework_TestCase
      * @var EventFactorySpy
      */
     protected $eventFactory;
+
+    /**
+     * @var LoggerSpy
+     */
+    protected $logger;
 
     /**
      * @var SecuritySpy
@@ -82,7 +82,7 @@ abstract class AbstractUseCaseProxyTest extends \PHPUnit_Framework_TestCase
         $this->buildCacheStrategy();
         $this->buildTransactionStrategy();
         $this->buildEventStrategy();
-
+        $this->buildLogStrategy();
     }
 
     protected function initUseCaseProxy()
@@ -154,5 +154,23 @@ abstract class AbstractUseCaseProxyTest extends \PHPUnit_Framework_TestCase
         $this->proxyStrategyRequestFactory->setEventProxyStrategyRequestBuilder(
             new EventProxyStrategyRequestBuilderImpl()
         );
+    }
+
+    protected function buildLogStrategy()
+    {
+        $this->logger = new LoggerSpy();
+        $logStrategy = new LogProxyStrategy();
+        $logStrategy->setLogger($this->logger);
+
+        $this->proxyStrategyBagFactory->setLogStrategy($logStrategy);
+        $this->proxyStrategyRequestFactory->setLogProxyStrategyRequestBuilder(new LogProxyStrategyRequestBuilderImpl());
+
+    }
+
+    protected function tearDown()
+    {
+        LoggerSpy::$context = array();
+        LoggerSpy::$level = array();
+        LoggerSpy::$message = array();
     }
 }

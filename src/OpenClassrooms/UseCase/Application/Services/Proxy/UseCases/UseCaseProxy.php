@@ -6,15 +6,13 @@ use Doctrine\Common\Annotations\Annotation;
 use Doctrine\Common\Annotations\Reader;
 use OpenClassrooms\UseCase\Application\Annotations\Cache;
 use OpenClassrooms\UseCase\Application\Annotations\Event;
+use OpenClassrooms\UseCase\Application\Annotations\Log;
 use OpenClassrooms\UseCase\Application\Annotations\Security;
 use OpenClassrooms\UseCase\Application\Annotations\Transaction;
 use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Requestors\ProxyStrategy;
-use
-    OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Requestors\ProxyStrategyBag;
-use
-    OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Requestors\ProxyStrategyBagFactory;
-use
-    OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Requestors\ProxyStrategyRequestFactory;
+use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Requestors\ProxyStrategyBag;
+use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Requestors\ProxyStrategyBagFactory;
+use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Requestors\ProxyStrategyRequestFactory;
 use OpenClassrooms\UseCase\BusinessRules\Requestors\UseCase;
 use OpenClassrooms\UseCase\BusinessRules\Requestors\UseCaseRequest;
 use OpenClassrooms\UseCase\BusinessRules\Responders\UseCaseResponse;
@@ -31,7 +29,8 @@ abstract class UseCaseProxy implements UseCase
         1 => ProxyStrategy::SECURITY,
         2 => ProxyStrategy::CACHE,
         3 => ProxyStrategy::TRANSACTION,
-        4 => ProxyStrategy::EVENT
+        4 => ProxyStrategy::EVENT,
+        5 => ProxyStrategy::LOG
     );
 
     /**
@@ -109,6 +108,7 @@ abstract class UseCaseProxy implements UseCase
                 || $annotation instanceof Cache
                 || $annotation instanceof Transaction
                 || $annotation instanceof Event
+                || $annotation instanceof Log
             ) {
                 $proxyStrategyBag = $this->proxyStrategyBagFactory->make($annotation);
                 $this->strategies[$proxyStrategyBag->getType()] = $proxyStrategyBag;
