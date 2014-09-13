@@ -25,18 +25,50 @@ abstract class UseCaseProxy implements UseCase
     /**
      * @var array
      */
-    public static $strategyOrder = array(
-        1 => ProxyStrategy::SECURITY,
-        2 => ProxyStrategy::CACHE,
-        3 => ProxyStrategy::TRANSACTION,
+    public static $strategyPreOrder = array(
+        1 => ProxyStrategy::LOG,
+        2 => ProxyStrategy::SECURITY,
+        3 => ProxyStrategy::EVENT,
+        4 => ProxyStrategy::CACHE,
+        5 => ProxyStrategy::TRANSACTION
+    );
+
+    /**
+     * @var array
+     */
+    public static $strategyOnExceptionOrder = array(
+        1 => ProxyStrategy::LOG,
+        2 => ProxyStrategy::TRANSACTION,
+        3 => ProxyStrategy::CACHE,
         4 => ProxyStrategy::EVENT,
-        5 => ProxyStrategy::LOG
+        5 => ProxyStrategy::SECURITY
+    );
+
+    /**
+     * @var array
+     */
+    public static $strategyPostOrder = array(
+        1 => ProxyStrategy::TRANSACTION,
+        2 => ProxyStrategy::CACHE,
+        3 => ProxyStrategy::EVENT,
+        4 => ProxyStrategy::LOG,
+        5 => ProxyStrategy::SECURITY
     );
 
     /**
      * @var Reader
      */
     protected $reader;
+
+    /**
+     * @var UseCase
+     */
+    protected $useCase;
+
+    /**
+     * @var UseCaseRequest
+     */
+    protected $useCaseRequest;
 
     /**
      * @var ProxyStrategyBagFactory
@@ -49,14 +81,9 @@ abstract class UseCaseProxy implements UseCase
     protected $proxyStrategyRequestFactory;
 
     /**
-     * @var UseCase
+     * @var UseCaseResponse
      */
-    protected $useCase;
-
-    /**
-     * @var UseCaseRequest
-     */
-    protected $request;
+    private $useCaseResponse;
 
     /**
      * @var ProxyStrategyBag[]
@@ -64,35 +91,25 @@ abstract class UseCaseProxy implements UseCase
     private $strategies = array();
 
     /**
-     * @var bool
-     */
-    private $stopExecution = false;
-
-    /**
-     * @var UseCaseResponse
-     */
-    private $response;
-
-    /**
      * @return UseCaseResponse
      */
     public function execute(UseCaseRequest $useCaseRequest)
     {
-        $this->request = $useCaseRequest;
+        $this->useCaseRequest = $useCaseRequest;
         $this->buildStrategies();
 
         try {
-            $response = $this->preExecute();
+            list($response, $stopExecution) = $this->preExecute();
 
-            if ($this->stopExecution) {
-                $this->response = $response;
+            if ($stopExecution) {
+                $this->useCaseResponse = $response;
             } else {
-                $this->response = $this->useCase->execute($useCaseRequest);
+                $this->useCaseResponse = $this->useCase->execute($useCaseRequest);
             }
 
             $this->postExecute();
 
-            return $this->response;
+            return $this->useCaseResponse;
 
         } catch (\Exception $e) {
             $this->onException($e);
@@ -102,19 +119,19 @@ abstract class UseCaseProxy implements UseCase
 
     private function buildStrategies()
     {
-        $annotations = $this->getAnnotations();
-        foreach ($annotations as $annotation) {
-            if ($annotation instanceof Security
-                || $annotation instanceof Cache
-                || $annotation instanceof Transaction
-                || $annotation instanceof Event
-                || $annotation instanceof Log
-            ) {
-                $proxyStrategyBag = $this->proxyStrategyBagFactory->make($annotation);
-                $this->strategies[$proxyStrategyBag->getType()] = $proxyStrategyBag;
+        if (empty($this->strategies)) {
+            $annotations = $this->getAnnotations();
+            foreach ($annotations as $annotation) {
+                if ($annotation instanceof Security
+                    || $annotation instanceof Cache
+                    || $annotation instanceof Transaction
+                    || $annotation instanceof Event
+                    || $annotation instanceof Log
+                ) {
+                    $this->strategies[] = $this->proxyStrategyBagFactory->make($annotation);
+                }
             }
         }
-        $this->sortStrategies();
     }
 
     /**
@@ -125,85 +142,112 @@ abstract class UseCaseProxy implements UseCase
         return $this->reader->getMethodAnnotations(new \ReflectionMethod($this->useCase, 'execute'));
     }
 
-    private function sortStrategies()
-    {
-        uksort(
-            $this->strategies,
-            function ($s1, $s2) {
-                return array_search($s1, UseCaseProxy::$strategyOrder) > array_search(
-                    $s2,
-                    UseCaseProxy::$strategyOrder
-                );
-            }
-        );
-    }
-
     /**
      * @return array
      */
     private function preExecute()
     {
-        $this->stopExecution = false;
+        $stopExecution = false;
         $data = null;
 
+        $this->sortPreStrategies();
+
         foreach ($this->strategies as $strategy) {
-            if ($strategy->isPreExecute() && $this->transactionCanBegin($strategy)) {
+            if ($strategy->isPreExecute()) {
 
                 $request = $this->proxyStrategyRequestFactory->createPreExecuteRequest(
                     $strategy->getAnnotation(),
                     $this->useCase,
-                    $this->request
+                    $this->useCaseRequest
                 );
 
                 $strategyResponse = $strategy->preExecute($request);
 
                 if ($strategyResponse->stopExecution()) {
-                    $this->stopExecution = true;
-                    unset($this->strategies[ProxyStrategy::TRANSACTION]);
+                    $stopExecution = true;
+                    $this->removeTransactionStrategy();
                     $data = $strategyResponse->getData();
+                    break;
                 }
             }
         }
 
-        return $data;
+        return array($data, $stopExecution);
     }
 
-    /**
-     * @return bool
-     */
-    private function transactionCanBegin(ProxyStrategyBag $strategy)
+    private function sortPreStrategies()
     {
-        return !($this->stopExecution && ProxyStrategy::TRANSACTION === $strategy->getType());
+        usort(
+            $this->strategies,
+            function (ProxyStrategyBag $s1, ProxyStrategyBag $s2) {
+                return array_search($s1->getType(), UseCaseProxy::$strategyPreOrder) >
+                array_search($s2->getType(), UseCaseProxy::$strategyPreOrder);
+            }
+        );
+    }
+
+    private function removeTransactionStrategy()
+    {
+        foreach ($this->strategies as $strategy) {
+            if (ProxyStrategy::TRANSACTION === $strategy->getType()) {
+                $key = key($this->strategies);
+                unset($this->strategies[$key]);
+            }
+        }
     }
 
     private function postExecute()
     {
+        $this->sortPostStrategies();
         foreach ($this->strategies as $strategy) {
             if ($strategy->isPostExecute()) {
                 $request = $this->proxyStrategyRequestFactory->createPostExecuteRequest(
                     $strategy->getAnnotation(),
                     $this->useCase,
-                    $this->request,
-                    $this->response
+                    $this->useCaseRequest,
+                    $this->useCaseResponse
                 );
                 $strategy->postExecute($request);
             }
         }
     }
 
+    private function sortPostStrategies()
+    {
+        usort(
+            $this->strategies,
+            function (ProxyStrategyBag $s1, ProxyStrategyBag $s2) {
+                return array_search($s1->getType(), UseCaseProxy::$strategyPostOrder) >
+                array_search($s2->getType(), UseCaseProxy::$strategyPostOrder);
+            }
+        );
+    }
+
     private function onException(\Exception $exception)
     {
+        $this->sortOnExceptionStrategies();
         foreach ($this->strategies as $strategy) {
             if ($strategy->isOnException()) {
                 $request = $this->proxyStrategyRequestFactory->createOnExceptionRequest(
                     $strategy->getAnnotation(),
                     $this->useCase,
-                    $this->request,
+                    $this->useCaseRequest,
                     $exception
                 );
                 $strategy->onException($request);
             }
         }
+    }
+
+    private function sortOnExceptionStrategies()
+    {
+        usort(
+            $this->strategies,
+            function (ProxyStrategyBag $s1, ProxyStrategyBag $s2) {
+                return array_search($s1->getType(), UseCaseProxy::$strategyOnExceptionOrder) >
+                array_search($s2->getType(), UseCaseProxy::$strategyOnExceptionOrder);
+            }
+        );
     }
 
     /**

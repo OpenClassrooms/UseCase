@@ -9,12 +9,10 @@ use OpenClassrooms\UseCase\BusinessRules\Requestors\UseCaseRequest;
 /**
  * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>
  */
-class PreLogUseCaseStub extends UseCaseStub
+class OnlyLogUseCaseStub extends UseCaseStub
 {
-    const MESSAGE = 'Pre Message';
-
     /**
-     * @Log (methods="pre", message="Pre Message")
+     * @Log
      */
     public function execute(UseCaseRequest $useCaseRequest)
     {

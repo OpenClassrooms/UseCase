@@ -2,6 +2,7 @@
 
 namespace OpenClassrooms\Tests\UseCase\Application\Services\Proxy\UseCases;
 
+use OpenClassrooms\Tests\UseCase\Application\Services\Log\LoggerSpy;
 use OpenClassrooms\Tests\UseCase\Application\Services\Security\Exceptions\AccessDeniedException;
 use OpenClassrooms\Tests\UseCase\BusinessRules\Exceptions\UseCaseException;
 use OpenClassrooms\Tests\UseCase\BusinessRules\Requestors\UseCaseRequestStub;
@@ -37,6 +38,7 @@ class WorkflowUseCaseProxyTest extends AbstractUseCaseProxyTest
         $this->useCaseProxy->execute(new UseCaseRequestStub());
         $this->assertTrue(true);
     }
+
     /**
      * @test
      */
@@ -50,6 +52,7 @@ class WorkflowUseCaseProxyTest extends AbstractUseCaseProxyTest
             $this->assertCacheWasNotCalled();
             $this->assertTransactionWasCalledOnUnAuthorizedException();
             $this->assertEventWasNotCalled();
+            $this->assertLogOnException();
         }
     }
 
@@ -73,6 +76,13 @@ class WorkflowUseCaseProxyTest extends AbstractUseCaseProxyTest
         $this->assertEquals(0, $this->event->sentCount);
     }
 
+    private function assertLogOnException()
+    {
+        $this->assertEquals(AllAnnotationsNotAuthorizedUseCaseStub::PRE_LEVEL, LoggerSpy::$level[0]);
+        $this->assertEquals(AllAnnotationsNotAuthorizedUseCaseStub::ON_EXCEPTION_LEVEL, LoggerSpy::$level[1]);
+        $this->assertCount(2, LoggerSpy::$level);
+    }
+
     /**
      * @test
      */
@@ -84,6 +94,7 @@ class WorkflowUseCaseProxyTest extends AbstractUseCaseProxyTest
         $this->assertCacheSaveWasCalled();
         $this->assertTransactionWasCalled();
         $this->assertEventWasCalled();
+        $this->assertPrePostLog();
     }
 
     private function assertCacheSaveWasCalled()
@@ -106,6 +117,13 @@ class WorkflowUseCaseProxyTest extends AbstractUseCaseProxyTest
         $this->assertEquals(2, $this->event->sentCount);
     }
 
+    private function assertPrePostLog()
+    {
+        $this->assertEquals(AllAnnotationsUseCaseStub::PRE_LEVEL, LoggerSpy::$level[0]);
+        $this->assertEquals(AllAnnotationsUseCaseStub::POST_LEVEL, LoggerSpy::$level[1]);
+        $this->assertCount(2, LoggerSpy::$level);
+    }
+
     /**
      * @test
      */
@@ -114,13 +132,15 @@ class WorkflowUseCaseProxyTest extends AbstractUseCaseProxyTest
         $this->useCaseProxy->setUseCase(new AllAnnotationsUseCaseStub());
         $response = $this->useCaseProxy->execute(new UseCaseRequestStub());
         $this->resetCache();
-        $this->resetTransaction();
         $this->resetEvent();
+        $this->resetLog();
+        $this->resetTransaction();
         $this->useCaseProxy->execute(new UseCaseRequestStub());
         $this->assertEquals(new UseCaseResponseStub(), $response);
         $this->assertCacheWasCalled();
         $this->assertTransactionWasNotCalled();
         $this->assertEventWasCalled();
+        $this->assertPrePostLog();
     }
 
     private function resetCache()
@@ -129,18 +149,26 @@ class WorkflowUseCaseProxyTest extends AbstractUseCaseProxyTest
         $this->cache->saved = false;
     }
 
-    private function resetTransaction()
-    {
-        $this->transaction->transactionBegin = false;
-        $this->transaction->committed = false;
-        $this->transaction->rollBacked = false;
-    }
-
     private function resetEvent()
     {
         $this->event->sent = false;
         $this->event->sentCount = 0;
         $this->event->event = null;
+    }
+
+    private function resetLog()
+    {
+        LoggerSpy::$level = array();
+        LoggerSpy::$message = array();
+        LoggerSpy::$context = array();
+
+    }
+
+    private function resetTransaction()
+    {
+        $this->transaction->transactionBegin = false;
+        $this->transaction->committed = false;
+        $this->transaction->rollBacked = false;
     }
 
     private function assertCacheWasCalled()
@@ -169,6 +197,7 @@ class WorkflowUseCaseProxyTest extends AbstractUseCaseProxyTest
             $this->assertCacheSaveWasNotCalled();
             $this->assertTransactionWasCalledOnException();
             $this->assertEventWasCalledOnException();
+            $this->assertLogOnException();
         }
     }
 

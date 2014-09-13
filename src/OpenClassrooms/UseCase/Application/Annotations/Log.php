@@ -91,7 +91,6 @@ class Log
             if (is_array($values['context'])) {
                 $this->context = $values['context'];
             }
-
         }
     }
 

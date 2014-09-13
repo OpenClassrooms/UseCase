@@ -6,12 +6,14 @@ use Doctrine\Common\Annotations\AnnotationReader;
 use OpenClassrooms\Tests\UseCase\Application\Services\Cache\CacheSpy;
 use OpenClassrooms\Tests\UseCase\Application\Services\Event\EventFactorySpy;
 use OpenClassrooms\Tests\UseCase\Application\Services\Event\EventSenderSpy;
+use OpenClassrooms\Tests\UseCase\Application\Services\Log\LoggerSpy;
 use OpenClassrooms\Tests\UseCase\Application\Services\Security\SecuritySpy;
 use OpenClassrooms\Tests\UseCase\Application\Services\Transaction\TransactionSpy;
 use OpenClassrooms\Tests\UseCase\BusinessRules\Requestors\UseCaseRequestStub;
 use OpenClassrooms\Tests\UseCase\BusinessRules\Responders\Doubles\UseCaseResponseStub;
 use OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\Cache\OnlyCacheUseCaseStub;
 use OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\Event\OnlyEventNameEventUseCaseStub;
+use OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\Log\OnlyLogUseCaseStub;
 use OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\Security\OnlyRoleSecurityUseCaseStub;
 use OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\Transaction\OnlyTransactionUseCaseStub;
 use OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\Workflow\AllAnnotationsUseCaseStub;
@@ -41,35 +43,6 @@ class UseCaseProxyBuilderTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException \OpenClassrooms\UseCase\Application\Services\Proxy\UseCases\Exceptions\SecurityIsNotDefinedException
-     */
-    public function WithoutSecurityUseCaseWithSecurityAnnotation_Build_ThrowException()
-    {
-        $this->builder
-            ->create(new OnlyRoleSecurityUseCaseStub())
-            ->withReader(new AnnotationReader())
-            ->build();
-
-    }
-
-    /**
-     * @test
-     */
-    public function WithSecurityUseCaseWithSecurityAnnotation_Build_ReturnUseCaseProxy()
-    {
-        $proxy = $this->builder
-            ->create(new OnlyRoleSecurityUseCaseStub())
-            ->withReader(new AnnotationReader())
-            ->withSecurity(new SecuritySpy())
-            ->build();
-
-        $this->assertInstanceOf(self::USE_CASE_PROXY_CLASS, $proxy);
-        $this->assertEquals(new OnlyRoleSecurityUseCaseStub(), $proxy->getUseCase());
-        $this->assertEquals(new UseCaseResponseStub(), $proxy->execute(new UseCaseRequestStub()));
-    }
-
-    /**
-     * @test
      * @expectedException \OpenClassrooms\UseCase\Application\Services\Proxy\UseCases\Exceptions\CacheIsNotDefinedException
      */
     public function WithoutCacheUseCaseWithCacheAnnotation_Build_ThrowException()
@@ -93,34 +66,6 @@ class UseCaseProxyBuilderTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf(self::USE_CASE_PROXY_CLASS, $proxy);
         $this->assertEquals(new OnlyCacheUseCaseStub(), $proxy->getUseCase());
-        $this->assertEquals(new UseCaseResponseStub(), $proxy->execute(new UseCaseRequestStub()));
-    }
-
-    /**
-     * @test
-     * @expectedException \OpenClassrooms\UseCase\Application\Services\Proxy\UseCases\Exceptions\TransactionIsNotDefinedException
-     */
-    public function WithoutTransactionUseCaseWithTransactionAnnotation_Build_ThrowException()
-    {
-        $this->builder
-            ->create(new OnlyTransactionUseCaseStub())
-            ->withReader(new AnnotationReader())
-            ->build();
-    }
-
-    /**
-     * @test
-     */
-    public function WithTransactionUseCaseWithTransactionAnnotation_Build_ReturnUseCaseProxy()
-    {
-        $proxy = $this->builder
-            ->create(new OnlyTransactionUseCaseStub())
-            ->withReader(new AnnotationReader())
-            ->withTransaction(new TransactionSpy())
-            ->build();
-
-        $this->assertInstanceOf(self::USE_CASE_PROXY_CLASS, $proxy);
-        $this->assertEquals(new OnlyTransactionUseCaseStub(), $proxy->getUseCase());
         $this->assertEquals(new UseCaseResponseStub(), $proxy->execute(new UseCaseRequestStub()));
     }
 
@@ -168,6 +113,92 @@ class UseCaseProxyBuilderTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @expectedException \OpenClassrooms\UseCase\Application\Services\Proxy\UseCases\Exceptions\LoggerIsNotDefinedException
+     */
+    public function WithoutLoggerUseCaseWithLogAnnotation_Build_ThrowException()
+    {
+        $this->builder
+            ->create(new OnlyLogUseCaseStub())
+            ->withReader(new AnnotationReader())
+            ->build();
+
+    }
+
+    /**
+     * @test
+     */
+    public function WithLogUseCaseWithLogAnnotation_Build_ReturnUseCaseProxy()
+    {
+        $proxy = $this->builder
+            ->create(new OnlyLogUseCaseStub())
+            ->withReader(new AnnotationReader())
+            ->withLogger(new LoggerSpy())
+            ->build();
+
+        $this->assertInstanceOf(self::USE_CASE_PROXY_CLASS, $proxy);
+        $this->assertEquals(new OnlyLogUseCaseStub(), $proxy->getUseCase());
+        $this->assertEquals(new UseCaseResponseStub(), $proxy->execute(new UseCaseRequestStub()));
+    }
+
+    /**
+     * @test
+     * @expectedException \OpenClassrooms\UseCase\Application\Services\Proxy\UseCases\Exceptions\SecurityIsNotDefinedException
+     */
+    public function WithoutSecurityUseCaseWithSecurityAnnotation_Build_ThrowException()
+    {
+        $this->builder
+            ->create(new OnlyRoleSecurityUseCaseStub())
+            ->withReader(new AnnotationReader())
+            ->build();
+
+    }
+
+    /**
+     * @test
+     */
+    public function WithSecurityUseCaseWithSecurityAnnotation_Build_ReturnUseCaseProxy()
+    {
+        $proxy = $this->builder
+            ->create(new OnlyRoleSecurityUseCaseStub())
+            ->withReader(new AnnotationReader())
+            ->withSecurity(new SecuritySpy())
+            ->build();
+
+        $this->assertInstanceOf(self::USE_CASE_PROXY_CLASS, $proxy);
+        $this->assertEquals(new OnlyRoleSecurityUseCaseStub(), $proxy->getUseCase());
+        $this->assertEquals(new UseCaseResponseStub(), $proxy->execute(new UseCaseRequestStub()));
+    }
+
+    /**
+     * @test
+     * @expectedException \OpenClassrooms\UseCase\Application\Services\Proxy\UseCases\Exceptions\TransactionIsNotDefinedException
+     */
+    public function WithoutTransactionUseCaseWithTransactionAnnotation_Build_ThrowException()
+    {
+        $this->builder
+            ->create(new OnlyTransactionUseCaseStub())
+            ->withReader(new AnnotationReader())
+            ->build();
+    }
+
+    /**
+     * @test
+     */
+    public function WithTransactionUseCaseWithTransactionAnnotation_Build_ReturnUseCaseProxy()
+    {
+        $proxy = $this->builder
+            ->create(new OnlyTransactionUseCaseStub())
+            ->withReader(new AnnotationReader())
+            ->withTransaction(new TransactionSpy())
+            ->build();
+
+        $this->assertInstanceOf(self::USE_CASE_PROXY_CLASS, $proxy);
+        $this->assertEquals(new OnlyTransactionUseCaseStub(), $proxy->getUseCase());
+        $this->assertEquals(new UseCaseResponseStub(), $proxy->execute(new UseCaseRequestStub()));
+    }
+
+    /**
+     * @test
      */
     public function Build_ReturnUseCaseProxy()
     {
@@ -177,6 +208,7 @@ class UseCaseProxyBuilderTest extends \PHPUnit_Framework_TestCase
             ->withCache(new CacheSpy())
             ->withEvent(new EventSenderSpy())
             ->withEventFactory(new EventFactorySpy())
+            ->withLogger(new LoggerSpy())
             ->withSecurity(new SecuritySpy())
             ->withTransaction(new TransactionSpy())
             ->build();
