@@ -7,10 +7,11 @@ namespace OpenClassrooms\UseCase\BusinessRules\Responders;
  */
 abstract class AbstractPaginatedUseCaseResponse implements PaginatedUseCaseResponse
 {
+
     /**
      * @var array
      */
-    protected $items;
+    protected $items = array();
 
     /**
      * @var integer
