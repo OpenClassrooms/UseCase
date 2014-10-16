@@ -15,6 +15,7 @@ class OnlyTransactionUseCaseStub implements UseCase
 {
     /**
      * @Transaction
+     *
      * @return UseCaseResponse
      */
     public function execute(UseCaseRequest $useCaseRequest)

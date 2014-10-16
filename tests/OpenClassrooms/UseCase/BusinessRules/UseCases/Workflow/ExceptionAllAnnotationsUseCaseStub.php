@@ -3,6 +3,10 @@
 namespace OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\Workflow;
 
 use OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\ExceptionUseCaseStub;
+use OpenClassrooms\UseCase\Application\Annotations\Cache;
+use OpenClassrooms\UseCase\Application\Annotations\Event;
+use OpenClassrooms\UseCase\Application\Annotations\Security;
+use OpenClassrooms\UseCase\Application\Annotations\Transaction;
 use OpenClassrooms\UseCase\BusinessRules\Requestors\UseCaseRequest;
 use OpenClassrooms\UseCase\BusinessRules\Responders\UseCaseResponse;
 
@@ -12,10 +16,11 @@ use OpenClassrooms\UseCase\BusinessRules\Responders\UseCaseResponse;
 class ExceptionAllAnnotationsUseCaseStub extends ExceptionUseCaseStub
 {
     /**
-     * @event (name="event_name", methods="pre, post, onException")
-     * @transaction
-     * @cache
-     * @security (roles = "ROLE_1")
+     * @Event (name="event_name", methods="pre, post, onException")
+     * @Transaction
+     * @Cache
+     * @Security (roles = "ROLE_1")
+     *
      * @return UseCaseResponse
      */
     public function execute(UseCaseRequest $useCaseRequest)

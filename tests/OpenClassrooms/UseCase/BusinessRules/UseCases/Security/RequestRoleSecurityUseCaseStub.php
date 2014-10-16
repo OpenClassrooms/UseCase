@@ -3,6 +3,7 @@
 namespace OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\Security;
 
 use OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\UseCaseStub;
+use OpenClassrooms\UseCase\Application\Annotations\Security;
 use OpenClassrooms\UseCase\BusinessRules\Requestors\UseCaseRequest;
 use OpenClassrooms\UseCase\BusinessRules\Responders\UseCaseResponse;
 
@@ -12,7 +13,8 @@ use OpenClassrooms\UseCase\BusinessRules\Responders\UseCaseResponse;
 class RequestRoleSecurityUseCaseStub extends UseCaseStub
 {
     /**
-     * @security (roles = "ROLE_1", checkRequest = true)
+     * @Security (roles = "ROLE_1", checkRequest = true)
+     *
      * @return UseCaseResponse
      */
     public function execute(UseCaseRequest $useCaseRequest)

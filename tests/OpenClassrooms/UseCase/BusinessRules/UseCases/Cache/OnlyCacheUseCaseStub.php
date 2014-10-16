@@ -3,6 +3,7 @@
 namespace OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\Cache;
 
 use OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\UseCaseStub;
+use OpenClassrooms\UseCase\Application\Annotations\Cache;
 use OpenClassrooms\UseCase\BusinessRules\Requestors\UseCaseRequest;
 
 /**
@@ -11,7 +12,7 @@ use OpenClassrooms\UseCase\BusinessRules\Requestors\UseCaseRequest;
 class OnlyCacheUseCaseStub extends UseCaseStub
 {
     /**
-     * @cache
+     * @Cache
      */
     public function execute(UseCaseRequest $useCaseRequest)
     {

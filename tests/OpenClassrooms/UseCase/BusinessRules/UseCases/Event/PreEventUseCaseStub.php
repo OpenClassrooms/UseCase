@@ -3,6 +3,7 @@
 namespace OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\Event;
 
 use OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\UseCaseStub;
+use OpenClassrooms\UseCase\Application\Annotations\Event;
 use OpenClassrooms\UseCase\BusinessRules\Requestors\UseCaseRequest;
 
 /**
@@ -13,7 +14,7 @@ class PreEventUseCaseStub extends UseCaseStub
     const EVENT_NAME = 'pre_event_use_case_stub';
 
     /**
-     * @event (methods="pre")
+     * @Event (methods="pre")
      */
     public function execute(UseCaseRequest $useCaseRequest)
     {

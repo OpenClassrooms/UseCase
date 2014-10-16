@@ -3,6 +3,7 @@
 namespace OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\Transaction;
 
 use OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\ExceptionUseCaseStub;
+use OpenClassrooms\UseCase\Application\Annotations\Transaction;
 use OpenClassrooms\UseCase\BusinessRules\Requestors\UseCaseRequest;
 
 /**
@@ -11,7 +12,7 @@ use OpenClassrooms\UseCase\BusinessRules\Requestors\UseCaseRequest;
 class ExceptionTransactionUseCaseStub extends ExceptionUseCaseStub
 {
     /**
-     * @transaction
+     * @Transaction
      */
     public function execute(UseCaseRequest $useCaseRequest)
     {
