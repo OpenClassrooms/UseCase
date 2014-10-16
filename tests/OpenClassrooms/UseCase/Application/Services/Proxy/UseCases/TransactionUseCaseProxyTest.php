@@ -4,10 +4,8 @@ namespace OpenClassrooms\Tests\UseCase\Application\Services\Proxy\UseCases;
 
 use OpenClassrooms\Tests\UseCase\BusinessRules\Exceptions\UseCaseException;
 use OpenClassrooms\Tests\UseCase\BusinessRules\Requestors\UseCaseRequestStub;
-use
-    OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\Transaction\ExceptionTransactionUseCaseStub;
-use
-    OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\Transaction\OnlyTransactionUseCaseStub;
+use OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\Transaction\ExceptionTransactionUseCaseStub;
+use OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\Transaction\OnlyTransactionUseCaseStub;
 
 /**
  * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>

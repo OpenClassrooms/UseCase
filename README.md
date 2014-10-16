@@ -127,7 +127,7 @@ class AUseCase implements UseCase
 The library provides a Proxy of the UseCase.
 
 ### Security
-@security annotation allows to check access.
+@Security annotation allows to check access.
 
 ```php
 
@@ -139,7 +139,7 @@ use OpenClassrooms\UseCase\Application\Annotations\Security;
 class AUseCase implements UseCase
 {
     /**
-     * @security (roles = "ROLE_1")
+     * @Security (roles = "ROLE_1")
      * @return UseCaseResponse
      */
     public function execute(UseCaseRequest $useCaseRequest)
@@ -155,13 +155,13 @@ class AUseCase implements UseCase
 Other options :
 ```php
 /**
- * @security (roles = "ROLE_1, ROLE_2")
+ * @Security (roles = "ROLE_1, ROLE_2")
  * Check the array of roles
  *
- * @security (roles = "ROLE_1", checkRequest = true)
+ * @Security (roles = "ROLE_1", checkRequest = true)
  * Check access for the object $useCaseRequest
  *
- * @security (roles = "ROLE_1", checkField = "fieldName")
+ * @Security (roles = "ROLE_1", checkField = "fieldName")
  * Check access for the field "fieldName" of the object $useCaseRequest
  */
 ```

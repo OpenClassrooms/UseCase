@@ -2,13 +2,9 @@
 
 namespace OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\Workflow;
 
+use OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\UseCaseStub;
 use OpenClassrooms\UseCase\BusinessRules\Requestors\UseCaseRequest;
 use OpenClassrooms\UseCase\BusinessRules\Responders\UseCaseResponse;
-use OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\UseCaseStub;
-use OpenClassrooms\UseCase\Application\Annotations\Security;
-use OpenClassrooms\UseCase\Application\Annotations\Cache;
-use OpenClassrooms\UseCase\Application\Annotations\Transaction;
-use OpenClassrooms\UseCase\Application\Annotations\Event;
 
 /**
  * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>

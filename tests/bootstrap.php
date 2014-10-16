@@ -9,7 +9,4 @@ error_reporting(E_ALL | E_STRICT);
 
 /** @var ClassLoader $loader */
 require __DIR__ . '/../vendor/autoload.php';
-AnnotationRegistry::registerAutoloadNamespace(
-    'OpenClassrooms\UseCase\Application\Annotations',
-    dirname(__DIR__) . '/src'
-);
+AnnotationRegistry::registerAutoloadNamespace('OpenClassrooms\UseCase\Application\Annotations',dirname(__DIR__) . '/src');
