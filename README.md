@@ -127,7 +127,7 @@ class AUseCase implements UseCase
 The library provides a Proxy of the UseCase.
 
 ### Security
-@security annotation allows to check access.
+@Security annotation allows to check access.
 
 ```php
 
@@ -139,7 +139,8 @@ use OpenClassrooms\UseCase\Application\Annotations\Security;
 class AUseCase implements UseCase
 {
     /**
-     * @security (roles = "ROLE_1")
+     * @Security (roles = "ROLE_1")
+     *
      * @return UseCaseResponse
      */
     public function execute(UseCaseRequest $useCaseRequest)
@@ -155,19 +156,19 @@ class AUseCase implements UseCase
 Other options :
 ```php
 /**
- * @security (roles = "ROLE_1, ROLE_2")
+ * @Security (roles = "ROLE_1, ROLE_2")
  * Check the array of roles
  *
- * @security (roles = "ROLE_1", checkRequest = true)
+ * @Security (roles = "ROLE_1", checkRequest = true)
  * Check access for the object $useCaseRequest
  *
- * @security (roles = "ROLE_1", checkField = "fieldName")
+ * @Security (roles = "ROLE_1", checkField = "fieldName")
  * Check access for the field "fieldName" of the object $useCaseRequest
  */
 ```
 
 ### Cache
-@cache annotation allows to manage cache.
+@Cache annotation allows to manage cache.
 
 ```php
 
@@ -179,7 +180,8 @@ use OpenClassrooms\UseCase\Application\Annotations\Cache;
 class AUseCase implements UseCase
 {
     /**
-     * @cache
+     * @Cache
+     *
      * @return UseCaseResponse
      */
     public function execute(UseCaseRequest $useCaseRequest)
@@ -195,19 +197,19 @@ The key is equal to : ```md5(serialize($useCaseRequest))``` and the TTL is the d
 Other options:
 ```php
 /**
- * @cache (lifetime=1000)
+ * @Cache (lifetime=1000)
  * Add a TTL of 1000 seconds
  *
- * @cache (namespacePrefix="namespace_prefix")
+ * @Cache (namespacePrefix="namespace_prefix")
  * Add a namespace to the id with a namespace id equals to "namespace_prefix" 
  *
- * @cache (namespacePrefix="namespace prefix", namespaceAttribute="fieldName")
+ * @Cache (namespacePrefix="namespace prefix", namespaceAttribute="fieldName")
  * Add a namespace to the id with a namespace id equals to "namespace_prefix" . "$useCaseRequest->fieldName"
  */
 ```
 ### Transaction
 
-Transaction gives a transactional context around the Use Case.
+@Transaction annotation gives a transactional context around the Use Case.
 - begin transaction
 - execute()
 - commit
@@ -225,7 +227,8 @@ use OpenClassrooms\UseCase\Application\Annotations\Transaction;
 class AUseCase implements UseCase
 {
     /**
-     * @transaction
+     * @Transaction
+     *
      * @return UseCaseResponse
      */
     public function execute(UseCaseRequest $useCaseRequest)
@@ -238,7 +241,7 @@ class AUseCase implements UseCase
 ```
 ### Event
 
-@event annotation allows to send events.
+@Event annotation allows to send events.
 
 An implementation of OpenClassrooms\UseCase\Application\Services\EventSender\EventFactory must be written in the application context.
 
@@ -251,7 +254,8 @@ use OpenClassrooms\UseCase\Application\Annotations\EventSender;
 class AUseCase implements UseCase
 {
     /**
-     * @event
+     * @Event
+     *
      * @return UseCaseResponse
      */
     public function execute(UseCaseRequest $useCaseRequest)
@@ -281,14 +285,14 @@ Prefixes can be :
 
 ```php
 /**
- * @event(name="event_name")
+ * @Event(name="event_name")
  * Send an event with event name equals to *prefix*.event_name
  * (note: the name is always converted to underscore)
  *
- * @event(methods="pre")
+ * @Event(methods="pre")
  * Send an event before the call of UseCase->execute()
  *
- * @event(methods="pre, post, onException")
+ * @Event(methods="pre, post, onException")
  * Send an event before the call of UseCase->execute(), after the call of UseCase->execute() or on exception
  */
 ```
