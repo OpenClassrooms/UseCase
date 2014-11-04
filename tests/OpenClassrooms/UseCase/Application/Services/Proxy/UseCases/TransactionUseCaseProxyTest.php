@@ -4,27 +4,14 @@ namespace OpenClassrooms\Tests\UseCase\Application\Services\Proxy\UseCases;
 
 use OpenClassrooms\Tests\UseCase\BusinessRules\Exceptions\UseCaseException;
 use OpenClassrooms\Tests\UseCase\BusinessRules\Requestors\UseCaseRequestStub;
-use
-    OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\Transaction\ExceptionTransactionUseCaseStub;
-use
-    OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\Transaction\OnlyTransactionUseCaseStub;
+use OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\Transaction\ExceptionTransactionUseCaseStub;
+use OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\Transaction\OnlyTransactionUseCaseStub;
 
 /**
  * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>
  */
 class TransactionUseCaseProxyTest extends AbstractUseCaseProxyTest
 {
-    /**
-     * @test
-     */
-    public function Transaction_Commit()
-    {
-        $this->useCaseProxy->setUseCase(new OnlyTransactionUseCaseStub());
-        $this->useCaseProxy->execute(new UseCaseRequestStub());
-        $this->assertTrue($this->transaction->committed);
-        $this->assertFalse($this->transaction->rollBacked);
-    }
-
     /**
      * @test
      */
@@ -38,5 +25,16 @@ class TransactionUseCaseProxyTest extends AbstractUseCaseProxyTest
             $this->assertFalse($this->transaction->committed);
             $this->assertTrue($this->transaction->rollBacked);
         }
+    }
+    
+    /**
+     * @test
+     */
+    public function Transaction_Commit()
+    {
+        $this->useCaseProxy->setUseCase(new OnlyTransactionUseCaseStub());
+        $this->useCaseProxy->execute(new UseCaseRequestStub());
+        $this->assertTrue($this->transaction->committed);
+        $this->assertFalse($this->transaction->rollBacked);
     }
 }
