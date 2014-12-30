@@ -7,6 +7,10 @@ namespace OpenClassrooms\UseCase\BusinessRules\Entities;
  */
 abstract class PaginatedCollection
 {
+    const PAGE = 'page';
+    
+    const ITEMS_PER_PAGE = 'itemsPerPage';
+    
     /**
      * @var array
      */
