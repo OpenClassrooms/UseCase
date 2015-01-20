@@ -20,5 +20,4 @@ class OnlyEventNameEventUseCaseStub extends UseCaseStub
     {
         return parent::execute($useCaseRequest);
     }
-
 }

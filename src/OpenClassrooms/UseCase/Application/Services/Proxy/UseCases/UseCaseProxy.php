@@ -9,12 +9,9 @@ use OpenClassrooms\UseCase\Application\Annotations\Event;
 use OpenClassrooms\UseCase\Application\Annotations\Security;
 use OpenClassrooms\UseCase\Application\Annotations\Transaction;
 use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Requestors\ProxyStrategy;
-use
-    OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Requestors\ProxyStrategyBag;
-use
-    OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Requestors\ProxyStrategyBagFactory;
-use
-    OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Requestors\ProxyStrategyRequestFactory;
+use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Requestors\ProxyStrategyBag;
+use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Requestors\ProxyStrategyBagFactory;
+use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Requestors\ProxyStrategyRequestFactory;
 use OpenClassrooms\UseCase\BusinessRules\Requestors\UseCase;
 use OpenClassrooms\UseCase\BusinessRules\Requestors\UseCaseRequest;
 use OpenClassrooms\UseCase\BusinessRules\Responders\UseCaseResponse;
@@ -31,7 +28,7 @@ abstract class UseCaseProxy implements UseCase
         1 => ProxyStrategy::SECURITY,
         2 => ProxyStrategy::CACHE,
         3 => ProxyStrategy::TRANSACTION,
-        4 => ProxyStrategy::EVENT
+        4 => ProxyStrategy::EVENT,
     );
 
     /**
@@ -94,7 +91,6 @@ abstract class UseCaseProxy implements UseCase
             $this->postExecute();
 
             return $this->response;
-
         } catch (\Exception $e) {
             $this->onException($e);
             throw $e;
@@ -148,7 +144,6 @@ abstract class UseCaseProxy implements UseCase
 
         foreach ($this->strategies as $strategy) {
             if ($strategy->isPreExecute() && $this->transactionCanBegin($strategy)) {
-
                 $request = $this->proxyStrategyRequestFactory->createPreExecuteRequest(
                     $strategy->getAnnotation(),
                     $this->useCase,

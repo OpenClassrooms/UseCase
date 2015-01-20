@@ -9,5 +9,4 @@ use OpenClassrooms\UseCase\BusinessRules\Entities\PaginatedCollection;
  */
 class PaginatedCollectionImpl extends PaginatedCollection
 {
-
 }

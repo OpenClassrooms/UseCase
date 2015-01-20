@@ -16,7 +16,6 @@ use OpenClassrooms\UseCase\Application\Services\Transaction\Transaction;
  */
 class TransactionProxyStrategy implements PreExecuteProxyStrategy, PostExecuteProxyStrategy, OnExceptionProxyStrategy
 {
-
     /**
      * @var Transaction
      */

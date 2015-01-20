@@ -36,5 +36,4 @@ class EventSenderSpy implements EventSender
         $this->sentCount++;
         $this->event = $event;
     }
-
 }

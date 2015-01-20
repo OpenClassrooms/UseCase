@@ -2,8 +2,7 @@
 
 namespace OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Impl\DTO;
 
-use
-    OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Responders\ProxyStrategyResponse;
+use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Responders\ProxyStrategyResponse;
 
 /**
  * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>
@@ -41,5 +40,4 @@ class ProxyStrategyResponseDTO implements ProxyStrategyResponse
     {
         return $this->stopExecution;
     }
-
 }

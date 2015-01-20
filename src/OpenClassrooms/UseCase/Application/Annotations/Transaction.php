@@ -8,5 +8,4 @@ namespace OpenClassrooms\UseCase\Application\Annotations;
  */
 class Transaction
 {
-
 }

@@ -51,7 +51,7 @@ class CacheUseCaseProxyTest extends AbstractUseCaseProxyTest
         $this->assertEquals(new UseCaseResponseStub(), $response);
         $this->assertTrue($this->cache->savedWithNamespace);
         $this->assertEquals(
-            NamespaceCacheUseCaseStub::NAMESPACE_PREFIX . UseCaseRequestStub::FIELD_VALUE,
+            NamespaceCacheUseCaseStub::NAMESPACE_PREFIX.UseCaseRequestStub::FIELD_VALUE,
             $this->cache->namespaceId
         );
     }

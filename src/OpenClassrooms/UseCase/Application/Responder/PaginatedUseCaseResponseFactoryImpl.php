@@ -9,5 +9,4 @@ use OpenClassrooms\UseCase\BusinessRules\Responders\AbstractPaginatedUseCaseResp
  */
 class PaginatedUseCaseResponseFactoryImpl extends AbstractPaginatedUseCaseResponseFactory
 {
-
 }

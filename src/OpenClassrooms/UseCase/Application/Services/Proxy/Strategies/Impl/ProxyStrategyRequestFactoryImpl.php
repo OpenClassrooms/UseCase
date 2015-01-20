@@ -6,20 +6,13 @@ use OpenClassrooms\UseCase\Application\Annotations\Cache;
 use OpenClassrooms\UseCase\Application\Annotations\Event;
 use OpenClassrooms\UseCase\Application\Annotations\Security;
 use OpenClassrooms\UseCase\Application\Annotations\Transaction;
-use
-    OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Exceptions\UnSupportedAnnotationException;
-use
-    OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Impl\DTO\ProxyStrategyRequestDTO;
-use
-    OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Requestors\Cache\CacheProxyStrategyRequestBuilder;
-use
-    OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Requestors\Event\EventProxyStrategyRequestBuilder;
-use
-    OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Requestors\ProxyStrategyRequest;
-use
-    OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Requestors\ProxyStrategyRequestFactory;
-use
-    OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Requestors\Security\SecurityProxyStrategyRequestBuilder;
+use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Exceptions\UnSupportedAnnotationException;
+use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Impl\DTO\ProxyStrategyRequestDTO;
+use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Requestors\Cache\CacheProxyStrategyRequestBuilder;
+use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Requestors\Event\EventProxyStrategyRequestBuilder;
+use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Requestors\ProxyStrategyRequest;
+use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Requestors\ProxyStrategyRequestFactory;
+use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Requestors\Security\SecurityProxyStrategyRequestBuilder;
 use OpenClassrooms\UseCase\BusinessRules\Requestors\UseCase;
 use OpenClassrooms\UseCase\BusinessRules\Requestors\UseCaseRequest;
 use OpenClassrooms\UseCase\BusinessRules\Responders\UseCaseResponse;
@@ -122,7 +115,7 @@ class ProxyStrategyRequestFactoryImpl implements ProxyStrategyRequestFactory
      */
     private function createCacheId(UseCase $useCase, UseCaseRequest $useCaseRequest)
     {
-        return md5(get_class($useCase) . serialize($useCaseRequest));
+        return md5(get_class($useCase).serialize($useCaseRequest));
     }
 
     /**
@@ -130,7 +123,7 @@ class ProxyStrategyRequestFactoryImpl implements ProxyStrategyRequestFactory
      */
     private function getPreEventName(Event $annotation, UseCase $useCase)
     {
-        return 'use_case.pre.' . $this->getEventName($annotation, $useCase);
+        return 'use_case.pre.'.$this->getEventName($annotation, $useCase);
     }
 
     /**
@@ -165,8 +158,7 @@ class ProxyStrategyRequestFactoryImpl implements ProxyStrategyRequestFactory
         UseCase $useCase,
         UseCaseRequest $useCaseRequest,
         UseCaseResponse $useCaseResponse = null
-    )
-    {
+    ) {
         $request = new ProxyStrategyRequestDTO();
         switch ($annotation) {
             case $annotation instanceof Cache:
@@ -204,7 +196,7 @@ class ProxyStrategyRequestFactoryImpl implements ProxyStrategyRequestFactory
      */
     private function getPostEventName(Event $annotation, UseCase $useCase)
     {
-        return 'use_case.post.' . $this->getEventName($annotation, $useCase);
+        return 'use_case.post.'.$this->getEventName($annotation, $useCase);
     }
 
     /**
@@ -215,8 +207,7 @@ class ProxyStrategyRequestFactoryImpl implements ProxyStrategyRequestFactory
         UseCase $useCase,
         UseCaseRequest $useCaseRequest,
         \Exception $exception
-    )
-    {
+    ) {
         switch ($annotation) {
             case $annotation instanceof Transaction:
                 $request = new ProxyStrategyRequestDTO();
@@ -242,28 +233,24 @@ class ProxyStrategyRequestFactoryImpl implements ProxyStrategyRequestFactory
      */
     private function getOnExceptionEventName(Event $annotation, UseCase $useCase)
     {
-        return 'use_case.exception.' . $this->getEventName($annotation, $useCase);
+        return 'use_case.exception.'.$this->getEventName($annotation, $useCase);
     }
 
     public function setCacheProxyStrategyRequestBuilder(
         CacheProxyStrategyRequestBuilder $cacheProxyStrategyRequestBuilder
-    )
-    {
+    ) {
         $this->cacheProxyStrategyRequestBuilder = $cacheProxyStrategyRequestBuilder;
     }
 
     public function setSecurityProxyStrategyRequestBuilder(
         SecurityProxyStrategyRequestBuilder $securityProxyStrategyRequestBuilder
-    )
-    {
+    ) {
         $this->securityProxyStrategyRequestBuilder = $securityProxyStrategyRequestBuilder;
     }
 
     public function setEventProxyStrategyRequestBuilder(
         EventProxyStrategyRequestBuilder $eventProxyStrategyRequestBuilder
-    )
-    {
+    ) {
         $this->eventProxyStrategyRequestBuilder = $eventProxyStrategyRequestBuilder;
     }
-
 }

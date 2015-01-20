@@ -7,5 +7,4 @@ namespace OpenClassrooms\UseCase\BusinessRules\Responders;
  */
 interface UseCaseResponse
 {
-
 }

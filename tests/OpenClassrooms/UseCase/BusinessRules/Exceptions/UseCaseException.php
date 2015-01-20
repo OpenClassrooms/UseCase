@@ -7,5 +7,4 @@ namespace OpenClassrooms\Tests\UseCase\BusinessRules\Exceptions;
  */
 class UseCaseException extends \Exception
 {
-
 }

@@ -20,5 +20,4 @@ class ManyRolesSecurityUseCaseStub extends UseCaseStub
     {
         return parent::execute($useCaseRequest);
     }
-
 }
