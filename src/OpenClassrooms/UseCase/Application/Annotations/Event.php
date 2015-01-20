@@ -22,7 +22,7 @@ class Event
     private static $allowedMethods = array(
         self::PRE_METHOD,
         self::POST_METHOD,
-        self::ON_EXCEPTION_METHOD
+        self::ON_EXCEPTION_METHOD,
     );
 
     /**
@@ -48,7 +48,7 @@ class Event
 
         foreach ($this->methods as $method) {
             if (!in_array($method, self::$allowedMethods)) {
-                throw new \InvalidArgumentException ('Method "' . $method . '" is not allowed. Allowed: pre, post and onException');
+                throw new \InvalidArgumentException('Method "'.$method.'" is not allowed. Allowed: pre, post and onException');
             }
         }
     }

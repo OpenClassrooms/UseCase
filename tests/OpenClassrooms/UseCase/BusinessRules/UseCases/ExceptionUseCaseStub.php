@@ -19,5 +19,4 @@ class ExceptionUseCaseStub implements UseCase
     {
         throw new UseCaseException();
     }
-
 }

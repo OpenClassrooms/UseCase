@@ -14,7 +14,6 @@ class EventClassDummy
      */
     public function withoutName()
     {
-
     }
 
     /**
@@ -22,6 +21,5 @@ class EventClassDummy
      */
     public function invalidMethod()
     {
-
     }
 }

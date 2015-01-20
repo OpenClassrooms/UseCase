@@ -10,6 +10,11 @@ use OpenClassrooms\UseCase\Application\Services\Transaction\Transaction;
 class TransactionSpy implements Transaction
 {
     /**
+     * @var int
+     */
+    private static $transactionNumber = 0;
+
+    /**
      * @var bool
      */
     public $transactionBegin = false;
@@ -30,6 +35,21 @@ class TransactionSpy implements Transaction
     public function beginTransaction()
     {
         $this->transactionBegin = true;
+        self::$transactionNumber++;
+
+        return true;
+    }
+
+    /**
+     * @return bool
+     */
+    public function commit()
+    {
+        if (!$this->isTransactionActive()) {
+            throw new \Exception('transaction is not active');
+        }
+        self::$transactionNumber--;
+        $this->committed = true;
 
         return true;
     }
@@ -39,17 +59,7 @@ class TransactionSpy implements Transaction
      */
     public function isTransactionActive()
     {
-        return $this->transactionBegin;
-    }
-
-    /**
-     * @return bool
-     */
-    public function commit()
-    {
-        $this->committed = true;
-
-        return true;
+        return self::$transactionNumber > 0;
     }
 
     /**
@@ -57,6 +67,10 @@ class TransactionSpy implements Transaction
      */
     public function rollBack()
     {
+        if (!$this->isTransactionActive()) {
+            throw new \Exception('transaction is not active');
+        }
+        self::$transactionNumber--;
         $this->rollBacked = true;
 
         return true;

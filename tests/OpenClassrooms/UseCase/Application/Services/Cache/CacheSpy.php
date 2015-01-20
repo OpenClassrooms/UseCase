@@ -73,6 +73,5 @@ class CacheSpy extends CacheImpl
         $this->fetchedWithNamespace = true;
 
         return parent::fetchWithNamespace($id, $namespaceId);
-
     }
 }

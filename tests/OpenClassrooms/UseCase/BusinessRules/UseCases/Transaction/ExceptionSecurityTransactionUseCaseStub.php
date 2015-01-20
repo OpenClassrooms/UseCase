@@ -20,5 +20,4 @@ class ExceptionSecurityTransactionUseCaseStub extends UseCaseStub
     {
         return parent::execute($useCaseRequest);
     }
-
 }

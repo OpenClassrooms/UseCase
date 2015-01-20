@@ -21,5 +21,4 @@ class OnlyTransactionUseCaseStub implements UseCase
     {
         return new UseCaseResponseStub();
     }
-
 }

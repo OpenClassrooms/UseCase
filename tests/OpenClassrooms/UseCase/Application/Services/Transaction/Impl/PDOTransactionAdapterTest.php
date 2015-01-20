@@ -8,7 +8,7 @@ use OpenClassrooms\UseCase\Application\Services\Transaction\Transaction;
 /**
  * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>
  */
-class TransactionPDOAdapterTest extends \PHPUnit_Framework_TestCase
+class PDOTransactionAdapterTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \PDO
@@ -28,17 +28,7 @@ class TransactionPDOAdapterTest extends \PHPUnit_Framework_TestCase
         $transactionBegin = $this->transaction->beginTransaction();
         $this->assertTrue($transactionBegin);
         $this->assertTrue($this->pdo->inTransaction());
-    }
-
-    /**
-     * @test
-     */
-    public function AlreadyActiveTransaction_BeginTransaction_ReturnTransaction()
-    {
-        $this->transaction->beginTransaction();
-        $transactionBegin = $this->transaction->beginTransaction();
-        $this->assertTrue($transactionBegin);
-        $this->assertTrue($this->pdo->inTransaction());
+        $this->assertTrue($this->transaction->isTransactionActive());
     }
 
     /**
@@ -60,6 +50,7 @@ class TransactionPDOAdapterTest extends \PHPUnit_Framework_TestCase
         $committed = $this->transaction->commit();
         $this->assertTrue($committed);
         $this->assertFalse($this->pdo->inTransaction());
+        $this->assertFalse($this->transaction->isTransactionActive());
     }
 
     /**
@@ -81,6 +72,7 @@ class TransactionPDOAdapterTest extends \PHPUnit_Framework_TestCase
         $rollBacked = $this->transaction->rollBack();
         $this->assertTrue($rollBacked);
         $this->assertFalse($this->pdo->inTransaction());
+        $this->assertFalse($this->transaction->isTransactionActive());
     }
 
     protected function setUp()

@@ -7,8 +7,7 @@ use OpenClassrooms\Tests\UseCase\BusinessRules\Requestors\UseCaseRequestStub;
 use OpenClassrooms\Tests\UseCase\BusinessRules\Responders\Doubles\UseCaseResponseStub;
 use OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\Event\EventUseCaseStub;
 use OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\Event\OnExceptionEventUseCaseStub;
-use
-    OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\Event\OnlyEventNameEventUseCaseStub;
+use OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\Event\OnlyEventNameEventUseCaseStub;
 use OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\Event\PostEventUseCaseStub;
 use OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\Event\PreEventUseCaseStub;
 
@@ -32,7 +31,7 @@ class EventUseCaseProxyTest extends AbstractUseCaseProxyTest
 
         $response = $this->useCaseProxy->execute(new UseCaseRequestStub());
 
-        $this->assertEvent($response, self::EVENT_POST_NAME_PREFIX . EventUseCaseStub::EVENT_NAME);
+        $this->assertEvent($response, self::EVENT_POST_NAME_PREFIX.EventUseCaseStub::EVENT_NAME);
         $this->assertEquals(new UseCaseResponseStub(), $this->eventFactory->useCaseResponse);
     }
 
@@ -55,7 +54,7 @@ class EventUseCaseProxyTest extends AbstractUseCaseProxyTest
 
         $response = $this->useCaseProxy->execute(new UseCaseRequestStub());
 
-        $this->assertEvent($response, self::EVENT_POST_NAME_PREFIX . OnlyEventNameEventUseCaseStub::EVENT_NAME);
+        $this->assertEvent($response, self::EVENT_POST_NAME_PREFIX.OnlyEventNameEventUseCaseStub::EVENT_NAME);
         $this->assertEquals(new UseCaseResponseStub(), $this->eventFactory->useCaseResponse);
     }
 
@@ -68,9 +67,8 @@ class EventUseCaseProxyTest extends AbstractUseCaseProxyTest
 
         $response = $this->useCaseProxy->execute(new UseCaseRequestStub());
 
-        $this->assertEvent($response, self::EVENT_PRE_NAME_PREFIX . PreEventUseCaseStub::EVENT_NAME);
+        $this->assertEvent($response, self::EVENT_PRE_NAME_PREFIX.PreEventUseCaseStub::EVENT_NAME);
         $this->assertNull($this->eventFactory->useCaseResponse);
-
     }
 
     /**
@@ -82,7 +80,7 @@ class EventUseCaseProxyTest extends AbstractUseCaseProxyTest
 
         $response = $this->useCaseProxy->execute(new UseCaseRequestStub());
 
-        $this->assertEvent($response, self::EVENT_POST_NAME_PREFIX . PostEventUseCaseStub::EVENT_NAME);
+        $this->assertEvent($response, self::EVENT_POST_NAME_PREFIX.PostEventUseCaseStub::EVENT_NAME);
         $this->assertEquals(new UseCaseResponseStub(), $this->eventFactory->useCaseResponse);
     }
 
@@ -98,7 +96,7 @@ class EventUseCaseProxyTest extends AbstractUseCaseProxyTest
         } catch (UseCaseException $e) {
             $this->assertTrue($this->event->sent);
             $this->assertEquals(1, $this->event->sentCount);
-            $expectedEventName = self::EVENT_EXCEPTION_NAME_PREFIX . OnExceptionEventUseCaseStub::EVENT_NAME;
+            $expectedEventName = self::EVENT_EXCEPTION_NAME_PREFIX.OnExceptionEventUseCaseStub::EVENT_NAME;
             $this->assertEquals($expectedEventName, $this->event->eventName);
             $this->assertEquals($expectedEventName, $this->event->event);
             $this->assertEquals(new UseCaseRequestStub(), $this->eventFactory->useCaseRequest);

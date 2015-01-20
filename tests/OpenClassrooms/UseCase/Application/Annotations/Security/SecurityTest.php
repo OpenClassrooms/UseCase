@@ -29,5 +29,4 @@ class SecurityTest extends \PHPUnit_Framework_TestCase
     {
         $this->reader = new AnnotationReader();
     }
-
 }

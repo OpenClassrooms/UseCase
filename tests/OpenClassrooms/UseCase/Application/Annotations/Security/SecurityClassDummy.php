@@ -14,6 +14,5 @@ class SecurityClassDummy
      */
     public function method()
     {
-
     }
 }

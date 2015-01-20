@@ -7,5 +7,4 @@ namespace OpenClassrooms\Tests\UseCase\Application\Services\Security\Exceptions;
  */
 class AccessDeniedException extends \Exception
 {
-
 }

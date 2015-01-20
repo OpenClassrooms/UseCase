@@ -3,12 +3,10 @@
 namespace OpenClassrooms\Tests\UseCase\Application\Services\Event;
 
 use OpenClassrooms\UseCase\Application\Services\Event\EventFactory;
-use
-    OpenClassrooms\UseCase\Application\Services\Event\Exceptions\InvalidEventNameException;
+use OpenClassrooms\UseCase\Application\Services\Event\Exceptions\InvalidEventNameException;
 use OpenClassrooms\UseCase\BusinessRules\Requestors\UseCaseRequest;
 use OpenClassrooms\UseCase\BusinessRules\Responders\UseCaseResponse;
-use
-    OpenClassrooms\Tests\UseCase\Application\Services\Security\Exceptions\AccessDeniedException;
+use OpenClassrooms\Tests\UseCase\Application\Services\Security\Exceptions\AccessDeniedException;
 
 /**
  * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>
@@ -41,8 +39,7 @@ class EventFactorySpy implements EventFactory
         UseCaseRequest $useCaseRequest = null,
         UseCaseResponse $useCaseResponse = null,
         \Exception $exception = null
-    )
-    {
+    ) {
         $this->useCaseRequest = $useCaseRequest;
         $this->useCaseResponse = $useCaseResponse;
         $this->exception = $exception;
@@ -57,5 +54,4 @@ class EventFactorySpy implements EventFactory
 
         return $eventName;
     }
-
 }
