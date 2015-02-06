@@ -71,9 +71,7 @@ class WorkflowUseCaseProxyTest extends AbstractUseCaseProxyTest
 
     private function assertEventWasNotCalled()
     {
-        $this->assertFalse($this->event->sent);
-        $this->assertNull($this->event->event);
-        $this->assertEquals(0, $this->event->sentCount);
+        $this->assertEmpty($this->event->events);
     }
 
     private function assertLogOnException()
@@ -112,9 +110,7 @@ class WorkflowUseCaseProxyTest extends AbstractUseCaseProxyTest
 
     private function assertEventWasCalled()
     {
-        $this->assertTrue($this->event->sent);
-        $this->assertNotNull($this->event->event);
-        $this->assertEquals(2, $this->event->sentCount);
+        $this->assertCount(2, $this->event->events);
     }
 
     private function assertPrePostLog()
@@ -151,9 +147,7 @@ class WorkflowUseCaseProxyTest extends AbstractUseCaseProxyTest
 
     private function resetEvent()
     {
-        $this->event->sent = false;
-        $this->event->sentCount = 0;
-        $this->event->event = null;
+        $this->event->events = array();
     }
 
     private function resetLog()
@@ -215,8 +209,6 @@ class WorkflowUseCaseProxyTest extends AbstractUseCaseProxyTest
 
     private function assertEventWasCalledOnException()
     {
-        $this->assertTrue($this->event->sent);
-        $this->assertNotNull($this->event->event);
-        $this->assertEquals(2, $this->event->sentCount);
+        $this->assertCount(2, $this->event->events);
     }
 }

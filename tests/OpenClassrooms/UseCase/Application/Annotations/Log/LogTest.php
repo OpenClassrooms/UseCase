@@ -34,7 +34,7 @@ class LogTest extends \PHPUnit_Framework_TestCase
     public function InvalidMethod_ThrowException()
     {
         $class = new \ReflectionClass(new LogClassDummy());
-        $this->reader->getMethodAnnotation($class->getMethod('invalidMethod'), 'event');
+        $this->reader->getMethodAnnotation($class->getMethod('invalidMethod'), 'log');
     }
 
     protected function setUp()

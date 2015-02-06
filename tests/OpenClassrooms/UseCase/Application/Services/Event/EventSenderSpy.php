@@ -11,30 +11,12 @@ class EventSenderSpy implements EventSender
 {
 
     /**
-     * @var string
+     * @var array
      */
-    public $eventName;
-
-    /**
-     * @var bool
-     */
-    public $sent = false;
-
-    /**
-     * @var int
-     */
-    public $sentCount = 0;
-
-    /**
-     * @var mixed
-     */
-    public $event;
+    public $events = array();
 
     public function send($eventName, $event)
     {
-        $this->eventName = $eventName;
-        $this->sent = true;
-        $this->sentCount++;
-        $this->event = $event;
+        $this->events[$eventName] = $event;
     }
 }
