@@ -15,6 +15,7 @@ use OpenClassrooms\UseCase\Application\Services\Security\Security;
  */
 class SecurityProxyStrategy implements PreExecuteProxyStrategy
 {
+
     /**
      * @var Security
      */

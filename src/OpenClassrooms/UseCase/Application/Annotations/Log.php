@@ -26,7 +26,7 @@ class Log
     private static $allowedMethods = array(
         self::PRE_METHOD,
         self::POST_METHOD,
-        self::ON_EXCEPTION_METHOD
+        self::ON_EXCEPTION_METHOD,
     );
 
     /**
@@ -40,7 +40,7 @@ class Log
         LogLevel::ERROR,
         LogLevel::INFO,
         LogLevel::NOTICE,
-        LogLevel::WARNING
+        LogLevel::WARNING,
     );
 
     /**
@@ -68,7 +68,9 @@ class Log
         if (isset($values['level'])) {
             $this->level = $values['level'];
             if (!in_array($this->level, self::$allowedLevels)) {
-                throw new \InvalidArgumentException ('Level "' . $this->level . '" is not a valid PSR level. See Psr\Log\LogLevel.');
+                throw new \InvalidArgumentException(
+                    'Level "'.$this->level.'" is not a valid PSR level. See Psr\Log\LogLevel.'
+                );
             }
         }
 
@@ -79,7 +81,9 @@ class Log
 
         foreach ($this->methods as $method) {
             if (!in_array($method, self::$allowedMethods)) {
-                throw new \InvalidArgumentException ('Method "' . $method . '" is not allowed. Allowed: pre, post and onException');
+                throw new \InvalidArgumentException(
+                    'Method "'.$method.'" is not allowed. Allowed: pre, post and onException'
+                );
             }
         }
 
@@ -125,5 +129,4 @@ class Log
     {
         return $this->message;
     }
-
 }

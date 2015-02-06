@@ -8,8 +8,8 @@ use OpenClassrooms\Tests\UseCase\BusinessRules\Requestors\UseCaseRequestStub;
 use OpenClassrooms\Tests\UseCase\BusinessRules\Responders\Doubles\UseCaseResponseStub;
 use OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\Log\ExceptionLogUseCaseStub;
 use OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\Log\LogUseCaseStub;
-use OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\Log\OnlyLogUseCaseStub;
 use OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\Log\MultiLogUseCaseStub;
+use OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\Log\OnlyLogUseCaseStub;
 use OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\Log\PostLogUseCaseStub;
 use OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\Log\PreLogUseCaseStub;
 use Psr\Log\LogLevel;
@@ -35,7 +35,6 @@ class LogUseCaseProxyTest extends AbstractUseCaseProxyTest
     public function Log_ReturnResponse()
     {
         try {
-
             $this->useCaseProxy->setUseCase(new LogUseCaseStub());
             $this->useCaseProxy->execute(new UseCaseRequestStub());
         } catch (UseCaseException $uce) {

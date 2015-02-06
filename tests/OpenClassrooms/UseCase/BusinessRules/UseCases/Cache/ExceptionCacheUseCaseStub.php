@@ -18,5 +18,4 @@ class ExceptionCacheUseCaseStub extends ExceptionUseCaseStub
     {
         return parent::execute($useCaseRequest);
     }
-
 }

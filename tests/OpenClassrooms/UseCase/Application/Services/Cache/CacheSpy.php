@@ -10,6 +10,7 @@ use OpenClassrooms\Cache\Cache\CacheImpl;
  */
 class CacheSpy extends CacheImpl
 {
+
     /**
      * @var int
      */
@@ -73,6 +74,5 @@ class CacheSpy extends CacheImpl
         $this->fetchedWithNamespace = true;
 
         return parent::fetchWithNamespace($id, $namespaceId);
-
     }
 }

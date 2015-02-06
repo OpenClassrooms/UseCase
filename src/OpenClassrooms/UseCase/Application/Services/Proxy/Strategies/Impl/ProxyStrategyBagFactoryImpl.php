@@ -20,6 +20,7 @@ use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Requestors\Prox
  */
 class ProxyStrategyBagFactoryImpl implements ProxyStrategyBagFactory
 {
+
     /**
      * @var CacheProxyStrategy
      */

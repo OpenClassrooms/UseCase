@@ -121,7 +121,6 @@ class UseCaseProxyBuilderTest extends \PHPUnit_Framework_TestCase
             ->create(new OnlyLogUseCaseStub())
             ->withReader(new AnnotationReader())
             ->build();
-
     }
 
     /**
@@ -150,7 +149,6 @@ class UseCaseProxyBuilderTest extends \PHPUnit_Framework_TestCase
             ->create(new OnlyRoleSecurityUseCaseStub())
             ->withReader(new AnnotationReader())
             ->build();
-
     }
 
     /**
@@ -222,5 +220,4 @@ class UseCaseProxyBuilderTest extends \PHPUnit_Framework_TestCase
     {
         $this->builder = new UseCaseProxyBuilderImpl();
     }
-
 }

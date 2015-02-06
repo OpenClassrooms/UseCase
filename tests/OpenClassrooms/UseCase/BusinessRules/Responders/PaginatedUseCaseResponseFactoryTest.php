@@ -12,6 +12,7 @@ use OpenClassrooms\UseCase\BusinessRules\Responders\PaginatedUseCaseResponseFact
  */
 class PaginatedUseCaseResponseFactoryTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
      * @var PaginatedUseCaseResponseFactory
      */

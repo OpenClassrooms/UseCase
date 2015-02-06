@@ -16,6 +16,7 @@ use OpenClassrooms\UseCase\Application\Services\Transaction\Transaction;
  */
 class TransactionProxyStrategy implements PreExecuteProxyStrategy, PostExecuteProxyStrategy, OnExceptionProxyStrategy
 {
+
     /**
      * @var Transaction
      */
@@ -52,7 +53,9 @@ class TransactionProxyStrategy implements PreExecuteProxyStrategy, PostExecutePr
      */
     public function onException(ProxyStrategyRequest $proxyStrategyRequest)
     {
-        return $this->transaction->rollBack();
+        if ($this->transaction->isTransactionActive()) {
+            return $this->transaction->rollBack();
+        }
     }
 
     public function setTransaction(Transaction $transaction)

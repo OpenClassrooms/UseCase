@@ -39,8 +39,7 @@ class EventFactorySpy implements EventFactory
         UseCaseRequest $useCaseRequest = null,
         UseCaseResponse $useCaseResponse = null,
         \Exception $exception = null
-    )
-    {
+    ) {
         $this->useCaseRequest = $useCaseRequest;
         $this->useCaseResponse = $useCaseResponse;
         $this->exception = $exception;
@@ -55,5 +54,4 @@ class EventFactorySpy implements EventFactory
 
         return $eventName;
     }
-
 }

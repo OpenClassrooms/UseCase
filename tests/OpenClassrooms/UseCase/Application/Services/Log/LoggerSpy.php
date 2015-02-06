@@ -47,6 +47,6 @@ class LoggerSpy implements LoggerInterface
         self::$message[] = $message;
         self::$context[] = $context;
 
-        return null;
+        return;
     }
 }

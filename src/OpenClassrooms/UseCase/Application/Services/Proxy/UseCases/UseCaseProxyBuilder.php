@@ -14,8 +14,7 @@ use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Impl\Log\DTO\Lo
 use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Impl\Log\LogProxyStrategy;
 use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Impl\ProxyStrategyBagFactoryImpl;
 use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Impl\ProxyStrategyRequestFactoryImpl;
-use
-    OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Impl\Security\DTO\SecurityProxyStrategyRequestBuilderImpl;
+use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Impl\Security\DTO\SecurityProxyStrategyRequestBuilderImpl;
 use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Impl\Security\SecurityProxyStrategy;
 use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Impl\Transaction\TransactionProxyStrategy;
 use OpenClassrooms\UseCase\Application\Services\Proxy\UseCases\Exceptions\CacheIsNotDefinedException;
@@ -36,6 +35,7 @@ use Psr\Log\LoggerInterface;
  */
 abstract class UseCaseProxyBuilder
 {
+
     /**
      * @var UseCaseProxyImpl
      */

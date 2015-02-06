@@ -12,6 +12,7 @@ use OpenClassrooms\UseCase\BusinessRules\Responders\UseCaseResponse;
  */
 class LogProxyStrategyRequestBuilderImpl implements LogProxyStrategyRequestBuilder
 {
+
     /**
      * @var LogProxyStrategyRequestDTO
      */
@@ -94,5 +95,4 @@ class LogProxyStrategyRequestBuilderImpl implements LogProxyStrategyRequestBuild
     {
         return $this->logProxyStrategyRequest;
     }
-
 }

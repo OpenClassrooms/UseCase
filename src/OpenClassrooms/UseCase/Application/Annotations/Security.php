@@ -8,6 +8,7 @@ namespace OpenClassrooms\UseCase\Application\Annotations;
  */
 class Security
 {
+
     /**
      * @var mixed
      */
@@ -26,7 +27,7 @@ class Security
     public function __construct(array $values)
     {
         if (!isset($values['roles'])) {
-            throw new \InvalidArgumentException ('Roles MUST be defined');
+            throw new \InvalidArgumentException('Roles MUST be defined');
         }
         $this->roles = is_array($values['roles']) ? $values['roles'] :
             array_map('trim', explode(',', $values['roles']));
@@ -62,5 +63,4 @@ class Security
     {
         return $this->checkField;
     }
-
 }

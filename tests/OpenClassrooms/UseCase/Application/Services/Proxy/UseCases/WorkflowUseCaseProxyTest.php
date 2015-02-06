@@ -66,7 +66,7 @@ class WorkflowUseCaseProxyTest extends AbstractUseCaseProxyTest
     {
         $this->assertFalse($this->transaction->transactionBegin);
         $this->assertFalse($this->transaction->committed);
-        $this->assertTrue($this->transaction->rollBacked);
+        $this->assertFalse($this->transaction->rollBacked);
     }
 
     private function assertEventWasNotCalled()
@@ -161,7 +161,6 @@ class WorkflowUseCaseProxyTest extends AbstractUseCaseProxyTest
         LoggerSpy::$level = array();
         LoggerSpy::$message = array();
         LoggerSpy::$context = array();
-
     }
 
     private function resetTransaction()

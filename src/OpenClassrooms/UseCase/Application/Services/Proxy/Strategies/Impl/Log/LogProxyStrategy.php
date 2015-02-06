@@ -17,6 +17,7 @@ use Psr\Log\LoggerInterface;
  */
 class LogProxyStrategy implements PreExecuteProxyStrategy, PostExecuteProxyStrategy, OnExceptionProxyStrategy
 {
+
     /**
      * @var LoggerInterface
      */

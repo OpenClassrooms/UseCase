@@ -32,5 +32,4 @@ interface PaginatedUseCaseResponse extends UseCaseResponse
      * @return int
      */
     public function getTotalPages();
-
 }

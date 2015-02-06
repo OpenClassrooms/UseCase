@@ -2,23 +2,33 @@
 
 namespace OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\Transaction;
 
-use OpenClassrooms\Tests\UseCase\BusinessRules\Responders\Doubles\UseCaseResponseStub;
 use OpenClassrooms\UseCase\Application\Annotations\Transaction;
 use OpenClassrooms\UseCase\BusinessRules\Requestors\UseCase;
 use OpenClassrooms\UseCase\BusinessRules\Requestors\UseCaseRequest;
 use OpenClassrooms\UseCase\BusinessRules\Responders\UseCaseResponse;
 
 /**
- * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>
+ * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
  */
-class OnlyTransactionUseCaseStub implements UseCase
+class NestedTransactionUseCaseStub implements UseCase
 {
+
     /**
-     * @Transaction
+     * @var UseCase
+     */
+    private $nestedUseCase;
+
+    /**
+     * @Transaction()
      * @return UseCaseResponse
      */
     public function execute(UseCaseRequest $useCaseRequest)
     {
-        return new UseCaseResponseStub();
+        return $this->nestedUseCase->execute($useCaseRequest);
+    }
+
+    public function setNestedUseCase(UseCase $nestedUseCase)
+    {
+        $this->nestedUseCase = $nestedUseCase;
     }
 }

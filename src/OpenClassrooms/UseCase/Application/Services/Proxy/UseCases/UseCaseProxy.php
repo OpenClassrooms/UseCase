@@ -22,6 +22,7 @@ use OpenClassrooms\UseCase\BusinessRules\Responders\UseCaseResponse;
  */
 abstract class UseCaseProxy implements UseCase
 {
+
     /**
      * @var array
      */
@@ -30,7 +31,7 @@ abstract class UseCaseProxy implements UseCase
         2 => ProxyStrategy::SECURITY,
         3 => ProxyStrategy::EVENT,
         4 => ProxyStrategy::CACHE,
-        5 => ProxyStrategy::TRANSACTION
+        5 => ProxyStrategy::TRANSACTION,
     );
 
     /**
@@ -41,7 +42,7 @@ abstract class UseCaseProxy implements UseCase
         2 => ProxyStrategy::TRANSACTION,
         3 => ProxyStrategy::CACHE,
         4 => ProxyStrategy::EVENT,
-        5 => ProxyStrategy::SECURITY
+        5 => ProxyStrategy::SECURITY,
     );
 
     /**
@@ -52,7 +53,7 @@ abstract class UseCaseProxy implements UseCase
         2 => ProxyStrategy::CACHE,
         3 => ProxyStrategy::EVENT,
         4 => ProxyStrategy::LOG,
-        5 => ProxyStrategy::SECURITY
+        5 => ProxyStrategy::SECURITY,
     );
 
     /**
@@ -110,7 +111,6 @@ abstract class UseCaseProxy implements UseCase
             $this->postExecute();
 
             return $this->useCaseResponse;
-
         } catch (\Exception $e) {
             $this->onException($e);
             throw $e;
@@ -154,7 +154,6 @@ abstract class UseCaseProxy implements UseCase
 
         foreach ($this->strategies as $strategy) {
             if ($strategy->isPreExecute()) {
-
                 $request = $this->proxyStrategyRequestFactory->createPreExecuteRequest(
                     $strategy->getAnnotation(),
                     $this->useCase,

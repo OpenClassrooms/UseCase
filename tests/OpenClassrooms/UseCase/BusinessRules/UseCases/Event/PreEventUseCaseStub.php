@@ -20,5 +20,4 @@ class PreEventUseCaseStub extends UseCaseStub
     {
         return parent::execute($useCaseRequest);
     }
-
 }

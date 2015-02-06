@@ -9,6 +9,7 @@ use Doctrine\Common\Annotations\AnnotationReader;
  */
 class LogTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
      * @var AnnotationReader
      */

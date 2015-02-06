@@ -18,6 +18,7 @@ use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Responders\Prox
  */
 class EventProxyStrategy implements PreExecuteProxyStrategy, PostExecuteProxyStrategy, OnExceptionProxyStrategy
 {
+
     /**
      * @var EventSender
      */
@@ -96,5 +97,4 @@ class EventProxyStrategy implements PreExecuteProxyStrategy, PostExecuteProxyStr
     {
         $this->eventFactory = $eventFactory;
     }
-
 }

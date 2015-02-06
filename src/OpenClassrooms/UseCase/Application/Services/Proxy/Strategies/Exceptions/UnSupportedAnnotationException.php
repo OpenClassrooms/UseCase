@@ -7,5 +7,4 @@ namespace OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Exception
  */
 class UnSupportedAnnotationException extends \Exception
 {
-
 }

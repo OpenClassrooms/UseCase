@@ -17,5 +17,4 @@ class WithoutResponseUseCaseStub implements UseCase
     public function execute(UseCaseRequest $useCaseRequest)
     {
     }
-
 }

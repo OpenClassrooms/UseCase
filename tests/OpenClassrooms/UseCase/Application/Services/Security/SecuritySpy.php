@@ -10,6 +10,7 @@ use OpenClassrooms\UseCase\Application\Services\Security\Security;
  */
 class SecuritySpy implements Security
 {
+
     /**
      * @var array
      */

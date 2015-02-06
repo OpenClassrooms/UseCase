@@ -9,6 +9,7 @@ use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Requestors\Secu
  */
 class SecurityProxyStrategyRequestDTO implements SecurityProxyStrategyRequest
 {
+
     /**
      * @var mixed
      */

@@ -79,5 +79,4 @@ class ConfigurationUseCaseProxyTest extends AbstractUseCaseProxyTest
     {
         $this->initUseCaseProxy();
     }
-
 }

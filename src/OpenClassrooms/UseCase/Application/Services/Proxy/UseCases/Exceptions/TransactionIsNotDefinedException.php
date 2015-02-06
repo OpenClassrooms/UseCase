@@ -7,5 +7,4 @@ namespace OpenClassrooms\UseCase\Application\Services\Proxy\UseCases\Exceptions;
  */
 class TransactionIsNotDefinedException extends \Exception
 {
-
 }

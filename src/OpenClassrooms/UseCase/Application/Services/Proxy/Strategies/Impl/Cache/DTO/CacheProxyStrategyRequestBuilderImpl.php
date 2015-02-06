@@ -4,14 +4,14 @@ namespace OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Impl\Cach
 
 use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Requestors\Cache\CacheProxyStrategyRequest;
 use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Requestors\Cache\CacheProxyStrategyRequestBuilder;
-use
-    OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Requestors\Cache\Exceptions\CacheIdMustBeDefinedException;
+use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Requestors\Cache\Exceptions\CacheIdMustBeDefinedException;
 
 /**
  * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>
  */
 class CacheProxyStrategyRequestBuilderImpl implements CacheProxyStrategyRequestBuilder
 {
+
     /**
      * @var CacheProxyStrategyRequestDTO
      */

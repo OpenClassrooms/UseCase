@@ -18,5 +18,4 @@ class OnlyLogUseCaseStub extends UseCaseStub
     {
         return parent::execute($useCaseRequest);
     }
-
 }

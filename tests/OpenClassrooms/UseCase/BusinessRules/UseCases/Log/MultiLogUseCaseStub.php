@@ -38,5 +38,4 @@ class MultiLogUseCaseStub extends UseCaseStub
     {
         return parent::execute($useCaseRequest);
     }
-
 }

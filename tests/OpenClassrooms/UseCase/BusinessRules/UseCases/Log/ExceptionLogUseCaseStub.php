@@ -18,5 +18,4 @@ class ExceptionLogUseCaseStub extends ExceptionUseCaseStub
     {
         return parent::execute($useCaseRequest);
     }
-
 }

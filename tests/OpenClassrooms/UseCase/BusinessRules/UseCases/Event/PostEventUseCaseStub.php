@@ -20,5 +20,4 @@ class PostEventUseCaseStub extends UseCaseStub
     {
         return parent::execute($useCaseRequest);
     }
-
 }

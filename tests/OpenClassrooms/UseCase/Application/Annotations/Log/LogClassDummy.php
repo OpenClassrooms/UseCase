@@ -14,7 +14,6 @@ class LogClassDummy
      */
     public function invalidLevel()
     {
-
     }
 
     /**
@@ -22,6 +21,5 @@ class LogClassDummy
      */
     public function invalidMethod()
     {
-
     }
 }

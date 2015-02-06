@@ -9,6 +9,7 @@ use OpenClassrooms\UseCase\Application\Services\Transaction\Transaction;
  */
 class PDOTransactionAdapter implements Transaction
 {
+
     /**
      * @var \PDO
      */
@@ -24,7 +25,7 @@ class PDOTransactionAdapter implements Transaction
      */
     public function beginTransaction()
     {
-        return $this->isTransactionActive() ? true : $this->pdo->beginTransaction();
+        return $this->pdo->beginTransaction();
     }
 
     /**

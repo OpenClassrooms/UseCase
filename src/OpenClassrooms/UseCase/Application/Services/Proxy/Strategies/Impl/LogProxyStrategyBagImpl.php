@@ -23,5 +23,4 @@ class LogProxyStrategyBagImpl extends ProxyStrategyBag
     {
         $this->preExecute = $preExecute;
     }
-
 }

@@ -1,20 +1,20 @@
 <?php
 
-namespace OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\Log;
+namespace OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\Transaction;
 
 use OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\UseCaseStub;
-use OpenClassrooms\UseCase\Application\Annotations\Log;
+use OpenClassrooms\UseCase\Application\Annotations\Security;
+use OpenClassrooms\UseCase\Application\Annotations\Transaction;
 use OpenClassrooms\UseCase\BusinessRules\Requestors\UseCaseRequest;
 
 /**
  * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>
  */
-class PreLogUseCaseStub extends UseCaseStub
+class ExceptionSecurityTransactionUseCaseStub extends UseCaseStub
 {
-    const MESSAGE = 'Pre Message';
-
     /**
-     * @Log (methods="pre", message="Pre Message")
+     * @Security (roles = "ROLE_NOT_AUTHORIZED")
+     * @Transaction
      */
     public function execute(UseCaseRequest $useCaseRequest)
     {

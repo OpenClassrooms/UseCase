@@ -9,6 +9,7 @@ use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Requestors\Cach
  */
 class CacheProxyStrategyRequestDTO implements CacheProxyStrategyRequest
 {
+
     /**
      * @var int
      */

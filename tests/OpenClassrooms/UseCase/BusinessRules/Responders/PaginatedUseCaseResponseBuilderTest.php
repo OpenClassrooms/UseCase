@@ -10,6 +10,7 @@ use OpenClassrooms\UseCase\BusinessRules\Responders\PaginatedUseCaseResponseBuil
  */
 class PaginatedUseCaseResponseBuilderTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
      * @var PaginatedUseCaseResponseBuilder
      */

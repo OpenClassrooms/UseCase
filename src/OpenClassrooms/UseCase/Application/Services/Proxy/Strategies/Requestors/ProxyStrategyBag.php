@@ -13,6 +13,7 @@ use OpenClassrooms\UseCase\Application\Services\Security\Security;
  */
 abstract class ProxyStrategyBag
 {
+
     /**
      * @var Security|Cache|Transaction|Event
      */

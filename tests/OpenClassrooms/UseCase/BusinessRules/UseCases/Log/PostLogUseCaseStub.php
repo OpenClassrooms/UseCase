@@ -20,5 +20,4 @@ class PostLogUseCaseStub extends UseCaseStub
     {
         return parent::execute($useCaseRequest);
     }
-
 }

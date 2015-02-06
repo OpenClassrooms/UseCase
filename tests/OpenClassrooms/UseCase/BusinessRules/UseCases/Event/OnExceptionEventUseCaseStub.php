@@ -20,5 +20,4 @@ class OnExceptionEventUseCaseStub extends ExceptionUseCaseStub
     {
         return parent::execute($useCaseRequest);
     }
-
 }

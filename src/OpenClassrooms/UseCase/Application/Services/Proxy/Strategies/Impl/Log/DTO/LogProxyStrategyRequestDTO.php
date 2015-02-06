@@ -11,6 +11,7 @@ use OpenClassrooms\UseCase\BusinessRules\Responders\UseCaseResponse;
  */
 class LogProxyStrategyRequestDTO implements LogProxyStrategyRequest
 {
+
     /**
      * @var array
      */
@@ -88,5 +89,4 @@ class LogProxyStrategyRequestDTO implements LogProxyStrategyRequest
     {
         return $this->useCaseResponse;
     }
-
 }

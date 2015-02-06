@@ -19,5 +19,4 @@ class UseCaseStub implements UseCase
     {
         return new UseCaseResponseStub();
     }
-
 }
