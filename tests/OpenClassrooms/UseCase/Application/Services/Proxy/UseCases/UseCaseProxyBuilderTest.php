@@ -90,7 +90,7 @@ class UseCaseProxyBuilderTest extends \PHPUnit_Framework_TestCase
         $this->builder
             ->create(new OnlyEventNameEventUseCaseStub())
             ->withReader(new AnnotationReader())
-            ->withEvent(new EventSenderSpy())
+            ->withEventSender(new EventSenderSpy())
             ->build();
     }
 
@@ -102,7 +102,7 @@ class UseCaseProxyBuilderTest extends \PHPUnit_Framework_TestCase
         $proxy = $this->builder
             ->create(new OnlyEventNameEventUseCaseStub())
             ->withReader(new AnnotationReader())
-            ->withEvent(new EventSenderSpy())
+            ->withEventSender(new EventSenderSpy())
             ->withEventFactory(new EventFactorySpy())
             ->build();
 
@@ -204,7 +204,7 @@ class UseCaseProxyBuilderTest extends \PHPUnit_Framework_TestCase
             ->create(new AllAnnotationsUseCaseStub())
             ->withReader(new AnnotationReader())
             ->withCache(new CacheSpy())
-            ->withEvent(new EventSenderSpy())
+            ->withEventSender(new EventSenderSpy())
             ->withEventFactory(new EventFactorySpy())
             ->withLogger(new LoggerSpy())
             ->withSecurity(new SecuritySpy())

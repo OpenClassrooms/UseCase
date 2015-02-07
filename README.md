@@ -9,6 +9,7 @@ UseCase is a library that provides facilities to manage technical code over a Us
 - Cache management
 - Transactional context
 - Events
+- Logs
 
 The goal is to have only functional code on the Use Case and manage technical code in an elegant way using annotations.
 
@@ -80,6 +81,11 @@ class app()
      * @var OpenClassrooms\UseCase\Application\Services\EventSender\EventFactory
      */
     private $eventFactory;
+    
+    /**
+     * @var Psr\Log\LoggerInterface
+     */
+     private $logger;
 
     /**
      * @var Doctrine\Common\Annotations\Reader
@@ -94,8 +100,9 @@ class app()
                     ->withSecurity($this->security)
                     ->withCache($this->cache)
                     ->withTransaction($this->transaction)
-                    ->withEvent($this->event)
+                    ->withEventSender($this->event)
                     ->withEventFactory($this->eventFactory)
+                    ->withLogger($this->logger)
                     ->build();
     }                    
 }                
@@ -215,7 +222,6 @@ Other options:
 - commit
 - rollback on exception
  
-Will use the previous active transaction if there is one.
 
 ```php
 
@@ -294,13 +300,78 @@ Prefixes can be :
  *
  * @Event(methods="pre, post, onException")
  * Send an event before the call of UseCase->execute(), after the call of UseCase->execute() or on exception
+ * 
+ * @Event(name="first_event")
+ * @Event(name="second_event")
+ * Send two events
  */
 ```
+
+### Log
+
+@Log annotation allows to add log following the [PSR standard](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-3-logger-interface.md).
+
+
+```php
+use OpenClassrooms\UseCase\BusinessRules\Requestors\UseCase;
+use OpenClassrooms\UseCase\BusinessRules\Requestors\UseCaseRequest;
+use OpenClassrooms\UseCase\BusinessRules\Responders\UseCaseResponse;
+use OpenClassrooms\UseCase\Application\Annotations\Log;
+
+class AUseCase implements UseCase
+{
+    /**
+     * @Log
+     *
+     * @return UseCaseResponse
+     */
+    public function execute(UseCaseRequest $useCaseRequest)
+    {
+        // do things
+        
+        return $useCaseResponse;
+    }
+}
+```
+
+The log can be:
+- pre execute
+- post execute
+- on exception
+or all of them.
+
+On exception is default.
+
+Level can be specified following [PSR's levels](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-3-logger-interface.md#5-psrlogloglevel).
+Warning is default.
+
+
+```php
+/**
+ * @Log(level="error")
+ * Log with the level 'error'
+ * 
+ * @Log (message="message with context {foo}", context={"foo":"bar"})
+ * Log with standard message
+ *
+ * @Log(methods="pre")
+ * Log before the call of UseCase->execute()
+ *
+ * @Log(methods="pre, post, onException")
+ * Log before the call of UseCase->execute(), after the call of UseCase->execute() or on exception
+ * 
+ * @Log(methods="pre", level="debug")
+ * @Log(methods="onException", level="error")
+ * Log before the call of UseCase->execute() with debug level and on exception with error level
+ */
+```
+
 
 ### Workflow
 The execution order is the following:
 
 Pre Excecute:
+- log (pre)
 - security
 - cache (fetch)
 - transaction (begin transaction)
@@ -310,8 +381,12 @@ Post Excecute:
 - cache (save if needed)
 - transaction (commit)
 - event (post)
+- log (post)
 
 On Exception:
+- log (on exception)
 - transaction (rollback)
 - event (on exception)
 
+### Utils
+The library provide a generic response for paginated collection.

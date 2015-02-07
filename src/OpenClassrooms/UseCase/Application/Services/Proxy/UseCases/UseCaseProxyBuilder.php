@@ -95,7 +95,7 @@ abstract class UseCaseProxyBuilder
     /**
      * @return UseCaseProxyBuilder
      */
-    public function withEvent(EventSender $event = null)
+    public function withEventSender(EventSender $event = null)
     {
         $this->event = $event;
 
