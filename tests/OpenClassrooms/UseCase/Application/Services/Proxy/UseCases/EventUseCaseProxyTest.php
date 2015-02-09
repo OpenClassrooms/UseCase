@@ -109,7 +109,6 @@ class EventUseCaseProxyTest extends AbstractUseCaseProxyTest
     {
         $this->useCaseProxy->setUseCase(new MultiEventUseCaseStub());
         $response = $this->useCaseProxy->execute(new UseCaseRequestStub());
-        var_dump($this->event);
         $this->assertEvent($response, MultiEventUseCaseStub::FIRST_EVENT_NAME);
     }
 }
