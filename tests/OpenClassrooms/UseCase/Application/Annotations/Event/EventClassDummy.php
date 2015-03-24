@@ -10,14 +10,14 @@ use OpenClassrooms\UseCase\Application\Annotations\Event;
 class EventClassDummy
 {
     /**
-     * @event
+     * @Event
      */
     public function withoutName()
     {
     }
 
     /**
-     * @event (name="event_name", methods="invalid method")
+     * @Event (name="event_name", methods="invalid method")
      */
     public function invalidMethod()
     {

@@ -11,6 +11,7 @@ use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Requestors\Secu
  */
 class SecurityProxyStrategyRequestBuilderImpl implements SecurityProxyStrategyRequestBuilder
 {
+
     /**
      * @var SecurityProxyStrategyRequestDTO
      */

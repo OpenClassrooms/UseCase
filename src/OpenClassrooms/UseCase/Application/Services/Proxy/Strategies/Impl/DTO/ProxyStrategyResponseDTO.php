@@ -9,6 +9,7 @@ use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Responders\Prox
  */
 class ProxyStrategyResponseDTO implements ProxyStrategyResponse
 {
+
     /**
      * @var string
      */

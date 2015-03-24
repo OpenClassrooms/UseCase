@@ -13,6 +13,7 @@ use OpenClassrooms\UseCase\BusinessRules\Responders\UseCaseResponse;
  */
 class EventProxyStrategyRequestBuilderImpl implements EventProxyStrategyRequestBuilder
 {
+
     /**
      * @var EventProxyStrategyRequestDTO
      */

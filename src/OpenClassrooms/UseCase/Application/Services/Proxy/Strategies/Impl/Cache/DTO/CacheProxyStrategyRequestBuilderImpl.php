@@ -11,6 +11,7 @@ use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Requestors\Cach
  */
 class CacheProxyStrategyRequestBuilderImpl implements CacheProxyStrategyRequestBuilder
 {
+
     /**
      * @var CacheProxyStrategyRequestDTO
      */

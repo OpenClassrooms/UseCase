@@ -9,6 +9,7 @@ use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Requestors\Prox
  */
 class SecurityProxyStrategyBagImpl extends ProxyStrategyBag
 {
+
     /**
      * @var bool
      */

@@ -6,6 +6,7 @@ use OpenClassrooms\Tests\UseCase\BusinessRules\Exceptions\UseCaseException;
 use OpenClassrooms\Tests\UseCase\BusinessRules\Requestors\UseCaseRequestStub;
 use OpenClassrooms\Tests\UseCase\BusinessRules\Responders\Doubles\UseCaseResponseStub;
 use OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\Event\EventUseCaseStub;
+use OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\Event\MultiEventUseCaseStub;
 use OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\Event\OnExceptionEventUseCaseStub;
 use OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\Event\OnlyEventNameEventUseCaseStub;
 use OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\Event\PostEventUseCaseStub;
@@ -38,10 +39,8 @@ class EventUseCaseProxyTest extends AbstractUseCaseProxyTest
     private function assertEvent($response, $expectedEventName)
     {
         $this->assertEquals(new UseCaseResponseStub(), $response);
-        $this->assertTrue($this->event->sent);
-        $this->assertEquals(1, $this->event->sentCount);
-        $this->assertEquals($expectedEventName, $this->event->event);
-        $this->assertEquals($expectedEventName, $this->event->eventName);
+        $this->assertNotEmpty($this->event->events);
+        $this->assertTrue(isset($this->event->events[$expectedEventName]));
         $this->assertEquals(new UseCaseRequestStub(), $this->eventFactory->useCaseRequest);
     }
 
@@ -94,14 +93,22 @@ class EventUseCaseProxyTest extends AbstractUseCaseProxyTest
 
             $this->useCaseProxy->execute(new UseCaseRequestStub());
         } catch (UseCaseException $e) {
-            $this->assertTrue($this->event->sent);
-            $this->assertEquals(1, $this->event->sentCount);
+            $this->assertCount(1, $this->event->events);
             $expectedEventName = self::EVENT_EXCEPTION_NAME_PREFIX.OnExceptionEventUseCaseStub::EVENT_NAME;
-            $this->assertEquals($expectedEventName, $this->event->eventName);
-            $this->assertEquals($expectedEventName, $this->event->event);
+            $this->assertTrue(isset($this->event->events[$expectedEventName]));
             $this->assertEquals(new UseCaseRequestStub(), $this->eventFactory->useCaseRequest);
             $this->assertNull($this->eventFactory->useCaseResponse);
             $this->assertEquals(new UseCaseException(), $this->eventFactory->exception);
         }
+    }
+
+    /**
+     * @test
+     */
+    public function Multi_Event()
+    {
+        $this->useCaseProxy->setUseCase(new MultiEventUseCaseStub());
+        $response = $this->useCaseProxy->execute(new UseCaseRequestStub());
+        $this->assertEvent($response, MultiEventUseCaseStub::FIRST_EVENT_NAME);
     }
 }

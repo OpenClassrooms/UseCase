@@ -11,6 +11,7 @@ use OpenClassrooms\UseCase\BusinessRules\Responders\UseCaseResponse;
  */
 class EventProxyStrategyRequestDTO implements EventProxyStrategyRequest
 {
+
     /**
      * @var string
      */

@@ -10,6 +10,7 @@ use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Requestors\Prox
  */
 class CacheProxyStrategyBagImpl extends ProxyStrategyBag
 {
+
     /**
      * @var CacheProxyStrategy
      */

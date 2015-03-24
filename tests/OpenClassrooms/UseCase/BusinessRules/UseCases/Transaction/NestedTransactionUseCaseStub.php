@@ -12,6 +12,7 @@ use OpenClassrooms\UseCase\BusinessRules\Responders\UseCaseResponse;
  */
 class NestedTransactionUseCaseStub implements UseCase
 {
+
     /**
      * @var UseCase
      */

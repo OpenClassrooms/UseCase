@@ -2,8 +2,8 @@
 
 namespace OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Impl\Event;
 
-use OpenClassrooms\UseCase\Application\Services\Event\EventSender;
 use OpenClassrooms\UseCase\Application\Services\Event\EventFactory;
+use OpenClassrooms\UseCase\Application\Services\Event\EventSender;
 use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Impl\DTO\ProxyStrategyResponseDTO;
 use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Requestors\Event\EventProxyStrategyRequest;
 use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Requestors\OnExceptionProxyStrategy;
@@ -18,6 +18,7 @@ use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Responders\Prox
  */
 class EventProxyStrategy implements PreExecuteProxyStrategy, PostExecuteProxyStrategy, OnExceptionProxyStrategy
 {
+
     /**
      * @var EventSender
      */

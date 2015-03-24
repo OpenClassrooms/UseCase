@@ -16,6 +16,7 @@ use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Responders\Prox
  */
 class CacheProxyStrategy implements PreExecuteProxyStrategy, PostExecuteProxyStrategy
 {
+
     /**
      * @var mixed
      */

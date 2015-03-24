@@ -2,14 +2,15 @@
 
 namespace OpenClassrooms\Tests\UseCase\Application\Services\Security;
 
-use OpenClassrooms\UseCase\Application\Services\Security\Security;
 use OpenClassrooms\Tests\UseCase\Application\Services\Security\Exceptions\AccessDeniedException;
+use OpenClassrooms\UseCase\Application\Services\Security\Security;
 
 /**
  * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>
  */
 class SecuritySpy implements Security
 {
+
     /**
      * @var array
      */
