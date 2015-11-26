@@ -5,7 +5,7 @@ namespace OpenClassrooms\UseCase\BusinessRules\Entities;
 /**
  * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>
  */
-abstract class PaginatedCollection
+abstract class PaginatedCollection implements \IteratorAggregate
 {
     const PAGE = 'page';
 
@@ -94,4 +94,13 @@ abstract class PaginatedCollection
             return 1;
         }
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function getIterator()
+    {
+        return new \ArrayIterator($this->items);
+    }
+
 }
