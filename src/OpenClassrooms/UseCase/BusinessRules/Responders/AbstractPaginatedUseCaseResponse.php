@@ -54,6 +54,11 @@ abstract class AbstractPaginatedUseCaseResponse implements PaginatedUseCaseRespo
         $this->itemsPerPage = $itemsPerPage;
     }
 
+    public function getIterator()
+    {
+        return new \ArrayIterator($this->items);
+    }
+
     /**
      * @return int
      */
