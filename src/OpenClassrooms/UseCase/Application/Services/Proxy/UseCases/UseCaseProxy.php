@@ -187,9 +187,8 @@ abstract class UseCaseProxy implements UseCase
 
     private function removeTransactionStrategy()
     {
-        foreach ($this->strategies as $strategy) {
+        foreach ($this->strategies as $key => $strategy) {
             if (ProxyStrategy::TRANSACTION === $strategy->getType()) {
-                $key = key($this->strategies);
                 unset($this->strategies[$key]);
             }
         }
