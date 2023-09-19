@@ -6,6 +6,7 @@ use OpenClassrooms\UseCase\BusinessRules\Entities\PaginatedCollectionBuilder;
 
 /**
  * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>
+ * @deprecated
  */
 class PaginatedCollectionBuilderImpl extends PaginatedCollectionBuilder
 {

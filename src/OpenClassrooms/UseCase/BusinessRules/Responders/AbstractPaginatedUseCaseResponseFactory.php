@@ -6,6 +6,7 @@ use OpenClassrooms\UseCase\BusinessRules\Entities\PaginatedCollection;
 
 /**
  * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>
+ * @deprecated
  */
 abstract class AbstractPaginatedUseCaseResponseFactory implements PaginatedUseCaseResponseFactory
 {
