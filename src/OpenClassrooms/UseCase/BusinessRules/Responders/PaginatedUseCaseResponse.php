@@ -5,6 +5,7 @@ namespace OpenClassrooms\UseCase\BusinessRules\Responders;
 /**
  * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>
  * @author Kévin Letord <kevin.letord@openclassrooms.com>
+ * @deprecated
  */
 interface PaginatedUseCaseResponse extends UseCaseResponse, \IteratorAggregate
 {

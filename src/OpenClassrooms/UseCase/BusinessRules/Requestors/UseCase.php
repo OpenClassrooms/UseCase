@@ -6,6 +6,7 @@ use OpenClassrooms\UseCase\BusinessRules\Responders\UseCaseResponse;
 
 /**
  * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>
+ * @deprecated
  */
 interface UseCase
 {

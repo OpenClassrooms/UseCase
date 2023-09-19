@@ -6,6 +6,7 @@ use OpenClassrooms\UseCase\BusinessRules\Responders\AbstractPaginatedUseCaseResp
 
 /**
  * @author Romain Kuzniak <romain.kuzniak@openclassrooms.com>
+ * @deprecated
  */
 class PaginatedUseCaseResponseImpl extends AbstractPaginatedUseCaseResponse
 {
