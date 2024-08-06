@@ -27,10 +27,10 @@
     "require": {
         "php": ">=8.2",
         "doctrine/annotations": "~2.0",
-        "openclassrooms/cache": "1.0.*@dev"
+        "openclassrooms/cache": "^v1.1.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "~4.4"
+        "phpunit/phpunit": "^9.6.20"
     },
     "extra": {
         "branch-alias": {
