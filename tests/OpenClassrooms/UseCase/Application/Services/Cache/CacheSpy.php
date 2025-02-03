@@ -2,77 +2,38 @@
 
 namespace OpenClassrooms\Tests\UseCase\Application\Services\Cache;
 
-use Doctrine\Common\Cache\ArrayCache;
-use OpenClassrooms\Cache\Cache\CacheImpl;
+use Psr\Cache\CacheItemInterface;
+use Symfony\Component\Cache\Adapter\ArrayAdapter;
+use Symfony\Component\Cache\CacheItem;
 
 /**
  * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>
  */
-class CacheSpy extends CacheImpl
+class CacheSpy extends ArrayAdapter
 {
+    /**
+     * @var array<string, true>
+     */
+    public array $saved = [];
 
     /**
-     * @var int
+     * @var array<string, true>
      */
-    public $lifeTime;
+    public array $getted = [];
 
-    /**
-     * @var string
-     */
-    public $namespaceId;
-
-    /**
-     * @var bool
-     */
-    public $saved = false;
-
-    /**
-     * @var bool
-     */
-    public $savedWithNamespace = false;
-
-    /**
-     * @var bool
-     */
-    public $fetched = false;
-
-    /**
-     * @var bool
-     */
-    public $fetchedWithNamespace = false;
-
-    public function __construct()
+    public function save(CacheItemInterface $item): bool
     {
-        parent::__construct(new ArrayCache());
+        $this->saved[$item->getKey()] = (new \ReflectionProperty($item, 'expiry'))->getValue($item);
+
+        return parent::save($item);
     }
 
-    public function save($id, $data, $lifeTime = null)
+    public function getItem(mixed $key): CacheItem
     {
-        $this->saved = true;
-        $this->lifeTime = $lifeTime;
+        $item = parent::getItem($key);
 
-        return parent::save($id, $data, $lifeTime);
-    }
+        $this->getted[$item->getKey()] = $item->isHit();
 
-    public function saveWithNamespace($id, $data, $namespaceId = null, $lifeTime = null)
-    {
-        $this->savedWithNamespace = true;
-        $this->namespaceId = $namespaceId;
-
-        return parent::saveWithNamespace($id, $data, $namespaceId, $lifeTime);
-    }
-
-    public function fetch($id)
-    {
-        $this->fetched = true;
-
-        return parent::fetch($id);
-    }
-
-    public function fetchWithNamespace($id, $namespaceId = null)
-    {
-        $this->fetchedWithNamespace = true;
-
-        return parent::fetchWithNamespace($id, $namespaceId);
+        return $item;
     }
 }

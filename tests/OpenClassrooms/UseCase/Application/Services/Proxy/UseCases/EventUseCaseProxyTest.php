@@ -15,7 +15,7 @@ use OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\Event\PreEventUseCaseStu
 /**
  * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>
  */
-class EventUseCaseProxyTest extends AbstractUseCaseProxyTest
+class EventUseCaseProxyTest extends AbstractUseCaseProxyTestCase
 {
     const EVENT_PRE_NAME_PREFIX = 'use_case.pre.';
 

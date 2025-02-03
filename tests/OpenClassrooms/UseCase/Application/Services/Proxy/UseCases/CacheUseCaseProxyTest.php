@@ -13,7 +13,7 @@ use OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\Cache\OnlyCacheUseCaseSt
 /**
  * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>
  */
-class CacheUseCaseProxyTest extends AbstractUseCaseProxyTest
+class CacheUseCaseProxyTest extends AbstractUseCaseProxyTestCase
 {
     /**
      * @test
@@ -23,7 +23,7 @@ class CacheUseCaseProxyTest extends AbstractUseCaseProxyTest
         $this->useCaseProxy->setUseCase(new OnlyCacheUseCaseStub());
         $response = $this->useCaseProxy->execute(new UseCaseRequestStub());
         $this->assertEquals(new UseCaseResponseStub(), $response);
-        $this->assertTrue($this->cache->saved);
+        $this->assertNotEmpty($this->cache->saved);
     }
 
     /**
@@ -33,12 +33,15 @@ class CacheUseCaseProxyTest extends AbstractUseCaseProxyTest
     {
         $this->useCaseProxy->setUseCase(new OnlyCacheUseCaseStub());
         $this->useCaseProxy->execute(new UseCaseRequestStub());
-        $this->assertTrue($this->cache->saved);
-        $this->cache->saved = false;
+        $this->assertCount(1, $this->cache->saved);
+
+        $this->cache->saved = [];
+
         $response = $this->useCaseProxy->execute(new UseCaseRequestStub());
         $this->assertEquals(new UseCaseResponseStub(), $response);
-        $this->assertTrue($this->cache->fetched);
-        $this->assertFalse($this->cache->saved);
+        $this->assertCount(1, $this->cache->getted);
+        $this->assertContains(true, $this->cache->getted);
+        $this->assertEmpty($this->cache->saved);
     }
 
     /**
@@ -49,10 +52,10 @@ class CacheUseCaseProxyTest extends AbstractUseCaseProxyTest
         $this->useCaseProxy->setUseCase(new NamespaceCacheUseCaseStub());
         $response = $this->useCaseProxy->execute(new UseCaseRequestStub());
         $this->assertEquals(new UseCaseResponseStub(), $response);
-        $this->assertTrue($this->cache->savedWithNamespace);
-        $this->assertEquals(
+        $this->assertCount(2, $this->cache->saved);
+        $this->assertContains(
             NamespaceCacheUseCaseStub::NAMESPACE_PREFIX.UseCaseRequestStub::FIELD_VALUE,
-            $this->cache->namespaceId
+            array_keys($this->cache->saved)
         );
     }
 
@@ -63,12 +66,15 @@ class CacheUseCaseProxyTest extends AbstractUseCaseProxyTest
     {
         $this->useCaseProxy->setUseCase(new NamespaceCacheUseCaseStub());
         $this->useCaseProxy->execute(new UseCaseRequestStub());
-        $this->assertTrue($this->cache->savedWithNamespace);
-        $this->cache->savedWithNamespace = false;
+        $this->assertCount(2, $this->cache->saved);
+
+        $this->cache->saved = [];
+        $this->cache->getted = [];
+
         $response = $this->useCaseProxy->execute(new UseCaseRequestStub());
         $this->assertEquals(new UseCaseResponseStub(), $response);
-        $this->assertTrue($this->cache->fetched);
-        $this->assertFalse($this->cache->savedWithNamespace);
+        $this->assertCount(2, $this->cache->getted);
+        $this->assertEmpty($this->cache->saved);
     }
 
     /**
@@ -79,8 +85,10 @@ class CacheUseCaseProxyTest extends AbstractUseCaseProxyTest
         $this->useCaseProxy->setUseCase(new LifeTimeCacheUseCaseStub());
         $response = $this->useCaseProxy->execute(new UseCaseRequestStub());
         $this->assertEquals(new UseCaseResponseStub(), $response);
-        $this->assertTrue($this->cache->saved);
-        $this->assertEquals(LifeTimeCacheUseCaseStub::LIFETIME, $this->cache->lifeTime);
+        $this->assertCount(1, $this->cache->saved);
+
+        $this->assertNotContains(null, $this->cache->saved);
+        $this->assertEqualsWithDelta(time() + LifeTimeCacheUseCaseStub::LIFETIME, array_pop($this->cache->saved), 2.0);
     }
 
     /**
@@ -93,7 +101,7 @@ class CacheUseCaseProxyTest extends AbstractUseCaseProxyTest
             $this->useCaseProxy->execute(new UseCaseRequestStub());
             $this->fail('Exception should be thrown');
         } catch (UseCaseException $e) {
-            $this->assertFalse($this->cache->saved);
+            $this->assertEmpty($this->cache->saved);
         }
     }
 }

@@ -11,7 +11,7 @@ use OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\Transaction\OnlyTransact
 /**
  * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>
  */
-class TransactionUseCaseProxyTest extends AbstractUseCaseProxyTest
+class TransactionUseCaseProxyTest extends AbstractUseCaseProxyTestCase
 {
     /**
      * @test

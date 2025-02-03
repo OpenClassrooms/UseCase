@@ -28,8 +28,6 @@ class CacheProxyStrategyBagImpl extends ProxyStrategyBag
 
     public function isPostExecute()
     {
-        /** @var $this ->proxyStrategy */
-
         return $this->proxyStrategy->isPostExecute();
     }
 }

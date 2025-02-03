@@ -10,7 +10,7 @@ use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Responders\Prox
 interface OnExceptionProxyStrategy extends ProxyStrategy
 {
     /**
-     * @return ProxyStrategyResponse
+     * @return ?bool
      */
     public function onException(ProxyStrategyRequest $proxyStrategyRequest);
 }

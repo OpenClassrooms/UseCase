@@ -16,7 +16,7 @@ use OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\Workflow\ExceptionAllAnn
 /**
  * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>
  */
-class WorkflowUseCaseProxyTest extends AbstractUseCaseProxyTest
+class WorkflowUseCaseProxyTest extends AbstractUseCaseProxyTestCase
 {
     /**
      * @test
@@ -58,8 +58,8 @@ class WorkflowUseCaseProxyTest extends AbstractUseCaseProxyTest
 
     private function assertCacheWasNotCalled()
     {
-        $this->assertFalse($this->cache->fetched);
-        $this->assertFalse($this->cache->saved);
+        $this->assertEmpty($this->cache->getted);
+        $this->assertEmpty($this->cache->saved);
     }
 
     private function assertTransactionWasCalledOnUnAuthorizedException()
@@ -97,8 +97,8 @@ class WorkflowUseCaseProxyTest extends AbstractUseCaseProxyTest
 
     private function assertCacheSaveWasCalled()
     {
-        $this->assertTrue($this->cache->fetched);
-        $this->assertTrue($this->cache->saved);
+        $this->assertNotEmpty($this->cache->getted);
+        $this->assertNotEmpty($this->cache->saved);
     }
 
     private function assertTransactionWasCalled()
@@ -141,8 +141,8 @@ class WorkflowUseCaseProxyTest extends AbstractUseCaseProxyTest
 
     private function resetCache()
     {
-        $this->cache->fetched = false;
-        $this->cache->saved = false;
+        $this->cache->getted = [];
+        $this->cache->saved = [];
     }
 
     private function resetEvent()
@@ -166,8 +166,8 @@ class WorkflowUseCaseProxyTest extends AbstractUseCaseProxyTest
 
     private function assertCacheWasCalled()
     {
-        $this->assertTrue($this->cache->fetched);
-        $this->assertFalse($this->cache->saved);
+        $this->assertContains(true, $this->cache->getted);
+        $this->assertEmpty($this->cache->saved);
     }
 
     private function assertTransactionWasNotCalled()
@@ -196,8 +196,9 @@ class WorkflowUseCaseProxyTest extends AbstractUseCaseProxyTest
 
     private function assertCacheSaveWasNotCalled()
     {
-        $this->assertTrue($this->cache->fetched);
-        $this->assertFalse($this->cache->saved);
+        $this->assertNotEmpty($this->cache->getted);
+        $this->assertContains(false, $this->cache->getted);
+        $this->assertEmpty($this->cache->saved);
     }
 
     private function assertTransactionWasCalledOnException()

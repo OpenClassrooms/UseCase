@@ -45,7 +45,9 @@ class TransactionProxyStrategy implements PreExecuteProxyStrategy, PostExecutePr
      */
     public function postExecute(ProxyStrategyRequest $proxyStrategyRequest)
     {
-        return $this->transaction->commit();
+        $this->transaction->commit();
+
+        return new ProxyStrategyResponseDTO();
     }
 
     /**
@@ -54,8 +56,10 @@ class TransactionProxyStrategy implements PreExecuteProxyStrategy, PostExecutePr
     public function onException(ProxyStrategyRequest $proxyStrategyRequest)
     {
         if ($this->transaction->isTransactionActive()) {
-            return $this->transaction->rollBack();
+            $this->transaction->rollBack();
         }
+
+        return new ProxyStrategyResponseDTO();
     }
 
     public function setTransaction(Transaction $transaction)

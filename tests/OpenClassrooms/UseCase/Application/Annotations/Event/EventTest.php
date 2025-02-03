@@ -2,12 +2,14 @@
 
 namespace OpenClassrooms\Tests\UseCase\Application\Annotations\Event;
 
+use Doctrine\Common\Annotations\AnnotationException;
 use Doctrine\Common\Annotations\AnnotationReader;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>
  */
-class EventTest extends \PHPUnit_Framework_TestCase
+class EventTest extends TestCase
 {
 
     /**
@@ -17,16 +19,18 @@ class EventTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Method "invalid method" is not allowed. Allowed: pre, post and onException
      */
     public function InvalidMethod_ThrowException()
     {
         $class = new \ReflectionClass(new EventClassDummy());
+
+        $this->expectException(AnnotationException::class);
+        $this->expectExceptionMessage('Method "invalid method" is not allowed. Allowed: pre, post and onException');
+
         $this->reader->getMethodAnnotation($class->getMethod('invalidMethod'), 'event');
     }
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->reader = new AnnotationReader();
     }

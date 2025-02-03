@@ -15,7 +15,7 @@ use OpenClassrooms\UseCase\Application\Services\Proxy\UseCases\Impl\UseCaseProxy
 /**
  * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>
  */
-class ConfigurationUseCaseProxyTest extends AbstractUseCaseProxyTest
+class ConfigurationUseCaseProxyTest extends AbstractUseCaseProxyTestCase
 {
     /**
      * @test
@@ -75,7 +75,7 @@ class ConfigurationUseCaseProxyTest extends AbstractUseCaseProxyTest
         $this->executeAndAssert();
     }
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->initUseCaseProxy();
     }

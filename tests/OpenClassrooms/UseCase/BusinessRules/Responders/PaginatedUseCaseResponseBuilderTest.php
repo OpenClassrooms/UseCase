@@ -4,11 +4,12 @@ namespace OpenClassrooms\Tests\UseCase\BusinessRules\Responders;
 
 use OpenClassrooms\Tests\UseCase\BusinessRules\Responders\Doubles\PaginatedUseCaseResponseBuilderStub;
 use OpenClassrooms\UseCase\BusinessRules\Responders\PaginatedUseCaseResponseBuilder;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>
  */
-class PaginatedUseCaseResponseBuilderTest extends \PHPUnit_Framework_TestCase
+class PaginatedUseCaseResponseBuilderTest extends TestCase
 {
 
     /**
@@ -114,7 +115,7 @@ class PaginatedUseCaseResponseBuilderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(10, $paginatedUseCaseResponse->getTotalPages());
     }
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->builder = new PaginatedUseCaseResponseBuilderStub();
     }
