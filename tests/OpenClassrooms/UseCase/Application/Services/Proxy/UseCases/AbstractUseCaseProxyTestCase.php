@@ -22,11 +22,12 @@ use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Impl\Security\S
 use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Impl\Transaction\TransactionProxyStrategy;
 use OpenClassrooms\UseCase\Application\Services\Proxy\UseCases\Impl\UseCaseProxyImpl;
 use OpenClassrooms\UseCase\Application\Services\Proxy\UseCases\UseCaseProxy;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>
  */
-abstract class AbstractUseCaseProxyTest extends \PHPUnit_Framework_TestCase
+abstract class AbstractUseCaseProxyTestCase extends TestCase
 {
 
     /**
@@ -38,6 +39,11 @@ abstract class AbstractUseCaseProxyTest extends \PHPUnit_Framework_TestCase
      * @var CacheSpy
      */
     protected $cache;
+
+    /**
+     * @var string[]
+     */
+    protected array $logs = [];
 
     /**
      * @var EventSenderSpy
@@ -74,7 +80,7 @@ abstract class AbstractUseCaseProxyTest extends \PHPUnit_Framework_TestCase
      */
     private $proxyStrategyRequestFactory;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->initUseCaseProxy();
 
@@ -166,7 +172,7 @@ abstract class AbstractUseCaseProxyTest extends \PHPUnit_Framework_TestCase
         $this->proxyStrategyRequestFactory->setLogProxyStrategyRequestBuilder(new LogProxyStrategyRequestBuilderImpl());
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         LoggerSpy::$context = array();
         LoggerSpy::$level = array();

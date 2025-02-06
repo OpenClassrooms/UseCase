@@ -3,11 +3,12 @@
 namespace OpenClassrooms\Tests\UseCase\BusinessRules\Entities;
 
 use OpenClassrooms\UseCase\Application\Entity\PaginatedCollectionImpl;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>
  */
-class PaginatedCollectionTest extends \PHPUnit_Framework_TestCase
+class PaginatedCollectionTest extends TestCase
 {
     /**
      * @test

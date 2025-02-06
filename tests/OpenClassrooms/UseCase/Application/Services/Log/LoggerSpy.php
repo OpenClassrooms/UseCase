@@ -18,7 +18,7 @@ class LoggerSpy implements LoggerInterface
     public static $level;
 
     /**
-     * @var string
+     * @var string[]
      */
     public static $message;
 
@@ -41,7 +41,7 @@ class LoggerSpy implements LoggerInterface
      *
      * @return null
      */
-    public function log($level, $message, array $context = array())
+    public function log($level, $message, array $context = array()): void
     {
         self::$level[] = $level;
         self::$message[] = $message;

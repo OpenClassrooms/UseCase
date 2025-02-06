@@ -3,7 +3,6 @@
 namespace OpenClassrooms\UseCase\Application\Services\Proxy\UseCases;
 
 use Doctrine\Common\Annotations\Reader;
-use OpenClassrooms\Cache\Cache\Cache;
 use OpenClassrooms\UseCase\Application\Services\Event\EventFactory;
 use OpenClassrooms\UseCase\Application\Services\Event\EventSender;
 use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Impl\Cache\CacheProxyStrategy;
@@ -28,6 +27,7 @@ use OpenClassrooms\UseCase\Application\Services\Proxy\UseCases\Impl\UseCaseProxy
 use OpenClassrooms\UseCase\Application\Services\Security\Security;
 use OpenClassrooms\UseCase\Application\Services\Transaction\Transaction;
 use OpenClassrooms\UseCase\BusinessRules\Requestors\UseCase;
+use Psr\Cache\CacheItemPoolInterface;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -42,7 +42,7 @@ abstract class UseCaseProxyBuilder
     protected $useCaseProxy;
 
     /**
-     * @var Cache
+     * @var CacheItemPoolInterface
      */
     private $cache;
 
@@ -85,7 +85,7 @@ abstract class UseCaseProxyBuilder
     /**
      * @return UseCaseProxyBuilder
      */
-    public function withCache(Cache $cache = null)
+    public function withCache(CacheItemPoolInterface $cache = null)
     {
         $this->cache = $cache;
 

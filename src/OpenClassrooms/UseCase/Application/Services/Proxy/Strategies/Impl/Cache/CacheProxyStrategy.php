@@ -2,7 +2,6 @@
 
 namespace OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Impl\Cache;
 
-use OpenClassrooms\Cache\Cache\Cache;
 use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Impl\DTO\ProxyStrategyResponseDTO;
 use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Requestors\Cache\CacheProxyStrategyRequest;
 use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Requestors\PostExecuteProxyStrategy;
@@ -10,27 +9,23 @@ use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Requestors\PreE
 use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Requestors\ProxyStrategy;
 use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Requestors\ProxyStrategyRequest;
 use OpenClassrooms\UseCase\Application\Services\Proxy\Strategies\Responders\ProxyStrategyResponse;
+use Psr\Cache\CacheItemInterface;
+use Psr\Cache\CacheItemPoolInterface;
 
 /**
  * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>
  */
 class CacheProxyStrategy implements PreExecuteProxyStrategy, PostExecuteProxyStrategy
 {
-
     /**
-     * @var mixed
-     */
-    private $data;
-
-    /**
-     * @var Cache
+     * @var CacheItemPoolInterface
      */
     private $cache;
 
     /**
      * @var bool
      */
-    private $postExecute = true;
+    private $postExecute;
 
     /**
      * @return string
@@ -46,28 +41,14 @@ class CacheProxyStrategy implements PreExecuteProxyStrategy, PostExecuteProxyStr
     public function preExecute(ProxyStrategyRequest $proxyStrategyRequest)
     {
         /** @var CacheProxyStrategyRequest $proxyStrategyRequest */
-        $this->data = $this->cache->fetchWithNamespace(
+        $item = $this->fetchWithNamespace(
             $proxyStrategyRequest->getId(),
             $proxyStrategyRequest->getNamespaceId()
         );
 
-        if ($this->responseIsInCache()) {
-            $stopExecution = true;
-            $this->postExecute = false;
-        } else {
-            $stopExecution = false;
-        }
-        $response = new ProxyStrategyResponseDTO($this->data, $stopExecution);
+        $this->postExecute = !$item->isHit();
 
-        return $response;
-    }
-
-    /**
-     * @return bool
-     */
-    private function responseIsInCache()
-    {
-        return $this->data;
+        return new ProxyStrategyResponseDTO($item->get(), $item->isHit());
     }
 
     /**
@@ -76,16 +57,50 @@ class CacheProxyStrategy implements PreExecuteProxyStrategy, PostExecuteProxyStr
     public function postExecute(ProxyStrategyRequest $proxyStrategyRequest)
     {
         /** @var CacheProxyStrategyRequest $proxyStrategyRequest */
-        $saved = $this->cache->saveWithNamespace(
+        $item = $this->saveWithNamespace(
             $proxyStrategyRequest->getId(),
             $proxyStrategyRequest->getData(),
             $proxyStrategyRequest->getNamespaceId(),
             $proxyStrategyRequest->getLifeTime()
         );
-        $response = new ProxyStrategyResponseDTO($saved, false);
 
-        return $response;
+        return new ProxyStrategyResponseDTO($item->get(), false);
     }
+
+    private function fetchWithNamespace(string $id, string $namespace = null): CacheItemInterface
+    {
+        if ($namespace !== null) {
+            $namespaceId = $this->cache->getItem($namespace);
+
+            $id = ((string) $namespaceId->get()) . $id;
+        }
+
+        return $this->cache->getItem($id);
+    }
+
+    private function saveWithNamespace(string $id, mixed $data, string $namespace = null, int $lifetime = null): CacheItemInterface
+    {
+        if ($namespace !== null) {
+            $namespaceId = $this->cache->getItem($namespace);
+
+            if (!$namespaceId->isHit()) {
+                $namespaceId->set($namespace . '_' . random_int(0, 10000));
+                $namespaceId->expiresAfter(604800); // 7 days
+
+                $this->cache->save($namespaceId);
+            }
+
+            $id = ((string) $namespaceId->get()) . $id;
+        }
+
+        $item = $this->cache->getItem($id);
+        $item->set($data)->expiresAfter($lifetime);
+
+        $this->cache->save($item);
+
+        return $item;
+    }
+
 
     /**
      * @return boolean
@@ -95,7 +110,7 @@ class CacheProxyStrategy implements PreExecuteProxyStrategy, PostExecuteProxyStr
         return $this->postExecute;
     }
 
-    public function setCache(Cache $cache)
+    public function setCache(CacheItemPoolInterface $cache)
     {
         $this->cache = $cache;
     }

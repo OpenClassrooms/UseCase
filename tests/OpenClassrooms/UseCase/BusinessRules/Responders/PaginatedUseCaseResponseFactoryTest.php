@@ -6,11 +6,12 @@ use OpenClassrooms\Tests\UseCase\BusinessRules\Responders\Doubles\PaginatedUseCa
 use OpenClassrooms\UseCase\Application\Entity\PaginatedCollectionImpl;
 use OpenClassrooms\UseCase\Application\Responder\PaginatedUseCaseResponseFactoryImpl;
 use OpenClassrooms\UseCase\BusinessRules\Responders\PaginatedUseCaseResponseFactory;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>
  */
-class PaginatedUseCaseResponseFactoryTest extends \PHPUnit_Framework_TestCase
+class PaginatedUseCaseResponseFactoryTest extends TestCase
 {
 
     /**
@@ -55,7 +56,7 @@ class PaginatedUseCaseResponseFactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(2, $response->getTotalPages());
     }
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->factory = new PaginatedUseCaseResponseFactoryImpl();
         $this->factory->setPaginatedUseCaseResponseBuilder(new PaginatedUseCaseResponseBuilderStub());

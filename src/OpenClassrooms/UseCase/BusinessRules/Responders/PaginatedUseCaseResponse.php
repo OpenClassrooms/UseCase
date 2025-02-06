@@ -19,7 +19,7 @@ interface PaginatedUseCaseResponse extends UseCaseResponse, \IteratorAggregate
      */
     public function getItemsPerPage();
 
-    public function getIterator();
+    public function getIterator(): \Traversable;
 
     /**
      * @return int

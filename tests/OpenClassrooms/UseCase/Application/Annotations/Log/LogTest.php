@@ -2,12 +2,14 @@
 
 namespace OpenClassrooms\Tests\UseCase\Application\Annotations\Log;
 
+use Doctrine\Common\Annotations\AnnotationException;
 use Doctrine\Common\Annotations\AnnotationReader;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>
  */
-class LogTest extends \PHPUnit_Framework_TestCase
+class LogTest extends TestCase
 {
 
     /**
@@ -17,27 +19,31 @@ class LogTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Level "invalid level" is not a valid PSR level. See Psr\Log\LogLevel.
      */
     public function InvalidLevel_ThrowException()
     {
         $class = new \ReflectionClass(new LogClassDummy());
+
+        $this->expectException(AnnotationException::class);
+        $this->expectExceptionMessage('Level "invalid level" is not a valid PSR level. See Psr\Log\LogLevel.');
+
         $this->reader->getMethodAnnotation($class->getMethod('invalidLevel'), 'log');
     }
 
     /**
      * @test
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Method "invalid method" is not allowed. Allowed: pre, post and onException
      */
     public function InvalidMethod_ThrowException()
     {
         $class = new \ReflectionClass(new LogClassDummy());
+
+        $this->expectException(AnnotationException::class);
+        $this->expectExceptionMessage('Method "invalid method" is not allowed. Allowed: pre, post and onException');
+
         $this->reader->getMethodAnnotation($class->getMethod('invalidMethod'), 'log');
     }
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->reader = new AnnotationReader();
     }

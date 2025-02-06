@@ -17,7 +17,7 @@ use Psr\Log\LogLevel;
 /**
  * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>
  */
-class LogUseCaseProxyTest extends AbstractUseCaseProxyTest
+class LogUseCaseProxyTest extends AbstractUseCaseProxyTestCase
 {
     /**
      * @test

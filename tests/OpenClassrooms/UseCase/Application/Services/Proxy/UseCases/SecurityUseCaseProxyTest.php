@@ -2,6 +2,7 @@
 
 namespace OpenClassrooms\Tests\UseCase\Application\Services\Proxy\UseCases;
 
+use OpenClassrooms\Tests\UseCase\Application\Services\Security\Exceptions\AccessDeniedException;
 use OpenClassrooms\Tests\UseCase\BusinessRules\Requestors\UseCaseRequestStub;
 use OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\Security\FieldRoleSecurityUseCaseStub;
 use OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\Security\ManyRolesSecurityUseCaseStub;
@@ -12,14 +13,15 @@ use OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\Security\RequestRoleSecu
 /**
  * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>
  */
-class SecurityUseCaseProxyTest extends AbstractUseCaseProxyTest
+class SecurityUseCaseProxyTest extends AbstractUseCaseProxyTestCase
 {
     /**
      * @test
-     * @expectedException \OpenClassrooms\Tests\UseCase\Application\Services\Security\Exceptions\AccessDeniedException
      */
     public function OnlyRoleNotAuthorized_ThrowException()
     {
+        $this->expectException(AccessDeniedException::class);
+
         $this->useCaseProxy->setUseCase(new OnlyRoleNotAuthorizedSecurityUseCaseStub());
         $this->useCaseProxy->execute(new UseCaseRequestStub());
     }

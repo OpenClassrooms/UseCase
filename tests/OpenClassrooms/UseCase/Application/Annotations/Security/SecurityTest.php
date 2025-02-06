@@ -2,12 +2,14 @@
 
 namespace OpenClassrooms\Tests\UseCase\Application\Annotations\Security;
 
+use Doctrine\Common\Annotations\AnnotationException;
 use Doctrine\Common\Annotations\AnnotationReader;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>
  */
-class SecurityTest extends \PHPUnit_Framework_TestCase
+class SecurityTest extends TestCase
 {
 
     /**
@@ -17,16 +19,18 @@ class SecurityTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Roles MUST be defined
      */
     public function WithoutRole_ThrowException()
     {
         $class = new \ReflectionClass(new SecurityClassDummy());
+
+        $this->expectException(AnnotationException::class);
+        $this->expectExceptionMessage('Roles MUST be defined');
+
         $this->reader->getMethodAnnotation($class->getMethod('method'), 'security');
     }
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->reader = new AnnotationReader();
     }

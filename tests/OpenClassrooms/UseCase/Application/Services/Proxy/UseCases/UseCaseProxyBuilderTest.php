@@ -3,7 +3,6 @@
 namespace OpenClassrooms\Tests\UseCase\Application\Services\Proxy\UseCases;
 
 use Doctrine\Common\Annotations\AnnotationReader;
-use OpenClassrooms\Tests\UseCase\Application\Services\Cache\CacheSpy;
 use OpenClassrooms\Tests\UseCase\Application\Services\Event\EventFactorySpy;
 use OpenClassrooms\Tests\UseCase\Application\Services\Event\EventSenderSpy;
 use OpenClassrooms\Tests\UseCase\Application\Services\Log\LoggerSpy;
@@ -17,13 +16,22 @@ use OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\Log\OnlyLogUseCaseStub;
 use OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\Security\OnlyRoleSecurityUseCaseStub;
 use OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\Transaction\OnlyTransactionUseCaseStub;
 use OpenClassrooms\Tests\UseCase\BusinessRules\UseCases\Workflow\AllAnnotationsUseCaseStub;
+use OpenClassrooms\UseCase\Application\Services\Proxy\UseCases\Exceptions\CacheIsNotDefinedException;
+use OpenClassrooms\UseCase\Application\Services\Proxy\UseCases\Exceptions\EventFactoryIsNotDefinedException;
+use OpenClassrooms\UseCase\Application\Services\Proxy\UseCases\Exceptions\EventIsNotDefinedException;
+use OpenClassrooms\UseCase\Application\Services\Proxy\UseCases\Exceptions\LoggerIsNotDefinedException;
+use OpenClassrooms\UseCase\Application\Services\Proxy\UseCases\Exceptions\ReaderIsNotDefinedException;
+use OpenClassrooms\UseCase\Application\Services\Proxy\UseCases\Exceptions\SecurityIsNotDefinedException;
+use OpenClassrooms\UseCase\Application\Services\Proxy\UseCases\Exceptions\TransactionIsNotDefinedException;
 use OpenClassrooms\UseCase\Application\Services\Proxy\UseCases\Impl\UseCaseProxyBuilderImpl;
 use OpenClassrooms\UseCase\Application\Services\Proxy\UseCases\UseCaseProxyBuilder;
+use PHPUnit\Framework\TestCase;
+use Symfony\Component\Cache\Adapter\ArrayAdapter;
 
 /**
  * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>
  */
-class UseCaseProxyBuilderTest extends \PHPUnit_Framework_TestCase
+class UseCaseProxyBuilderTest extends TestCase
 {
     const USE_CASE_PROXY_CLASS = 'OpenClassrooms\UseCase\Application\Services\Proxy\UseCases\UseCaseProxy';
 
@@ -34,19 +42,21 @@ class UseCaseProxyBuilderTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException \OpenClassrooms\UseCase\Application\Services\Proxy\UseCases\Exceptions\ReaderIsNotDefinedException
      */
     public function WithoutReader_Build_ThrowException()
     {
+        $this->expectException(ReaderIsNotDefinedException::class);
+
         $this->builder->create(new AllAnnotationsUseCaseStub())->build();
     }
 
     /**
      * @test
-     * @expectedException \OpenClassrooms\UseCase\Application\Services\Proxy\UseCases\Exceptions\CacheIsNotDefinedException
      */
     public function WithoutCacheUseCaseWithCacheAnnotation_Build_ThrowException()
     {
+        $this->expectException(CacheIsNotDefinedException::class);
+
         $this->builder
             ->create(new OnlyCacheUseCaseStub())
             ->withReader(new AnnotationReader())
@@ -61,7 +71,7 @@ class UseCaseProxyBuilderTest extends \PHPUnit_Framework_TestCase
         $proxy = $this->builder
             ->create(new OnlyCacheUseCaseStub())
             ->withReader(new AnnotationReader())
-            ->withCache(new CacheSpy())
+            ->withCache(new ArrayAdapter())
             ->build();
 
         $this->assertInstanceOf(self::USE_CASE_PROXY_CLASS, $proxy);
@@ -71,10 +81,11 @@ class UseCaseProxyBuilderTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException \OpenClassrooms\UseCase\Application\Services\Proxy\UseCases\Exceptions\EventIsNotDefinedException
      */
     public function WithoutEventUseCaseWithEventAnnotation_Build_ThrowException()
     {
+        $this->expectException(EventIsNotDefinedException::class);
+
         $this->builder
             ->create(new OnlyEventNameEventUseCaseStub())
             ->withReader(new AnnotationReader())
@@ -83,10 +94,11 @@ class UseCaseProxyBuilderTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException \OpenClassrooms\UseCase\Application\Services\Proxy\UseCases\Exceptions\EventFactoryIsNotDefinedException
      */
     public function WithoutEventFactoryUseCaseWithEventAnnotation_Build_ThrowException()
     {
+        $this->expectException(EventFactoryIsNotDefinedException::class);
+
         $this->builder
             ->create(new OnlyEventNameEventUseCaseStub())
             ->withReader(new AnnotationReader())
@@ -113,10 +125,11 @@ class UseCaseProxyBuilderTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException \OpenClassrooms\UseCase\Application\Services\Proxy\UseCases\Exceptions\LoggerIsNotDefinedException
      */
     public function WithoutLoggerUseCaseWithLogAnnotation_Build_ThrowException()
     {
+        $this->expectException(LoggerIsNotDefinedException::class);
+
         $this->builder
             ->create(new OnlyLogUseCaseStub())
             ->withReader(new AnnotationReader())
@@ -141,10 +154,11 @@ class UseCaseProxyBuilderTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException \OpenClassrooms\UseCase\Application\Services\Proxy\UseCases\Exceptions\SecurityIsNotDefinedException
      */
     public function WithoutSecurityUseCaseWithSecurityAnnotation_Build_ThrowException()
     {
+        $this->expectException(SecurityIsNotDefinedException::class);
+
         $this->builder
             ->create(new OnlyRoleSecurityUseCaseStub())
             ->withReader(new AnnotationReader())
@@ -169,10 +183,11 @@ class UseCaseProxyBuilderTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @expectedException \OpenClassrooms\UseCase\Application\Services\Proxy\UseCases\Exceptions\TransactionIsNotDefinedException
      */
     public function WithoutTransactionUseCaseWithTransactionAnnotation_Build_ThrowException()
     {
+        $this->expectException(TransactionIsNotDefinedException::class);
+
         $this->builder
             ->create(new OnlyTransactionUseCaseStub())
             ->withReader(new AnnotationReader())
@@ -203,7 +218,7 @@ class UseCaseProxyBuilderTest extends \PHPUnit_Framework_TestCase
         $proxy = $this->builder
             ->create(new AllAnnotationsUseCaseStub())
             ->withReader(new AnnotationReader())
-            ->withCache(new CacheSpy())
+            ->withCache(new ArrayAdapter())
             ->withEventSender(new EventSenderSpy())
             ->withEventFactory(new EventFactorySpy())
             ->withLogger(new LoggerSpy())
@@ -216,7 +231,7 @@ class UseCaseProxyBuilderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(new UseCaseResponseStub(), $proxy->execute(new UseCaseRequestStub()));
     }
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->builder = new UseCaseProxyBuilderImpl();
     }

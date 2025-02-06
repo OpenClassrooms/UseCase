@@ -5,11 +5,12 @@ namespace OpenClassrooms\Tests\UseCase\BusinessRules\Entities;
 use OpenClassrooms\UseCase\Application\Entity\PaginatedCollectionBuilderImpl;
 use OpenClassrooms\UseCase\Application\Entity\PaginatedCollectionImpl;
 use OpenClassrooms\UseCase\BusinessRules\Entities\PaginatedCollectionBuilder;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @author Romain Kuzniak <romain.kuzniak@turn-it-up.org>
  */
-class PaginatedCollectionBuilderTest extends \PHPUnit_Framework_TestCase
+class PaginatedCollectionBuilderTest extends TestCase
 {
 
     /**
@@ -49,7 +50,7 @@ class PaginatedCollectionBuilderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(2, $paginatedCollection->getTotalPages());
     }
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->builder = new PaginatedCollectionBuilderImpl();
     }
