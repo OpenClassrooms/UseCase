@@ -52,7 +52,7 @@ class EventProxyStrategyRequestBuilderImpl implements EventProxyStrategyRequestB
     /**
      * @return EventProxyStrategyRequestBuilder
      */
-    public function withUseCaseResponse(UseCaseResponse $useCaseResponse = null)
+    public function withUseCaseResponse(?UseCaseResponse $useCaseResponse = null)
     {
         $this->request->useCaseResponse = $useCaseResponse;
 
