@@ -179,7 +179,7 @@ abstract class UseCaseProxy implements UseCase
         usort(
             $this->strategies,
             function (ProxyStrategyBag $s1, ProxyStrategyBag $s2) {
-                return array_search($s1->getType(), UseCaseProxy::$strategyPreOrder) >
+                return array_search($s1->getType(), UseCaseProxy::$strategyPreOrder) <=>
                 array_search($s2->getType(), UseCaseProxy::$strategyPreOrder);
             }
         );
@@ -215,7 +215,7 @@ abstract class UseCaseProxy implements UseCase
         usort(
             $this->strategies,
             function (ProxyStrategyBag $s1, ProxyStrategyBag $s2) {
-                return array_search($s1->getType(), UseCaseProxy::$strategyPostOrder) >
+                return array_search($s1->getType(), UseCaseProxy::$strategyPostOrder) <=>
                 array_search($s2->getType(), UseCaseProxy::$strategyPostOrder);
             }
         );
@@ -242,7 +242,7 @@ abstract class UseCaseProxy implements UseCase
         usort(
             $this->strategies,
             function (ProxyStrategyBag $s1, ProxyStrategyBag $s2) {
-                return array_search($s1->getType(), UseCaseProxy::$strategyOnExceptionOrder) >
+                return array_search($s1->getType(), UseCaseProxy::$strategyOnExceptionOrder) <=>
                 array_search($s2->getType(), UseCaseProxy::$strategyOnExceptionOrder);
             }
         );
