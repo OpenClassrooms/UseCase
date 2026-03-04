@@ -179,8 +179,13 @@ abstract class UseCaseProxy implements UseCase
         usort(
             $this->strategies,
             function (ProxyStrategyBag $s1, ProxyStrategyBag $s2) {
-                return array_search($s1->getType(), UseCaseProxy::$strategyPreOrder) >
-                array_search($s2->getType(), UseCaseProxy::$strategyPreOrder);
+                $pos1 = array_search($s1->getType(), UseCaseProxy::$strategyPreOrder);
+                $pos2 = array_search($s2->getType(), UseCaseProxy::$strategyPreOrder);
+
+                $pos1 = (false === $pos1) ? PHP_INT_MAX : $pos1;
+                $pos2 = (false === $pos2) ? PHP_INT_MAX : $pos2;
+
+                return $pos1 <=> $pos2;
             }
         );
     }
@@ -215,8 +220,13 @@ abstract class UseCaseProxy implements UseCase
         usort(
             $this->strategies,
             function (ProxyStrategyBag $s1, ProxyStrategyBag $s2) {
-                return array_search($s1->getType(), UseCaseProxy::$strategyPostOrder) >
-                array_search($s2->getType(), UseCaseProxy::$strategyPostOrder);
+                $pos1 = array_search($s1->getType(), UseCaseProxy::$strategyPostOrder);
+                $pos2 = array_search($s2->getType(), UseCaseProxy::$strategyPostOrder);
+
+                $pos1 = (false === $pos1) ? PHP_INT_MAX : $pos1;
+                $pos2 = (false === $pos2) ? PHP_INT_MAX : $pos2;
+
+                return $pos1 <=> $pos2;
             }
         );
     }
@@ -242,8 +252,13 @@ abstract class UseCaseProxy implements UseCase
         usort(
             $this->strategies,
             function (ProxyStrategyBag $s1, ProxyStrategyBag $s2) {
-                return array_search($s1->getType(), UseCaseProxy::$strategyOnExceptionOrder) >
-                array_search($s2->getType(), UseCaseProxy::$strategyOnExceptionOrder);
+                $pos1 = array_search($s1->getType(), UseCaseProxy::$strategyOnExceptionOrder);
+                $pos2 = array_search($s2->getType(), UseCaseProxy::$strategyOnExceptionOrder);
+
+                $pos1 = (false === $pos1) ? PHP_INT_MAX : $pos1;
+                $pos2 = (false === $pos2) ? PHP_INT_MAX : $pos2;
+
+                return $pos1 <=> $pos2;
             }
         );
     }
