@@ -175,7 +175,7 @@ class ProxyStrategyRequestFactoryImpl implements ProxyStrategyRequestFactory
         $annotation,
         UseCase $useCase,
         UseCaseRequest $useCaseRequest,
-        UseCaseResponse $useCaseResponse = null
+        ?UseCaseResponse $useCaseResponse = null
     ) {
         $request = new ProxyStrategyRequestDTO();
         switch ($annotation) {
