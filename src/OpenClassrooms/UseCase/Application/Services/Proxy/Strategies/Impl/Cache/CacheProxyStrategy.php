@@ -67,7 +67,7 @@ class CacheProxyStrategy implements PreExecuteProxyStrategy, PostExecuteProxyStr
         return new ProxyStrategyResponseDTO($item->get(), false);
     }
 
-    private function fetchWithNamespace(string $id, string $namespace = null): CacheItemInterface
+    private function fetchWithNamespace(string $id, ?string $namespace = null): CacheItemInterface
     {
         if ($namespace !== null) {
             $namespaceId = $this->cache->getItem($namespace);
@@ -78,7 +78,7 @@ class CacheProxyStrategy implements PreExecuteProxyStrategy, PostExecuteProxyStr
         return $this->cache->getItem($id);
     }
 
-    private function saveWithNamespace(string $id, mixed $data, string $namespace = null, int $lifetime = null): CacheItemInterface
+    private function saveWithNamespace(string $id, mixed $data, ?string $namespace = null, ?int $lifetime = null): CacheItemInterface
     {
         if ($namespace !== null) {
             $namespaceId = $this->cache->getItem($namespace);
